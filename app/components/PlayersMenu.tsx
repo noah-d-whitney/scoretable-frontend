@@ -4,7 +4,9 @@ export default function PlayersMenu() {
   return (
     <Menu trigger="hover" shadow="md" width={200}>
       <Menu.Target>
-        <Button variant="subtle">Players</Button>
+        <Button variant="outline" color="orange">
+          Players
+        </Button>
       </Menu.Target>
 
       <Menu.Dropdown>

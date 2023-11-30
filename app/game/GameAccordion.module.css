@@ -1,0 +1,8 @@
+.item {
+  background-color: var(--mantine-color-gray-0);
+  transition: background-color 0.1s;
+
+  &:hover {
+    background-color: var(--mantine-color-gray-1);
+  }
+}
