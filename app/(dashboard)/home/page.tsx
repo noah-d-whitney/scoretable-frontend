@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Accordion,
   Autocomplete,
@@ -19,7 +21,7 @@ import {
   IconSettings,
   IconTrash,
 } from '@tabler/icons-react';
-import GameAccordion from './GameAccordionCard';
+import GameAccordionCard from './GameAccordionCard';
 
 export default function Game() {
   return (
@@ -27,7 +29,7 @@ export default function Game() {
       <Flex gap={20} mb={20}>
         <Menu offset={0} position="bottom-start" shadow="md" width={200}>
           <Menu.Target>
-            <Button color="orange" rightSection={<IconCaretDownFilled size={14} />}>
+            <Button size="md" color="orange" rightSection={<IconCaretDownFilled size={14} />}>
               Quick Actions
             </Button>
           </Menu.Target>
@@ -72,6 +74,12 @@ export default function Game() {
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
+        <Autocomplete
+          size="md"
+          w="50%"
+          placeholder="Filter by League or Tournament"
+          data={['React', 'Angular', 'Vue', 'Svelte']}
+        />
       </Flex>
       <Grid>
         <Grid.Col span={9}>
@@ -86,20 +94,21 @@ export default function Game() {
                 <MultiSelect
                   data={['Not Started', 'In Progress', 'Finished']}
                   clearable
+                  miw={200}
                   maxValues={3}
                   label="Filter Progress"
                 />
               </Flex>
             </Card.Section>
-            <Card.Section h="50%">
+            <Card.Section h={400} style={{ overflowY: 'scroll' }}>
               <Accordion>
-                <GameAccordion testGameId="1" />
-                <GameAccordion testGameId="2" />
-                <GameAccordion testGameId="3" />
-                <GameAccordion testGameId="4" />
-                <GameAccordion testGameId="5" />
-                <GameAccordion testGameId="6" />
-                <GameAccordion testGameId="7" />
+                <GameAccordionCard testGameId="1" />
+                <GameAccordionCard testGameId="2" />
+                <GameAccordionCard testGameId="3" />
+                <GameAccordionCard testGameId="4" />
+                <GameAccordionCard testGameId="5" />
+                <GameAccordionCard testGameId="6" />
+                <GameAccordionCard testGameId="7" />
               </Accordion>
             </Card.Section>
           </Card>

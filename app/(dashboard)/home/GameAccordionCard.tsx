@@ -14,9 +14,10 @@ import {
   IconClock,
   IconEyeFilled,
   IconPlayerPlayFilled,
+  IconPlus,
   IconSettings,
 } from '@tabler/icons-react';
-import PlayersMenu from '../components/PlayersMenu';
+import PlayersMenu from '../../../components/Menus/PlayersMenu';
 import classes from './GameAccordion.module.css';
 
 export default function GameAccordionCard({ testGameId }) {
@@ -65,6 +66,9 @@ export default function GameAccordionCard({ testGameId }) {
           <ButtonGroup>
             <Button variant="filled" color="green" leftSection={<IconPlayerPlayFilled size={14} />}>
               Start Game
+            </Button>
+            <Button variant="default" color="gray" leftSection={<IconPlus size={14} />}>
+              Queue
             </Button>
             <Button variant="default" color="orange" leftSection={<IconEyeFilled size={14} />}>
               View Details

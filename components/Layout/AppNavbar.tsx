@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { Group, Code, Text } from '@mantine/core';
 import {
@@ -11,7 +13,7 @@ import {
   IconSwitchHorizontal,
   IconLogout,
 } from '@tabler/icons-react';
-import classes from './Navbar.module.css';
+import classes from './AppNavbar.module.css';
 
 const data = [
   { link: '', label: 'Notifications', icon: IconBellRinging },
@@ -23,7 +25,7 @@ const data = [
   { link: '', label: 'Other Settings', icon: IconSettings },
 ];
 
-export default function Navbar() {
+export default function AppNavbar() {
   const [active, setActive] = useState('Billing');
 
   const links = data.map((item) => (
