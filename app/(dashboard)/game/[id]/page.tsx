@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge, Button, Card, CardSection, Container, Flex, Grid, Text } from '@mantine/core';
+import { Badge, Card, CardSection, Container, Flex, Grid, Text } from '@mantine/core';
 import {
   IconCalendar,
   IconChartBar,
@@ -17,6 +17,7 @@ import BadgeCode from '@/components/Badges/BadgeCode';
 import CounterCircles from '@/components/Counters/CounterCircles';
 import DetailsViewAccordion from '@/components/Accordions/DetailsViewAccordion';
 import GameStatsDetail from '@/components/DetailViews.tsx/GameStatsDetail';
+import GamePlayersDetail from '@/components/DetailViews.tsx/GamePlayersDetail';
 
 export default function GameDetailView() {
   return (
@@ -243,7 +244,7 @@ export default function GameDetailView() {
       <DetailsViewAccordion
         items={[
           { title: 'Game Stats', icon: IconChartBar, content: <GameStatsDetail /> },
-          { title: 'Players', icon: IconUsersGroup, content: <Button>Hi</Button> },
+          { title: 'Players', icon: IconUsersGroup, content: <GamePlayersDetail /> },
         ]}
       />
     </Container>
