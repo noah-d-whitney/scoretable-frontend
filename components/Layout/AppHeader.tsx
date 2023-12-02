@@ -1,10 +1,9 @@
+'use client';
+
 import { Box, Burger } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import DarkModeSwitch from '../Buttons/DarkModeSwitch';
 
-export default function AppHeader() {
-  const [opened, { toggle }] = useDisclosure();
-
+export default function AppHeader({ opened, toggle }: { opened: boolean; toggle: () => void }) {
   return (
     <>
       <Box>

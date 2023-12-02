@@ -1,7 +1,7 @@
 import '@mantine/core/styles.css';
 import React from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
-import { theme } from '../theme';
+import { theme } from './theme';
 
 export const metadata = {
   title: 'Mantine Next.js template',
@@ -14,6 +14,8 @@ export default function RootLayout({ children }: { children: any }) {
       <head>
         <ColorSchemeScript />
         <link rel="shortcut icon" href="/favicon.svg" />
+        <link rel="stylesheet" href="https://use.typekit.net/jfa2tel.css" />
+        <link rel="stylesheet" href="https://use.typekit.net/jfa2tel.css" />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"

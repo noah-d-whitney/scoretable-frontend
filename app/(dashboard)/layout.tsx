@@ -9,7 +9,7 @@ import AppHeader from '@/components/Layout/AppHeader';
 import AppNavbar from '@/components/Layout/AppNavbar';
 
 export default function DashboardLayout({ children }: { children: any }) {
-  const [opened] = useDisclosure();
+  const [opened, { toggle }] = useDisclosure();
 
   return (
     <AppShell
@@ -21,7 +21,7 @@ export default function DashboardLayout({ children }: { children: any }) {
         px={20}
         style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
       >
-        <AppHeader />
+        <AppHeader opened={opened} toggle={() => toggle()} />
       </AppShell.Header>
 
       <AppShell.Navbar p="md" bg="orange">

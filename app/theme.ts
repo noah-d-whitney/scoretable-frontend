@@ -3,5 +3,6 @@
 import { createTheme } from '@mantine/core';
 
 export const theme = createTheme({
-  /* Put your mantine theme override here */
+  fontFamilyMonospace: 'mono45-headline, Courier, monospace',
+  fontFamily: 'obvia, sans-serif',
 });
