@@ -33,4 +33,4 @@ export type TournamentSummaryDTO = {};
 export type LeagueSummaryDTO = {};
 
 export type GameFormat = '1v1' | '2v2' | '3v3' | '4v4' | '5v5';
-export type GameStatus = 'not-started' | 'in-progress' | 'finished';
+export type GameStatus = 'not-started' | 'in-progress' | 'finished' | 'canceled';
