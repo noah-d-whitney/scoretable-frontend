@@ -1,12 +1,13 @@
 'use client';
 
-import { ActionIcon, Badge, Card, CardSection, Container, Flex, Grid, Text } from '@mantine/core';
+import { Badge, Button, Card, CardSection, Container, Flex, Grid, Text } from '@mantine/core';
 import {
   IconCalendar,
+  IconChartBar,
   IconCircleLetterP,
   IconClock,
-  IconEdit,
   IconHourglassEmpty,
+  IconTournament,
   IconUsers,
   IconUsersGroup,
 } from '@tabler/icons-react';
@@ -15,6 +16,7 @@ import BadgeGameStatus from '@/components/Badges/BadgeGameStatus';
 import BadgeCode from '@/components/Badges/BadgeCode';
 import CounterCircles from '@/components/Counters/CounterCircles';
 import DetailsViewAccordion from '@/components/Accordions/DetailsViewAccordion';
+import GameStatsDetail from '@/components/DetailViews.tsx/GameStatsDetail';
 
 export default function GameDetailView() {
   return (
@@ -28,7 +30,7 @@ export default function GameDetailView() {
           display="flex"
           style={{ alignItems: 'center', justifyContent: 'space-between' }}
         >
-          <BadgeGameStatus status="not-started" size="lg" />
+          <BadgeGameStatus status="finished" size="lg" />
           <Flex gap={10}>
             <BadgeCode code="5kx4r" color="orange" />
             <ButtonStartGame />
@@ -103,8 +105,8 @@ export default function GameDetailView() {
                 <Grid style={{ width: '100%' }} gutter={{ sm: 40, md: 20 }}>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <Flex direction="column" align="center" gap={5}>
-                      <IconCalendar />
-                      <Text tt="uppercase" fw={600} mb={10}>
+                      <IconCalendar color="gray" />
+                      <Text c="gray.6" tt="uppercase" fw={600} mb={10}>
                         Date
                       </Text>
                       <Text lh={0.7} c="orange" fz={36} ff="mono45-headline" fw={700}>
@@ -114,8 +116,8 @@ export default function GameDetailView() {
                   </Grid.Col>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <Flex direction="column" align="center" gap={5}>
-                      <IconClock />
-                      <Text tt="uppercase" fw={600} mb={10}>
+                      <IconClock color="gray" />
+                      <Text c="gray.6" tt="uppercase" fw={600} mb={10}>
                         Time
                       </Text>
                       <Text lh={0.7} c="orange" fz={36} ff="mono45-headline" fw={700}>
@@ -128,7 +130,7 @@ export default function GameDetailView() {
             </Grid.Col>
             {/* League Section */}
             <Grid.Col span={{ base: 12, sm: 6 }}>
-              <Flex align="center" direction="column" gap={25}>
+              <Flex align="center" direction="column">
                 <Badge
                   style={{ width: '100%' }}
                   color="gray"
@@ -139,14 +141,24 @@ export default function GameDetailView() {
                 >
                   <Text fw={800}>League</Text>
                 </Badge>
-                <Flex gap={10} mt={15}>
-                  <Text fw={700} size="lg">
-                    Waynesboro Mens League
+                <Flex gap={10} align="center" mt={25} mb={10}>
+                  <IconUsersGroup color="gray" />
+                  <Text c="gray.6" tt="uppercase" fw={600}>
+                    League
                   </Text>
-                  <ActionIcon color="orange" variant="light" aria-label="edit game tournament">
-                    <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                  </ActionIcon>
                 </Flex>
+                <Text fw={700} size="lg">
+                  Waynesboro 3x3 2023
+                </Text>
+                <Flex gap={10} align="center" mt={30} mb={10}>
+                  <IconTournament color="gray" />
+                  <Text c="gray.6" tt="uppercase" fw={600}>
+                    Tournament
+                  </Text>
+                </Flex>
+                <Text fw={700} size="lg">
+                  Waynesboro Mens League
+                </Text>
               </Flex>
             </Grid.Col>
             {/* Game Size Section */}
@@ -165,8 +177,8 @@ export default function GameDetailView() {
                 <Grid style={{ width: '100%' }} gutter={{ sm: 40, md: 20 }}>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <Flex direction="column" align="center" gap={5}>
-                      <IconUsersGroup />
-                      <Text tt="uppercase" fw={600} mb={8}>
+                      <IconUsersGroup color="gray" />
+                      <Text c="gray.6" tt="uppercase" fw={600} mb={8}>
                         Format
                       </Text>
                       <Badge color="orange" size="xl" lts={2} ff="mono45-headline">
@@ -176,8 +188,8 @@ export default function GameDetailView() {
                   </Grid.Col>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <Flex direction="column" align="center" gap={5}>
-                      <IconUsers />
-                      <Text tt="uppercase" fw={600} mb={10}>
+                      <IconUsers color="gray" />
+                      <Text c="gray.6" tt="uppercase" fw={600} mb={10}>
                         Players
                       </Text>
                       <Text lh={0.7} c="orange" fz={36} ff="mono45-headline" fw={700}>
@@ -204,8 +216,8 @@ export default function GameDetailView() {
                 <Grid style={{ width: '100%' }} gutter={{ sm: 40, md: 20 }}>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <Flex direction="column" align="center" gap={5}>
-                      <IconCircleLetterP />
-                      <Text tt="uppercase" fw={600} mb={10}>
+                      <IconCircleLetterP color="gray" />
+                      <Text c="gray.6" tt="uppercase" fw={600} mb={10}>
                         Periods
                       </Text>
                       <CounterCircles count={2} max={4} radius={20} color="orange" />
@@ -213,8 +225,8 @@ export default function GameDetailView() {
                   </Grid.Col>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <Flex direction="column" align="center" gap={5}>
-                      <IconHourglassEmpty />
-                      <Text tt="uppercase" fw={600} mb={10}>
+                      <IconHourglassEmpty color="gray" />
+                      <Text c="gray.6" tt="uppercase" fw={600} mb={10}>
                         Period Length
                       </Text>
                       <Text lh={0.7} c="orange" fz={36} ff="mono45-headline" fw={700}>
@@ -228,7 +240,12 @@ export default function GameDetailView() {
           </Grid>
         </CardSection>
       </Card>
-      <DetailsViewAccordion />
+      <DetailsViewAccordion
+        items={[
+          { title: 'Game Stats', icon: IconChartBar, content: <GameStatsDetail /> },
+          { title: 'Players', icon: IconUsersGroup, content: <Button>Hi</Button> },
+        ]}
+      />
     </Container>
   );
 }

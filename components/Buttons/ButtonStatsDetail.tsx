@@ -1,45 +1,57 @@
 'use client';
 
 import { Button, Menu, Group, ActionIcon, rem, useMantineTheme } from '@mantine/core';
-import { IconChevronDown, IconArrowForward, IconPlus, IconX } from '@tabler/icons-react';
+import { IconChevronDown, IconX, IconDownload, IconPrinter, IconUpload } from '@tabler/icons-react';
 import classes from './ButtonWithMenu.module.css';
 
-export default function ButtonStartGame() {
+export default function ButtonStatsDetail() {
   const theme = useMantineTheme();
 
   return (
     <Group wrap="nowrap" gap={0}>
-      <Button className={classes.button} color="green">
-        Start Game
+      <Button className={classes.button} variant="default">
+        View Detailed Stats
       </Button>
-      <Menu transitionProps={{ transition: 'pop' }} position="bottom-end" withinPortal>
+      <Menu transitionProps={{ transition: 'pop' }} position="bottom-end">
         <Menu.Target>
-          <ActionIcon variant="filled" color="green" size={36} className={classes.menuControl}>
+          <ActionIcon variant="default" size={36} className={classes.menuControl}>
             <IconChevronDown style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Item
             leftSection={
-              <IconPlus
+              <IconDownload
                 style={{ width: rem(16), height: rem(16) }}
                 stroke={1.5}
-                color={theme.colors.green[5]}
+                color={theme.colors.gray[5]}
               />
             }
           >
-            Add to Queue
+            Download
           </Menu.Item>
           <Menu.Item
             leftSection={
-              <IconArrowForward
+              <IconPrinter
                 style={{ width: rem(16), height: rem(16) }}
                 stroke={1.5}
-                color={theme.colors.green[5]}
+                color={theme.colors.gray[5]}
               />
             }
           >
-            Up Next
+            Print
+          </Menu.Item>
+          <Menu.Item
+            leftSection={
+              <IconUpload
+                style={{ width: rem(16), height: rem(16) }}
+                stroke={1.5}
+                color={theme.colors.gray[5]}
+              />
+            }
+            disabled
+          >
+            Upload
           </Menu.Item>
           <Menu.Item
             leftSection={
@@ -49,8 +61,9 @@ export default function ButtonStartGame() {
                 color={theme.colors.red[5]}
               />
             }
+            c="red.5"
           >
-            Cancel Game
+            Delete Stats
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
