@@ -1,6 +1,7 @@
 import { Divider, Flex, Tabs, rem } from '@mantine/core';
 import { IconMessageCircle, IconPhoto } from '@tabler/icons-react';
 import ButtonStatsDetail from '../Buttons/ButtonStatsDetail';
+import StartersAssignmentView from './StartersAssignmentView';
 
 export default function GamePlayersDetail() {
   const iconStyle = { width: rem(12), height: rem(12) };
@@ -21,11 +22,11 @@ export default function GamePlayersDetail() {
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="gallery">Gallery tab content</Tabs.Panel>
+        <Tabs.Panel value="players">Gallery tab content</Tabs.Panel>
 
-        <Tabs.Panel value="messages">Messages tab content</Tabs.Panel>
-
-        <Tabs.Panel value="settings">Settings tab content</Tabs.Panel>
+        <Tabs.Panel value="lineups">
+          <StartersAssignmentView />
+        </Tabs.Panel>
       </Tabs>
     </>
   );
