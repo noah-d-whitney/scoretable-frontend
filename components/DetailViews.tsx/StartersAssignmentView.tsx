@@ -1,4 +1,4 @@
-import { Button, Flex, Grid, Switch, Text, Title } from '@mantine/core';
+import { Button, Flex, Grid, Title } from '@mantine/core';
 import { useState } from 'react';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import StarterMultiSelect from '../Dropdowns/StarterMultiSelect';
@@ -16,49 +16,35 @@ const players = [
 export default function StartersAssignmentView() {
   const [selectedStarters, setSelectedStarters] = useState([]);
   const [selectedStarters2, setSelectedStarters2] = useState([]);
-  const [usePositions, setUsePositions] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
 
   function onChange() {
     setIsChanged(true);
   }
   return (
-    <Flex direction="column" gap={20} mt={20}>
-      <Switch
-        size="md"
-        label="Use Starter Positions"
-        color="orange"
-        description="Enables starters to be assigned to a position"
-        mb={10}
-        checked={usePositions}
-        onChange={() => setUsePositions(!usePositions)}
-      />
-      <Flex direction="column" gap={20} style={{ display: usePositions ? 'none' : 'flex' }}>
-        <StarterMultiSelect
-          players={players}
-          teamSize={3}
-          teamLabel="Golden State Warriors"
-          selected={selectedStarters}
-          setSelected={setSelectedStarters}
-          onChange={onChange}
-        />
-        <StarterMultiSelect
-          players={players}
-          teamSize={3}
-          teamLabel="Los Angeles Lakers"
-          selected={selectedStarters2}
-          setSelected={setSelectedStarters2}
-          onChange={onChange}
-        />
-      </Flex>
-      <Grid gutter={20} style={{ display: !usePositions ? 'none' : 'flex' }}>
-        <Grid.Col span={{ base: 12, md: 6 }}>
-          <Title order={3}>Golden State Warriors</Title>
-          <Flex align="center">
-            <Text size="lg">1</Text>
-          </Flex>
+    <Flex direction="column" gap={20} my={20}>
+      <Title order={3}>Assign Starters</Title>
+      <Grid gutter={20}>
+        <Grid.Col span={{ base: 12, sm: 6 }}>
+          <StarterMultiSelect
+            players={players}
+            teamSize={3}
+            teamLabel="Golden State Warriors"
+            selected={selectedStarters}
+            setSelected={setSelectedStarters}
+            onChange={onChange}
+          />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, xs: 6 }}>Todo</Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 6 }}>
+          <StarterMultiSelect
+            players={players}
+            teamSize={3}
+            teamLabel="Los Angeles Lakers"
+            selected={selectedStarters2}
+            setSelected={setSelectedStarters2}
+            onChange={onChange}
+          />
+        </Grid.Col>
       </Grid>
       <Button
         onClick={() => setIsChanged(false)}
