@@ -2,14 +2,14 @@ import { Button, Flex, Grid, Title } from '@mantine/core';
 import { useState } from 'react';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import StarterMultiSelect from '../Dropdowns/StarterMultiSelect';
-import { GameTeamsInterface } from '@/app/api/types';
+import { TeamGameDetails } from '@/app/api/types';
 
-export default function StartersAssignmentView(props: GameTeamsInterface) {
+export default function StartersAssignmentView({ teams }: { teams: TeamGameDetails }) {
   const [selectedStarters, setSelectedStarters] = useState(
-    props.team1.players.filter((p) => p.starter === true).map((p) => p.id)
+    teams.team1.players.filter((p) => p.starter === true).map((p) => p.id)
   );
   const [selectedStarters2, setSelectedStarters2] = useState(
-    props.team2.players.filter((p) => p.starter === true).map((p) => p.id)
+    teams.team2.players.filter((p) => p.starter === true).map((p) => p.id)
   );
   const [isChanged, setIsChanged] = useState(false);
 
@@ -17,12 +17,12 @@ export default function StartersAssignmentView(props: GameTeamsInterface) {
     setIsChanged(true);
   }
   return (
-    <Flex direction="column" gap={20} my={20}>
+    <Flex direction="column" gap={20} mt={20}>
       <Title order={3}>Assign Starters</Title>
       <Grid gutter={20}>
         <Grid.Col span={{ base: 12, sm: 6 }}>
           <StarterMultiSelect
-            players={props.team1.players}
+            players={teams.team1.players}
             teamSize={3}
             teamLabel="Golden State Warriors"
             selected={selectedStarters}
@@ -32,7 +32,7 @@ export default function StartersAssignmentView(props: GameTeamsInterface) {
         </Grid.Col>
         <Grid.Col span={{ base: 12, sm: 6 }}>
           <StarterMultiSelect
-            players={props.team2.players}
+            players={teams.team2.players}
             teamSize={3}
             teamLabel="Los Angeles Lakers"
             selected={selectedStarters2}

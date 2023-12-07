@@ -16,8 +16,8 @@ import BadgeGameStatus from '@/components/Badges/BadgeGameStatus';
 import BadgeCode from '@/components/Badges/BadgeCode';
 import CounterCircles from '@/components/Counters/CounterCircles';
 import DetailsViewAccordion from '@/components/Accordions/DetailsViewAccordion';
-import GameStatsDetail from '@/components/DetailViews.tsx/GameStatsDetail';
-import GamePlayersDetail from '@/components/DetailViews.tsx/GamePlayersDetail';
+import GameStatsDetail from '@/components/DetailViews/GameStatsDetail';
+import GamePlayersDetail from '@/components/DetailViews/GamePlayersDetail';
 import { game } from '@/app/dev-data/data';
 
 export default function GameDetailView() {
@@ -248,12 +248,12 @@ export default function GameDetailView() {
           {
             title: 'Game Stats',
             icon: IconChartBar,
-            content: <GameStatsDetail team1={game.team1} team2={game.team2} />,
+            content: <GameStatsDetail teams={{ team1: game.team1, team2: game.team2 }} />,
           },
           {
             title: 'Players',
             icon: IconUsersGroup,
-            content: <GamePlayersDetail team1={game.team1} team2={game.team2} />,
+            content: <GamePlayersDetail teams={{ team1: game.team1, team2: game.team2 }} />,
           },
         ]}
       />

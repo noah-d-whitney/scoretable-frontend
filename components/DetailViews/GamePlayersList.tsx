@@ -3,7 +3,7 @@ import { IconPlus } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useHover } from '@mantine/hooks';
 import ButtonPlayerGameOptions from '../Buttons/ButtonPlayerGameOptions';
-import { GamePlayerDTO, GameTeamsInterface } from '@/app/api/types';
+import { GamePlayerDTO, TeamGameDetails } from '@/app/api/types';
 
 function PlayerCard({ name, number, id }: { name: string; number: number; id: string }) {
   const { colorScheme } = useMantineColorScheme();
@@ -32,7 +32,7 @@ function PlayerCard({ name, number, id }: { name: string; number: number; id: st
   );
 }
 
-export default function GamePlayersList(props: GameTeamsInterface) {
+export default function GamePlayersList({ teams }: { teams: TeamGameDetails }) {
   function generateCards(players: GamePlayerDTO[]) {
     const cards = players.map((p) => <PlayerCard id={p.id} name={p.name} number={p.number} />);
 
@@ -43,10 +43,10 @@ export default function GamePlayersList(props: GameTeamsInterface) {
     <Grid gutter={20} mt={25} mb={30}>
       <Grid.Col span={{ base: 12, sm: 6 }} px={10}>
         <Title order={3} mb={15}>
-          {props.team1.name}
+          {teams.team1.name}
         </Title>
         <Flex direction="column" gap={10}>
-          {generateCards(props.team1.players)}
+          {generateCards(teams.team1.players)}
           <Button color="orange" variant="subtle" rightSection={<IconPlus size={14} />}>
             Add Player
           </Button>
@@ -54,10 +54,10 @@ export default function GamePlayersList(props: GameTeamsInterface) {
       </Grid.Col>
       <Grid.Col span={{ base: 12, sm: 6 }}>
         <Title order={3} mb={15}>
-          {props.team2.name}
+          {teams.team2.name}
         </Title>
         <Flex direction="column" gap={10}>
-          {generateCards(props.team2.players)}
+          {generateCards(teams.team2.players)}
           <Button color="orange" variant="subtle" rightSection={<IconPlus size={14} />}>
             Add Player
           </Button>

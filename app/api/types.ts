@@ -55,7 +55,4 @@ export type LeagueSummaryDTO = {};
 export type GameFormat = '1v1' | '2v2' | '3v3' | '4v4' | '5v5';
 export type GameStatus = 'not-started' | 'in-progress' | 'finished' | 'canceled';
 
-export interface GameTeamsInterface {
-  team1: GameTeamDTO;
-  team2: GameTeamDTO;
-}
+export type TeamGameDetails = { team1: GameTeamDTO; team2: GameTeamDTO };

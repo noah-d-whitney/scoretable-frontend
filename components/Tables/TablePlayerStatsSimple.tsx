@@ -1,15 +1,19 @@
-import { Divider, Flex, Table, Text } from '@mantine/core';
-import ButtonStatsDetail from '../Buttons/ButtonStatsDetail';
-import { GamePlayerDTO, GameTeamsInterface } from '@/app/api/types';
+import { Table, Text, Title } from '@mantine/core';
+import Link from 'next/link';
+import { GamePlayerDTO, TeamGameDetails } from '@/app/api/types';
 
-export default function GameStatsDetail(props: GameTeamsInterface) {
+export default function TablePlayerStatsSimple({ teams }: { teams: TeamGameDetails }) {
   function generateRows(players: GamePlayerDTO[]) {
     const rows = players.map((player) => (
       <Table.Tr key={player.number}>
         <Table.Td lts={1.5} fz="md" ff="mono45-headline" fw={700} c="gray.5">
           {player.number}
         </Table.Td>
-        <Table.Td fw={600}>{player.name}</Table.Td>
+        <Table.Td>
+          <Text component={Link} href={`/player/${player.id}`} fw={500}>
+            {player.name}
+          </Text>
+        </Table.Td>
         <Table.Td fw={600} c="gray.6">
           {player.points}
         </Table.Td>
@@ -33,13 +37,9 @@ export default function GameStatsDetail(props: GameTeamsInterface) {
 
   return (
     <>
-      <Flex>
-        <ButtonStatsDetail />
-      </Flex>
-      <Divider mt={10} mb={25} />
-      <Text size="xl" tt="uppercase" fw={700} mb={15}>
-        {props.team1.name}
-      </Text>
+      <Title order={3} mb={15}>
+        {teams.team1.name}
+      </Title>
       <Table.ScrollContainer minWidth={700} mb={30}>
         <Table verticalSpacing="md" layout="fixed" striped>
           <Table.Thead>
@@ -53,12 +53,12 @@ export default function GameStatsDetail(props: GameTeamsInterface) {
               <Table.Th>Steals</Table.Th>
             </Table.Tr>
           </Table.Thead>
-          <Table.Tbody>{generateRows(props.team1.players)}</Table.Tbody>
+          <Table.Tbody>{generateRows(teams.team1.players)}</Table.Tbody>
         </Table>
       </Table.ScrollContainer>
-      <Text size="xl" tt="uppercase" fw={700} mb={15}>
-        {props.team2.name}
-      </Text>
+      <Title order={3} mb={15}>
+        {teams.team2.name}
+      </Title>
       <Table.ScrollContainer minWidth={700}>
         <Table verticalSpacing="md" layout="fixed" striped>
           <Table.Thead>
@@ -72,7 +72,7 @@ export default function GameStatsDetail(props: GameTeamsInterface) {
               <Table.Th>Steals</Table.Th>
             </Table.Tr>
           </Table.Thead>
-          <Table.Tbody>{generateRows(props.team2.players)}</Table.Tbody>
+          <Table.Tbody>{generateRows(teams.team2.players)}</Table.Tbody>
         </Table>
       </Table.ScrollContainer>
     </>
