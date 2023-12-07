@@ -1,13 +1,16 @@
 import { Avatar, Flex, Grid, Paper, Text } from '@mantine/core';
 import { TeamGameDetails } from '@/app/api/types';
+import { CalcGameStats } from '@/utils/CalculateStats';
 
 export default function GameStatsView({ teams }: { teams: TeamGameDetails }) {
+  const team1Stats = CalcGameStats(teams.team1);
+  const team2Stats = CalcGameStats(teams.team2);
   return (
     <Flex p={5} align="center" justify="center" direction="column">
       <Flex
         bg="orange"
         p={15}
-        gap={45}
+        gap={60}
         align="center"
         justify="center"
         style={{ borderRadius: 10, width: '100%' }}
@@ -25,8 +28,15 @@ export default function GameStatsView({ teams }: { teams: TeamGameDetails }) {
       </Flex>
       <Grid w={300} ta="center" align="center" pt={20}>
         <Grid.Col span={4} p={0}>
-          <Text lh={1} fz={48} lts={1.5} ff="mono45-headline" fw={700}>
-            {teams.team1.score}
+          <Text
+            lh={1}
+            fz={48}
+            lts={1.5}
+            ff="mono45-headline"
+            fw={700}
+            c={team1Stats.score > team2Stats.score ? 'orange' : undefined}
+          >
+            {team1Stats.score}
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
@@ -41,14 +51,21 @@ export default function GameStatsView({ teams }: { teams: TeamGameDetails }) {
             fw={700}
             lts={1.5}
             lh={1}
-            c={teams.team2.score > teams.team1.score ? 'orange' : undefined}
+            c={team2Stats.score > team1Stats.score ? 'orange' : undefined}
           >
-            {teams.team2.score}
+            {team2Stats.score}
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
-          <Text lh={1} fz={36} lts={1.5} ff="mono45-headline" fw={700}>
-            12/21
+          <Text
+            lh={1}
+            fz={36}
+            lts={1.5}
+            ff="mono45-headline"
+            fw={700}
+            c={team1Stats.fgm > team2Stats.fgm ? 'orange' : undefined}
+          >
+            {team1Stats.fgm}/{team1Stats.fga}
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
@@ -63,15 +80,22 @@ export default function GameStatsView({ teams }: { teams: TeamGameDetails }) {
             ff="mono45-headline"
             fw={700}
             lts={1.5}
-            c={teams.team2.score > teams.team1.score ? 'orange' : undefined}
+            c={team2Stats.fgm > team1Stats.fgm ? 'orange' : undefined}
           >
-            14/25
+            {team2Stats.fgm}/{team2Stats.fga}
           </Text>
         </Grid.Col>
 
         <Grid.Col span={4}>
-          <Text lh={1} fz={36} lts={1.5} ff="mono45-headline" fw={700} c="orange">
-            57%
+          <Text
+            lh={1}
+            fz={36}
+            lts={1.5}
+            ff="mono45-headline"
+            fw={700}
+            c={team1Stats.fgp > team2Stats.fgp ? 'orange' : undefined}
+          >
+            {team1Stats.fgp}%
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
@@ -80,14 +104,28 @@ export default function GameStatsView({ teams }: { teams: TeamGameDetails }) {
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
-          <Text lh={1} fz={36} lts={1.5} ff="mono45-headline" fw={700}>
-            56%
+          <Text
+            lh={1}
+            fz={36}
+            lts={1.5}
+            ff="mono45-headline"
+            fw={700}
+            c={team2Stats.fgp > team1Stats.fgp ? 'orange' : undefined}
+          >
+            {team2Stats.fgp}%
           </Text>
         </Grid.Col>
 
         <Grid.Col span={4}>
-          <Text lh={1} fz={36} lts={1.5} ff="mono45-headline" fw={700} c="orange">
-            4/5
+          <Text
+            lh={1}
+            fz={36}
+            lts={1.5}
+            ff="mono45-headline"
+            fw={700}
+            c={team1Stats.three_m > team2Stats.three_m ? 'orange' : undefined}
+          >
+            {team1Stats.three_m}/{team1Stats.three_m}
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
@@ -96,14 +134,28 @@ export default function GameStatsView({ teams }: { teams: TeamGameDetails }) {
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
-          <Text lh={1} fz={36} lts={1.5} ff="mono45-headline" fw={700}>
-            3/6
+          <Text
+            lh={1}
+            fz={36}
+            lts={1.5}
+            ff="mono45-headline"
+            fw={700}
+            c={team2Stats.three_m > team1Stats.three_m ? 'orange' : undefined}
+          >
+            {team2Stats.three_m}/{team2Stats.three_m}
           </Text>
         </Grid.Col>
 
         <Grid.Col span={4}>
-          <Text lh={1} fz={36} lts={1.5} ff="mono45-headline" fw={700}>
-            2/3
+          <Text
+            lh={1}
+            fz={36}
+            lts={1.5}
+            ff="mono45-headline"
+            fw={700}
+            c={team1Stats.fgm > team2Stats.fgm ? 'orange' : undefined}
+          >
+            {team1Stats.ftm}/{team1Stats.fta}
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
@@ -112,14 +164,28 @@ export default function GameStatsView({ teams }: { teams: TeamGameDetails }) {
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
-          <Text lh={1} fz={36} lts={1.5} ff="mono45-headline" fw={700} c="orange">
-            5/5
+          <Text
+            lh={1}
+            fz={36}
+            lts={1.5}
+            ff="mono45-headline"
+            fw={700}
+            c={team2Stats.fgm > team1Stats.fgm ? 'orange' : undefined}
+          >
+            {team2Stats.ftm}/{team2Stats.fta}
           </Text>
         </Grid.Col>
 
         <Grid.Col span={4}>
-          <Text lh={1} fz={36} lts={1.5} ff="mono45-headline" fw={700}>
-            10
+          <Text
+            lh={1}
+            fz={36}
+            lts={1.5}
+            ff="mono45-headline"
+            fw={700}
+            c={team1Stats.rb > team2Stats.rb ? 'orange' : undefined}
+          >
+            {team1Stats.rb}
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
@@ -128,14 +194,28 @@ export default function GameStatsView({ teams }: { teams: TeamGameDetails }) {
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
-          <Text lh={1} fz={36} lts={1.5} ff="mono45-headline" fw={700} c="orange">
-            13
+          <Text
+            lh={1}
+            fz={36}
+            lts={1.5}
+            ff="mono45-headline"
+            fw={700}
+            c={team2Stats.rb > team1Stats.rb ? 'orange' : undefined}
+          >
+            {team2Stats.rb}
           </Text>
         </Grid.Col>
 
         <Grid.Col span={4}>
-          <Text lh={1} fz={36} lts={1.5} ff="mono45-headline" fw={700}>
-            4
+          <Text
+            lh={1}
+            fz={36}
+            lts={1.5}
+            ff="mono45-headline"
+            fw={700}
+            c={team1Stats.to < team2Stats.to ? 'orange' : undefined}
+          >
+            {team1Stats.to}
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
@@ -144,8 +224,15 @@ export default function GameStatsView({ teams }: { teams: TeamGameDetails }) {
           </Text>
         </Grid.Col>
         <Grid.Col span={4}>
-          <Text lh={1} fz={36} lts={1.5} ff="mono45-headline" fw={700} c="orange">
-            3
+          <Text
+            lh={1}
+            fz={36}
+            lts={1.5}
+            ff="mono45-headline"
+            fw={700}
+            c={team2Stats.to < team1Stats.to ? 'orange' : undefined}
+          >
+            {team2Stats.to}
           </Text>
         </Grid.Col>
       </Grid>

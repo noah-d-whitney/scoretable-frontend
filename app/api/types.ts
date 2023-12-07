@@ -31,6 +31,10 @@ export type GamePlayerDTO = {
   fga: number;
   ftm: number;
   fta: number;
+  three_m: number;
+  three_a: number;
+  fouls: number;
+  to: number;
   starter: boolean;
 };
 
