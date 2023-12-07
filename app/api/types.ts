@@ -1,17 +1,37 @@
 export type GameSummaryDTO = {
   id: string;
-  team1Name: string;
-  team2Name: string;
-  tournamentName?: string;
-  Team1Starters: string[];
-  Team2Starters: string[];
+  team1: GameTeamDTO;
+  team2: GameTeamDTO;
+  tournament?: string;
+  league?: string | null;
   GameFormat: GameFormat;
   GameStatus: GameStatus;
-  DateTime: Date;
+  dateTime: Date;
+  periods: number;
+  periodLength: number;
 };
 
-export type TeamDTO = {
+export type GameTeamDTO = {
   id: string;
+  name: string;
+  players: GamePlayerDTO[];
+  score: number;
+};
+
+export type GamePlayerDTO = {
+  id: string;
+  name: string;
+  number: number;
+  points: number;
+  rebounds: number;
+  assists: number;
+  blocks: number;
+  steals: number;
+  fgm: number;
+  fga: number;
+  ftm: number;
+  fta: number;
+  starter: boolean;
 };
 
 export type PlayerDTO = {
@@ -34,3 +54,8 @@ export type LeagueSummaryDTO = {};
 
 export type GameFormat = '1v1' | '2v2' | '3v3' | '4v4' | '5v5';
 export type GameStatus = 'not-started' | 'in-progress' | 'finished' | 'canceled';
+
+export interface GameTeamsInterface {
+  team1: GameTeamDTO;
+  team2: GameTeamDTO;
+}

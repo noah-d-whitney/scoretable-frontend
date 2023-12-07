@@ -1,3 +1,4 @@
+import { GamePlayerDTO } from '@/app/api/types';
 import {
   CheckIcon,
   Combobox,
@@ -10,7 +11,7 @@ import {
 } from '@mantine/core';
 
 interface StartersMultiSelectProps {
-  players: { name: string; number: number; id: string }[];
+  players: GamePlayerDTO[];
   teamSize: number;
   selected: string[];
   setSelected: (value: any) => void;

@@ -18,6 +18,7 @@ import CounterCircles from '@/components/Counters/CounterCircles';
 import DetailsViewAccordion from '@/components/Accordions/DetailsViewAccordion';
 import GameStatsDetail from '@/components/DetailViews.tsx/GameStatsDetail';
 import GamePlayersDetail from '@/components/DetailViews.tsx/GamePlayersDetail';
+import { game } from '@/app/dev-data/data';
 
 export default function GameDetailView() {
   return (
@@ -31,9 +32,9 @@ export default function GameDetailView() {
           display="flex"
           style={{ alignItems: 'center', justifyContent: 'space-between' }}
         >
-          <BadgeGameStatus status="finished" size="lg" />
+          <BadgeGameStatus status={game.GameStatus} size="lg" />
           <Flex gap={10}>
-            <BadgeCode code="5kx4r" color="orange" />
+            <BadgeCode code={game.id} color="orange" />
             <ButtonStartGame />
           </Flex>
         </CardSection>
@@ -56,10 +57,10 @@ export default function GameDetailView() {
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <Flex direction="column" align="center" mt={20}>
                       <Text size="xl" tt="uppercase" fw={700} mb={8}>
-                        Golden State Warriors
+                        {game.team1.name}
                       </Text>
                       <Text c="orange" fz={48} ff="mono45-headline" fw={700}>
-                        57
+                        {game.team1.score}
                       </Text>
                     </Flex>
                   </Grid.Col>
@@ -79,10 +80,10 @@ export default function GameDetailView() {
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <Flex direction="column" align="center" mt={20}>
                       <Text size="xl" tt="uppercase" fw={700} mb={8}>
-                        Los Angeles Lakers
+                        {game.team2.name}
                       </Text>
                       <Text c="orange" fz={48} ff="mono45-headline" fw={700}>
-                        63
+                        {game.team2.score}
                       </Text>
                     </Flex>
                   </Grid.Col>
@@ -111,7 +112,8 @@ export default function GameDetailView() {
                         Date
                       </Text>
                       <Text lh={0.7} c="orange" fz={36} ff="mono45-headline" fw={700}>
-                        05/25/23
+                        {game.dateTime.getMonth()}/{game.dateTime.getDate()}/
+                        {game.dateTime.getFullYear().toString().slice(2)}
                       </Text>
                     </Flex>
                   </Grid.Col>
@@ -122,7 +124,7 @@ export default function GameDetailView() {
                         Time
                       </Text>
                       <Text lh={0.7} c="orange" fz={36} ff="mono45-headline" fw={700}>
-                        6:30PM
+                        {game.dateTime.getHours()}:{game.dateTime.getMinutes()}
                       </Text>
                     </Flex>
                   </Grid.Col>
@@ -149,7 +151,7 @@ export default function GameDetailView() {
                   </Text>
                 </Flex>
                 <Text fw={700} size="lg">
-                  Waynesboro 3x3 2023
+                  {game.league ?? 'N/A'}
                 </Text>
                 <Flex gap={10} align="center" mt={30} mb={10}>
                   <IconTournament color="gray" />
@@ -158,7 +160,7 @@ export default function GameDetailView() {
                   </Text>
                 </Flex>
                 <Text fw={700} size="lg">
-                  Waynesboro Mens League
+                  {game.tournament ?? 'N/A'}
                 </Text>
               </Flex>
             </Grid.Col>
@@ -183,7 +185,7 @@ export default function GameDetailView() {
                         Format
                       </Text>
                       <Badge color="orange" size="xl" lts={2} ff="mono45-headline">
-                        3x3
+                        {game.GameFormat}
                       </Badge>
                     </Flex>
                   </Grid.Col>
@@ -194,7 +196,7 @@ export default function GameDetailView() {
                         Players
                       </Text>
                       <Text lh={0.7} c="orange" fz={36} ff="mono45-headline" fw={700}>
-                        8
+                        {game.team1.players.length + game.team2.players.length}
                       </Text>
                     </Flex>
                   </Grid.Col>
@@ -221,7 +223,7 @@ export default function GameDetailView() {
                       <Text c="gray.6" tt="uppercase" fw={600} mb={10}>
                         Periods
                       </Text>
-                      <CounterCircles count={2} max={4} radius={20} color="orange" />
+                      <CounterCircles count={game.periods} max={4} radius={20} color="orange" />
                     </Flex>
                   </Grid.Col>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
@@ -231,7 +233,7 @@ export default function GameDetailView() {
                         Period Length
                       </Text>
                       <Text lh={0.7} c="orange" fz={36} ff="mono45-headline" fw={700}>
-                        5:00
+                        {game.periodLength}:00
                       </Text>
                     </Flex>
                   </Grid.Col>
@@ -243,8 +245,16 @@ export default function GameDetailView() {
       </Card>
       <DetailsViewAccordion
         items={[
-          { title: 'Game Stats', icon: IconChartBar, content: <GameStatsDetail /> },
-          { title: 'Players', icon: IconUsersGroup, content: <GamePlayersDetail /> },
+          {
+            title: 'Game Stats',
+            icon: IconChartBar,
+            content: <GameStatsDetail team1={game.team1} team2={game.team2} />,
+          },
+          {
+            title: 'Players',
+            icon: IconUsersGroup,
+            content: <GamePlayersDetail team1={game.team1} team2={game.team2} />,
+          },
         ]}
       />
     </Container>
