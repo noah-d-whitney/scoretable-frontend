@@ -1,4 +1,3 @@
-import { GamePlayerDTO } from '@/app/api/types';
 import {
   CheckIcon,
   Combobox,
@@ -9,6 +8,7 @@ import {
   Text,
   useCombobox,
 } from '@mantine/core';
+import { GamePlayerDTO } from '@/app/api/types';
 
 interface StartersMultiSelectProps {
   players: GamePlayerDTO[];
@@ -45,20 +45,22 @@ export default function StarterMultiSelect(props: StartersMultiSelectProps) {
     </Pill>
   ));
 
-  const options = players.map((player) => (
-    <Combobox.Option
-      value={player.id}
-      key={player.id}
-      active={selected.includes(player.id)}
-      disabled={selected.length >= teamSize && !selected.includes(player.id)}
-    >
-      <Group gap="sm">
-        {selected.includes(player.id) ? <CheckIcon size={12} /> : null}
-        <Text c="gray.5">{player.number}</Text>
-        <span>{player.name}</span>
-      </Group>
-    </Combobox.Option>
-  ));
+  const options = players
+    .filter((p) => !selected.includes(p.id))
+    .map((player) => (
+      <Combobox.Option
+        value={player.id}
+        key={player.id}
+        active={selected.includes(player.id)}
+        disabled={selected.length >= teamSize && !selected.includes(player.id)}
+      >
+        <Group gap="sm">
+          {selected.includes(player.id) ? <CheckIcon size={12} /> : null}
+          <Text c="gray.5">{player.number}</Text>
+          <span>{player.name}</span>
+        </Group>
+      </Combobox.Option>
+    ));
 
   return (
     <Combobox store={combobox} onOptionSubmit={handleValueSelect} withinPortal={false} size="md">

@@ -140,7 +140,7 @@ export const game: GameSummaryDTO = {
   league: null,
   GameFormat: '3v3',
   dateTime: new Date('03/15/23 3:22'),
-  periods: 2,
+  periods: 1,
   periodLength: 10,
   GameStatus: 'in-progress',
 };

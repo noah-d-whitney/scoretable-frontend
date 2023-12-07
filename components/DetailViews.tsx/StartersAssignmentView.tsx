@@ -4,16 +4,6 @@ import { IconDeviceFloppy } from '@tabler/icons-react';
 import StarterMultiSelect from '../Dropdowns/StarterMultiSelect';
 import { GameTeamsInterface } from '@/app/api/types';
 
-const players = [
-  { name: 'Lebron James', number: 23, id: '1z6g' },
-  { name: 'Stephen Curry', number: 16, id: '1e6s' },
-  { name: 'James Harden', number: 54, id: '6hj4' },
-  { name: 'Klay Thompson', number: 6, id: '8fks' },
-  { name: 'Jeremy Grant', number: 12, id: '8iel' },
-  { name: 'Shaquille ONeal', number: 28, id: 'isuk' },
-  { name: 'Tyrese Haliburton', number: 33, id: '37su' },
-];
-
 export default function StartersAssignmentView(props: GameTeamsInterface) {
   const [selectedStarters, setSelectedStarters] = useState(
     props.team1.players.filter((p) => p.starter === true).map((p) => p.id)

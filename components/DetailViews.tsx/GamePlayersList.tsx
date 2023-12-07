@@ -1,17 +1,30 @@
-import { Button, Flex, Grid, Paper, Text, Title } from '@mantine/core';
+import { Box, Button, Flex, Grid, Paper, Text, Title, useMantineColorScheme } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
+import Link from 'next/link';
+import { useHover } from '@mantine/hooks';
 import ButtonPlayerGameOptions from '../Buttons/ButtonPlayerGameOptions';
 import { GamePlayerDTO, GameTeamsInterface } from '@/app/api/types';
 
 function PlayerCard({ name, number, id }: { name: string; number: number; id: string }) {
+  const { colorScheme } = useMantineColorScheme();
+  const { ref, hovered } = useHover();
   return (
-    <Paper py={15} px={20} style={{ width: '100%' }} shadow="xs" withBorder>
+    <Paper
+      py={15}
+      px={20}
+      style={{ width: '100%' }}
+      shadow="xs"
+      withBorder
+      bg={hovered ? (colorScheme === 'light' ? 'gray.0' : 'dark') : undefined}
+    >
       <Flex align="center" justify="space-between">
         <Flex align="center" gap={15}>
           <Text c="dimmed">{number}</Text>
-          <Text size="xl" fw={400}>
-            {name}
-          </Text>
+          <Box ref={ref}>
+            <Text component={Link} href={`/player/${id}`} size="xl" fw={400}>
+              {name}
+            </Text>
+          </Box>
         </Flex>
         <ButtonPlayerGameOptions />
       </Flex>
