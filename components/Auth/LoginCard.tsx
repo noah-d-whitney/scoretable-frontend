@@ -1,3 +1,5 @@
+'use client';
+
 import { Anchor, Paper, Title, Text, Box } from '@mantine/core';
 
 import LoginForm from '../Forms/LoginForm';

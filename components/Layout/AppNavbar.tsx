@@ -3,11 +3,25 @@
 import { Group, Code, Text } from '@mantine/core';
 import { IconSwitchHorizontal, IconLogout } from '@tabler/icons-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import axios from 'axios';
 import Routes from '@/app/navigation/routes';
 import classes from './AppNavbar.module.css';
 
 export default function AppNavbar() {
+    const router = useRouter();
+    const api = axios.create({
+        baseURL: 'https://localhost:7272',
+    });
+    async function onClick(event: any) {
+        event.preventDefault();
+        try {
+            await api.post('/Logout', {});
+            router.push('/');
+        } catch (e) {
+            console.log(e);
+        }
+    }
   const activePath = usePathname();
 
   const links = Routes.map((route) => (
@@ -42,7 +56,7 @@ export default function AppNavbar() {
           <span>Change account</span>
         </a>
 
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+        <a href="/" className={classes.link} onClick={onClick}>
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>
         </a>
