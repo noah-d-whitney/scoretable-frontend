@@ -2,24 +2,15 @@
 
 import { Anchor, Button, Checkbox, Group, PasswordInput, TextInput } from '@mantine/core';
 import { useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import useAuth from '@/hooks/useAuth';
 
 export default function LoginForm() {
+    const { LoginUser, isLoading } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const router = useRouter();
-    axios.defaults.withCredentials = true;
-    const api = axios.create({
-        baseURL: 'https://localhost:7272',
-    });
-    async function onSubmit() {
-        try {
-            await api.post('/login?useCookies=true', { email, password });
-            router.push('/home');
-        } catch (e) {
-            console.log(e);
-        }
+    
+    function onSubmit() {
+        LoginUser({ email, password }).then(e => console.log(e));
     }
   return (
     <>
@@ -31,7 +22,7 @@ export default function LoginForm() {
           Forgot password?
         </Anchor>
       </Group>
-      <Button fullWidth mt="xl" onClick={onSubmit}>
+      <Button fullWidth mt="xl" onClick={onSubmit} loading={isLoading}>
         Sign in
       </Button>
     </>
