@@ -1,11 +1,21 @@
 'use client';
 
-import { Anchor, Button, Checkbox, Group, PasswordInput, TextInput } from '@mantine/core';
+import {
+    Alert,
+    Anchor, Box,
+    Button,
+    Checkbox,
+    Group,
+    PasswordInput,
+    TextInput,
+    Text
+} from '@mantine/core';
 import { useState } from 'react';
+import { IconAlertCircle } from '@tabler/icons-react';
 import useAuth from '@/hooks/useAuth';
 
 export default function LoginForm() {
-    const { LoginUser, isLoading } = useAuth();
+    const { LoginUser, isLoading, error, clearError } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     
@@ -25,6 +35,7 @@ export default function LoginForm() {
       <Button fullWidth mt="xl" onClick={onSubmit} loading={isLoading}>
         Sign in
       </Button>
+        {error ? <Alert mt={10} onClose={clearError} withCloseButton variant="filled" color="red" icon={<IconAlertCircle />}>{error}</Alert> : null}
     </>
   );
 }
