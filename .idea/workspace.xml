@@ -9,13 +9,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e638726c-c628-465f-891f-293766789d00" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/(dashboard)/player/create/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/Cards/TeamPlayersCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/(dashboard)/game/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/game/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(dashboard)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(dashboard)/player/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/player/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Layout/AppHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Layout/AppHeader.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -36,6 +44,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/package.json" />
@@ -59,21 +70,29 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "code.cleanup.on.save": "true",
     "full.screen.before.presentation.mode": "false",
     "last_opened_file_path": "/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
     "node.js.detected.package.stylelint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
     "node.js.selected.package.stylelint": "/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend/node_modules/stylelint",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "npm.dev.executor": "Run",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "actions.on.save",
     "ts.external.directory.path": "/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend/node_modules/typescript/lib"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/components/cards/TeamPlayersCard.tsx" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="js.build_tools.npm">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -116,7 +135,7 @@
       <workItem from="1702243948613" duration="1704000" />
       <workItem from="1702373848939" duration="1422000" />
       <workItem from="1703268177585" duration="22628000" />
-      <workItem from="1703918611487" duration="12983000" />
+      <workItem from="1703918611487" duration="20412000" />
     </task>
     <servers />
   </component>

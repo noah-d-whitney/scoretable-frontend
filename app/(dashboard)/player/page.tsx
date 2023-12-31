@@ -1,3 +1,8 @@
+import { Button } from '@mantine/core';
+import Link from 'next/link';
+
 export default function PlayersView() {
-  return 'Players View';
+    return <Button href="/player/create" component={Link}>Create
+        Player
+           </Button>;
 }
