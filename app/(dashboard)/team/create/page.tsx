@@ -32,7 +32,7 @@ export default function CreateTeam() {
                 return {
                     name:
                         values.name.trim().length < 6
-                            ? 'Username must include at least 6 characters'
+                            ? 'Team name must include at least 6 characters'
                             : null,
                 };
             }
@@ -96,8 +96,23 @@ export default function CreateTeam() {
                     </Grid>
                 </Stepper.Step>
                 <Stepper.Step label="Step 3" description="Assign Teams">
-                    Create Assignment fields
                     {/*TODO create assignment fields*/}
+                    <Grid pt={30} gutter={30}>
+                        <Grid.Col span={12}>
+                            {/*TODO extract and make custom pills*/}
+                            <MultiSelect
+                              required
+                              radius="md"
+                              label="Players"
+                              description="Optionally assign this team to game(s)"
+                              data={['1V1', '2V2', '3V3', '4V4', '5V5']}
+                              size="lg"
+                              style={{
+                                    width: '100%',
+                                }}
+                            />
+                        </Grid.Col>
+                    </Grid>
                 </Stepper.Step>
                 <Stepper.Completed>
                     <Flex
