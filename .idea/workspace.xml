@@ -9,9 +9,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e638726c-c628-465f-891f-293766789d00" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/api/auth/isauth/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/auth/login/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/auth/logout/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/game/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/player/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/queryClient.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hooks/usePlayers.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/(dashboard)/game/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/game/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(dashboard)/team/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/team/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(dashboard)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(dashboard)/player/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/player/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(dashboard)/player/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/player/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/scoreTableApiV1.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/scoreTableApiV1.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Forms/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Forms/LoginForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Layout/AppNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Layout/AppNavbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/useAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useAuth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +149,7 @@
       <workItem from="1702243948613" duration="1704000" />
       <workItem from="1702373848939" duration="1422000" />
       <workItem from="1703268177585" duration="22628000" />
-      <workItem from="1703918611487" duration="26887000" />
+      <workItem from="1703918611487" duration="57298000" />
     </task>
     <servers />
   </component>

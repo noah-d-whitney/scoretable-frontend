@@ -1,13 +1,13 @@
 'use client';
 
+import { QueryClientProvider } from '@tanstack/react-query';
 import { LoginCard } from '@/components/Auth/LoginCard';
-import useAuth from '@/hooks/useAuth';
+import { queryClient } from '@/app/api/queryClient';
 
 export default function App() {
-    const { UserAuthDataState, AuthContext } = useAuth();
-  return (
-      <AuthContext.Provider value={UserAuthDataState}>
-          <LoginCard />;
-      </AuthContext.Provider>
-      );
+    return (
+        <QueryClientProvider client={queryClient}>
+            <LoginCard />;
+        </QueryClientProvider>
+    );
 }

@@ -1,52 +1,58 @@
-'use client';
+import axios from 'axios';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { UserLoginDto } from '@/app/api/types';
 
-import {createContext, useContext, useState} from 'react';
-import {useRouter} from "next/navigation";
-import {scoreTableApiV1} from "@/app/api/scoreTableApiV1";
-import {AxiosError} from "axios";
-
-type UserAuthContext = {
-    firstName: string,
-    lastName: string,
-    id: string,
-    email: string,
-};
-const AuthContext = createContext<UserAuthContext | null>(null);
 export default function useAuth() {
-    const AuthContextData = useContext(AuthContext);
-    const [UserAuthDataState, setUserAuthDataState] = useState<UserAuthContext | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const router = useRouter();
-    const clearError = () => setError(null);
-    const api = scoreTableApiV1;
-    async function LoginUser(userLoginDto: { email: string, password: string }) {
+    const [error, setError] = useState<string | null>();
+    const [loading, setLoading] = useState(false);
+    const { push } = useRouter();
+
+    function clearError() {
+        setError(null);
+    }
+
+    async function login(user: UserLoginDto) {
         try {
-            const { email, password } = userLoginDto;
             setError(null);
-            setIsLoading(true);
-            await api.post('/login?useCookies=true', { email, password });
-            const userDataResponse = await api.get('/userdata');
-            const userDataState: UserAuthContext = {
-                firstName: userDataResponse.data.firstName,
-                lastName: userDataResponse.data.lastName,
-                id: userDataResponse.data.id,
-                email: userDataResponse.data.email,
-            };
-            console.log(userDataState);
-            setUserAuthDataState(userDataState);
-            router.push('/home');
-            setIsLoading(false);
+            setLoading(true);
+            await axios.post('api/auth/login', user);
+            setLoading(false);
+            push('/home');
         } catch (e: any) {
-            if (e.response.status === 401) {
-                setError('Login failed, please check your email and password.');
-            }
-            if (e.response.status === 500) {
-                setError('Something went wrong, please try again');
-            }
-        } finally {
-            setIsLoading(false);
+            setError('Could not login');
+            setLoading(false);
         }
     }
-    return { AuthContext, AuthContextData, UserAuthDataState, LoginUser, isLoading, error, clearError };
+
+    //TODO add protected routes to middleware
+    async function isAuth() {
+        try {
+            setLoading(true);
+            //TODO Replace with non-user-data endpoint
+            const userData = await axios.get('../api/auth/isauth');
+            return userData.data;
+        } catch (e) {
+            push('/');
+            return null;
+        }
+    }
+
+    async function logout() {
+        try {
+            await axios.post('/api/auth/logout');
+            push('/');
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    return {
+        login,
+        logout,
+        error,
+        loading,
+        clearError,
+        isAuth,
+    };
 }

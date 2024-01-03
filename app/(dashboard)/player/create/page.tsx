@@ -10,9 +10,23 @@ import {
     TextInput,
     Title,
 } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import axios from 'axios';
 import TeamPlayersCard from '@/components/Cards/TeamPlayersCard';
 
 export default function CreatePlayer() {
+    const form = useForm({
+        initialValues: {
+            firstName: '',
+            lastName: '',
+            number: null,
+        },
+    });
+
+    async function onSubmit() {
+        await axios.post('/api/player', form.values);
+    }
+
     return <>
         <Title order={1} mb="xl">Create Player</Title>
         <Grid my={30} gutter={30}>
@@ -27,6 +41,7 @@ export default function CreatePlayer() {
                   label="First Name"
                   placeholder="Michael Jordan"
                   required
+                  {...form.getInputProps('firstName')}
                 />
             </Grid.Col>
             <Grid.Col span={{
@@ -40,6 +55,7 @@ export default function CreatePlayer() {
                   label="Last Name"
                   placeholder="Michael Jordan"
                   required
+                  {...form.getInputProps('lastName')}
                 />
             </Grid.Col>
             <Grid.Col span={{
@@ -54,6 +70,7 @@ export default function CreatePlayer() {
                   placeholder="23"
                   min={0}
                   max={99}
+                  {...form.getInputProps('number')}
                 />
             </Grid.Col>
         </Grid>
@@ -94,6 +111,8 @@ export default function CreatePlayer() {
             >Cancel
             </Button>
             <Button
+              type="submit"
+              onClick={onSubmit}
               color="orange"
             >Create Player
             </Button>

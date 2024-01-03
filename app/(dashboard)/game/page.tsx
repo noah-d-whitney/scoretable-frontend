@@ -6,10 +6,10 @@ import CounterCircles from '@/components/Counters/CounterCircles';
 
 function GameTableRow() {
     return <Table.Tr>
-        <Table.Td>5KX6R</Table.Td>
+        <Table.Td>5K3SX</Table.Td>
         <Table.Td>05/23/2023</Table.Td>
         <Table.Td>Teams</Table.Td>
-        <Table.Td>2v2</Table.Td>
+        <Table.Td>5v5</Table.Td>
         <Table.Td width={100} pr={20}><CounterCircles
           radius={15}
           count={2}
