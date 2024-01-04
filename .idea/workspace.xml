@@ -9,27 +9,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e638726c-c628-465f-891f-293766789d00" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/api/auth/isauth/route.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/auth/login/route.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/auth/logout/route.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/game/route.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/player/route.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/queryClient.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/usePlayers.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(dashboard)/game/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/game/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(dashboard)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(dashboard)/player/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/player/create/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(dashboard)/player/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/player/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/scoreTableApiV1.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/scoreTableApiV1.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Forms/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Forms/LoginForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Layout/AppNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Layout/AppNavbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(dashboard)/home/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/home/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/player/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/player/route.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hooks/useAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useAuth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.mjs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,29 +62,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "code.cleanup.on.save": "true",
-    "full.screen.before.presentation.mode": "false",
-    "last_opened_file_path": "/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.stylelint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.stylelint": "/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend/node_modules/stylelint",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.dev.executor": "Run",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "actions.on.save",
-    "ts.external.directory.path": "/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend/node_modules/typescript/lib"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend/node_modules/stylelint&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend/node_modules/typescript/lib&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/components/cards/TeamPlayersCard.tsx" />
@@ -149,7 +132,8 @@
       <workItem from="1702243948613" duration="1704000" />
       <workItem from="1702373848939" duration="1422000" />
       <workItem from="1703268177585" duration="22628000" />
-      <workItem from="1703918611487" duration="57298000" />
+      <workItem from="1703918611487" duration="57331000" />
+      <workItem from="1704327773179" duration="1823000" />
     </task>
     <servers />
   </component>

@@ -16,7 +16,7 @@ export default function useAuth() {
         try {
             setError(null);
             setLoading(true);
-            await axios.post('api/auth/login', user);
+            await axios.post('/api/auth/login', user);
             setLoading(false);
             push('/home');
         } catch (e: any) {
