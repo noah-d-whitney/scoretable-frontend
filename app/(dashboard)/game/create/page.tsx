@@ -19,8 +19,10 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
+import axios from 'axios';
 import TeamPlayersCard from '@/components/Cards/TeamPlayersCard';
 import TeamSelect from '@/components/Dropdowns/TeamSelect';
+import GameFormatSelect from '@/components/Dropdowns/GameFormatSelect';
 
 //TODO control fields and form state
 //TODO add step icons
@@ -38,7 +40,26 @@ export default function CreateGame() {
             team1Id: null,
             team2Id: null,
         },
+        validate: {
+            team1Id: (value) => value === form.values.team2Id ? 'Teams' +
+                ' cannot be the same' : null,
+            team2Id: (value) => value === form.values.team1Id ? 'Teams cannot be the same' : null,
+        },
+        transformValues: (values) => ({
+            dateTime: values.dateTime,
+            gameFormatId: +values.gameFormatId,
+            periodCount: values.periodCount,
+            periodLength: values.periodLength,
+            teamIds: [values.team1Id, values.team2Id],
+        }),
     });
+
+    async function onSubmit() {
+        form.validate();
+        const res = await axios.post('../api/game', form.getTransformedValues());
+        console.log(res);
+    }
+
     return (
         <>
             <Title order={1} mb="xl">Create Game</Title>
@@ -118,18 +139,18 @@ export default function CreateGame() {
                             sm: 6,
                         }}
                         >
-                            <Select
+                            <GameFormatSelect
+                              {...form.getInputProps('gameFormatId')}
                               required
                               radius="md"
                               label="Team Format"
                               placeholder="Select team format"
                               description="How many players per team?"
-                              data={['1V1', '2V2', '3V3', '4V4', '5V5']}
                               size="lg"
                               style={{
                                     width: '100%',
                                 }}
-                              {...form.getInputProps('gameFormatId')}
+
                             />
                         </Grid.Col>
                         <Grid.Col span={{
@@ -198,6 +219,7 @@ export default function CreateGame() {
                               radius="md"
                               label="Team 1"
                               required
+                              {...form.getInputProps('team1Id')}
                             />
                         </Grid.Col>
                         <Grid.Col span={{
@@ -212,17 +234,11 @@ export default function CreateGame() {
                             sm: 6,
                         }}
                         >
-                            <Select
-                              required
-                              radius="md"
-                              label="Team 2"
-                              placeholder="Select team"
-                              data={['1V1', '2V2', '3V3', '4V4', '5V5']}
+                            <TeamSelect
                               size="lg"
-                              searchable
-                              style={{
-                                    width: '100%',
-                                }}
+                              radius="md"
+                              label="Team 1"
+                              required
                               {...form.getInputProps('team2Id')}
                             />
                         </Grid.Col>
@@ -256,11 +272,17 @@ export default function CreateGame() {
                           onClick={prevStep}
                         >Back
                         </Button>
-                        <Button
-                          color="orange"
-                          onClick={nextStep}
-                        >{active === 2 ? 'Create Team' : 'Next Step'}
-                        </Button>
+                        {active < 2
+                            ? <Button
+                                color="orange"
+                                onClick={nextStep}
+                            >Next Step
+                              </Button>
+                            : <Button
+                                color="orange"
+                                onClick={onSubmit}
+                            >Create Team
+                              </Button>}
                     </Group>
             }
         </>

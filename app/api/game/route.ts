@@ -27,6 +27,11 @@ export async function POST(request: NextRequest) {
             periodLength: body.periodLength,
             gameFormatId: body.gameFormatId,
             teamIds: body.teamIds,
+        }, {
+            headers: {
+                Authorization: `Bearer ${cookies()
+                    .get('AuthToken')?.value}`,
+            },
         });
 
         return NextResponse.json(res.data, { status: res.status });

@@ -1,33 +1,60 @@
 import { useState } from 'react';
 import {
+    Alert,
+    Button,
     Combobox,
     ComboboxProps,
+    Flex,
     Input,
     InputBase,
     Loader,
+    Text,
     useCombobox,
 } from '@mantine/core';
 import axios from 'axios';
+import Link from 'next/link';
 
-//TODO MAKE SEARCHABLE
-async function getTeams() {
-    try {
-        const teams = await axios.get('../api/team');
-        console.log(teams);
-        return teams;
-    } catch (e) {
-        console.log(e);
-        return null;
-    }
+interface FormInputProps {
+    value: number | undefined,
+
+    onChange(event: React.ChangeEvent<HTMLInputElement>): void;
+
+    onFocus(event: React.FocusEvent<HTMLInputElement>): void;
+
+    onBlur(event: React.FocusEvent<HTMLInputElement>): void;
+
+    error: string;
 }
 
-export default function TeamSelect(props: ComboboxProps) {
-    const [value, setValue] = useState<string | null>(null);
+//TODO MAKE SEARCHABLE
+//TODO ADD TYPES
+
+export default function TeamSelect(props: ComboboxProps & TeamSelectProps) {
+    const {
+        value,
+        onChange: setValue,
+    } = props;
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
+    const [error, setError] = useState<boolean>(false);
+
+    async function getTeams() {
+        try {
+            const teams = await axios.get('../api/team');
+            console.log(teams);
+            return teams;
+        } catch (e: any) {
+            console.log(e);
+            setError(true);
+            return [];
+        }
+    }
 
     const combobox = useCombobox({
-        onDropdownClose: () => combobox.resetSelectedOption(),
+        onDropdownClose: () => {
+            combobox.resetSelectedOption();
+            setError(false);
+        },
         onDropdownOpen: () => {
             if (data.length === 0 && !loading) {
                 setLoading(true);
@@ -41,11 +68,16 @@ export default function TeamSelect(props: ComboboxProps) {
         },
     });
 
-    const options = data.map((item) => (
+    const options = data.length > 0 ? data.map((item) => (
         <Combobox.Option value={item.id} key={item.id}>
             {item.name}
         </Combobox.Option>
-    ));
+    )) : <Flex direction="column" gap="sm" align="center" my="sm">
+        <Text>No teams found</Text>
+        <Button component={Link} href="../team/create" variant="default">Create
+            one now
+        </Button>
+         </Flex>;
 
     return (
         <Combobox
@@ -68,6 +100,8 @@ export default function TeamSelect(props: ComboboxProps) {
                   rightSectionPointerEvents="none"
                   size={props.size}
                   radius={props.radius}
+                  error={error}
+
                 >
                     {data.find(t => t.id === value)?.name ||
                         <Input.Placeholder>Pick team</Input.Placeholder>}
@@ -75,10 +109,18 @@ export default function TeamSelect(props: ComboboxProps) {
             </Combobox.Target>
 
             <Combobox.Dropdown>
-                <Combobox.Options>
-                    {loading ?
-                        <Combobox.Empty>Loading....</Combobox.Empty> : options}
-                </Combobox.Options>
+                {error ?
+                    <Alert color="red" m="sm" title="Error" radius="md">Something
+                        went wrong
+                        while getting
+                        teams!
+                    </Alert> :
+                    <Combobox.Options>
+                        {loading
+                            ? <Combobox.Empty>Loading....</Combobox.Empty>
+                            : options}
+                    </Combobox.Options>
+                }
             </Combobox.Dropdown>
         </Combobox>
     );
