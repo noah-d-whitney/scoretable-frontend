@@ -6,7 +6,7 @@ import axios from 'axios';
 
 export default function Game() {
     async function fetch() {
-        const data = await axios.get('/api/player');
+        const data = await axios.get('/api/game/29');
         console.log(data);
     }
 

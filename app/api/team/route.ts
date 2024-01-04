@@ -5,10 +5,9 @@ import { scoreTableApiV1 } from '@/app/api/scoreTableApiV1';
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const res = await scoreTableApiV1.post('/api/Player', {
-            firstName: body.firstName,
-            lastName: body.lastName,
-            number: body.number,
+        const res = await scoreTableApiV1.post('../api/Team', {
+            name: body.name,
+            playerIds: body.playerIds,
         });
 
         return new NextResponse(res.data, { status: 201 });
@@ -19,7 +18,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
     try {
-        const res = await scoreTableApiV1.get('/api/Player', {
+        const res = await scoreTableApiV1.get('../api/Team', {
             headers: {
                 Authorization: `Bearer ${cookies()
                     .get('AuthToken')?.value}`,
@@ -35,7 +34,7 @@ export async function GET() {
 export async function DELETE(request: NextRequest) {
     try {
         const id = request.nextUrl.searchParams.get('id');
-        const res = await scoreTableApiV1.delete(`api/Player?id=${id}`, {
+        const res = await scoreTableApiV1.delete(`../api/Team?id=${id}`, {
             headers: {
                 Authorization: `Bearer ${request.cookies.get('AuthToken')?.value}`,
             },

@@ -9,10 +9,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e638726c-c628-465f-891f-293766789d00" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/api/game/[id]/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/player/[id]/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/team/[id]/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/team/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/Dropdowns/TeamSelect.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(dashboard)/game/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/game/create/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/(dashboard)/home/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/home/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/game/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/game/route.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/player/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/player/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/useAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useAuth.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +139,7 @@
       <workItem from="1702373848939" duration="1422000" />
       <workItem from="1703268177585" duration="22628000" />
       <workItem from="1703918611487" duration="57331000" />
-      <workItem from="1704327773179" duration="1823000" />
+      <workItem from="1704327773179" duration="9070000" />
     </task>
     <servers />
   </component>

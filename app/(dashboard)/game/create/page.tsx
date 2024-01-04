@@ -18,7 +18,9 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { DateTimePicker } from '@mantine/dates';
+import { useForm } from '@mantine/form';
 import TeamPlayersCard from '@/components/Cards/TeamPlayersCard';
+import TeamSelect from '@/components/Dropdowns/TeamSelect';
 
 //TODO control fields and form state
 //TODO add step icons
@@ -27,6 +29,16 @@ export default function CreateGame() {
     const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
     const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
+    const form = useForm({
+        initialValues: {
+            dateTime: null,
+            gameFormatId: null,
+            periodCount: null,
+            periodLength: null,
+            team1Id: null,
+            team2Id: null,
+        },
+    });
     return (
         <>
             <Title order={1} mb="xl">Create Game</Title>
@@ -58,6 +70,7 @@ export default function CreateGame() {
                               style={{
                                     width: '100%',
                                 }}
+                              {...form.getInputProps('dateTime')}
                             />
                         </Grid.Col>
                         <Grid.Col span={{
@@ -116,6 +129,7 @@ export default function CreateGame() {
                               style={{
                                     width: '100%',
                                 }}
+                              {...form.getInputProps('gameFormatId')}
                             />
                         </Grid.Col>
                         <Grid.Col span={{
@@ -132,6 +146,7 @@ export default function CreateGame() {
                               placeholder="Periods"
                               min={1}
                               max={4}
+                              {...form.getInputProps('periodCount')}
                             />
                         </Grid.Col>
                         <Grid.Col span={{
@@ -148,6 +163,7 @@ export default function CreateGame() {
                               placeholder="Minutes"
                               min={1}
                               max={20}
+                              {...form.getInputProps('periodLength')}
                             />
                         </Grid.Col>
                         <Grid.Col span={{
@@ -177,17 +193,11 @@ export default function CreateGame() {
                             sm: 6,
                         }}
                         >
-                            <Select
-                              required
+                            <TeamSelect
+                              size="lg"
                               radius="md"
                               label="Team 1"
-                              placeholder="Select team"
-                              data={['1V1', '2V2', '3V3', '4V4', '5V5']}
-                              size="lg"
-                              searchable
-                              style={{
-                                    width: '100%',
-                                }}
+                              required
                             />
                         </Grid.Col>
                         <Grid.Col span={{
@@ -213,6 +223,7 @@ export default function CreateGame() {
                               style={{
                                     width: '100%',
                                 }}
+                              {...form.getInputProps('team2Id')}
                             />
                         </Grid.Col>
                         <Grid.Col span={{
