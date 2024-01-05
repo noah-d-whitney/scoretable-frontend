@@ -28,7 +28,7 @@ import { notifications } from '@mantine/notifications';
 import axios from 'axios';
 import { PlayerSummaryDto } from '@/app/api/types';
 
-export default function TeamPage() {
+export default function PlayerPage() {
     const [players, setPlayers] = useState<PlayerSummaryDto[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
