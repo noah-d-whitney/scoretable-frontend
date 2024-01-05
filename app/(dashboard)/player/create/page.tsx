@@ -11,10 +11,14 @@ import {
     Title,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import { IconCheck } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import TeamPlayersCard from '@/components/Cards/TeamPlayersCard';
 
 export default function CreatePlayer() {
+    const { push } = useRouter();
     const form = useForm({
         initialValues: {
             firstName: '',
@@ -23,8 +27,49 @@ export default function CreatePlayer() {
         },
     });
 
+    //TODO validate form before operation
+
     async function onSubmit() {
-        await axios.post('/api/player', form.values);
+        try {
+            notifications.show({
+                id: 'creating-player',
+                title: 'Creating Player',
+                message: 'Please wait while your player is added. It will' +
+                    ' only take a few seconds!',
+                color: 'orange',
+                loading: true,
+                withBorder: true,
+                radius: 'md',
+            });
+            const res = await axios.post('../api/player', form.values);
+            notifications.update({
+                id: 'creating-player',
+                title: 'Player Created',
+                message: 'Player successfully created, navigating to new' +
+                    ' player page',
+                color: 'green',
+                loading: false,
+                withBorder: true,
+                icon: <IconCheck />,
+                radius: 'md',
+                autoClose: 5000,
+            });
+            push('/player');
+            console.log(res);
+        } catch (e: any) {
+            notifications.update({
+                id: 'creating-game',
+                title: 'Error',
+                message: e.response.message,
+                color: 'green',
+                loading: false,
+                withBorder: true,
+                icon: <IconCheck />,
+                radius: 'md',
+                autoClose: 5000,
+            });
+            console.log(e);
+        }
     }
 
     return <>
@@ -70,6 +115,7 @@ export default function CreatePlayer() {
                   placeholder="23"
                   min={0}
                   max={99}
+                  required
                   {...form.getInputProps('number')}
                 />
             </Grid.Col>

@@ -6,7 +6,7 @@ export async function GET(request: NextRequest, { params }: {
 }) {
     try {
         const { id } = params;
-        const res = await scoreTableApiV1.get(`api/Player/${id}`, {
+        const res = await scoreTableApiV1.get(`api/player/${id}`, {
             headers: {
                 Authorization: `Bearer ${request.cookies.get('AuthToken')?.value}`,
             },

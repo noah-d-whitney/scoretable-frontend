@@ -9,6 +9,11 @@ export async function POST(request: NextRequest) {
             firstName: body.firstName,
             lastName: body.lastName,
             number: body.number,
+        }, {
+            headers: {
+                Authorization: `Bearer ${cookies()
+                    .get('AuthToken')?.value}`,
+            },
         });
 
         return new NextResponse(res.data, { status: 201 });
