@@ -20,6 +20,9 @@ import { useMediaQuery } from '@mantine/hooks';
 import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { notifications } from '@mantine/notifications';
+import { IconCheck } from '@tabler/icons-react';
 import TeamPlayersCard from '@/components/Cards/TeamPlayersCard';
 import TeamSelect from '@/components/Dropdowns/TeamSelect';
 import GameFormatSelect from '@/components/Dropdowns/GameFormatSelect';
@@ -27,8 +30,10 @@ import GameFormatSelect from '@/components/Dropdowns/GameFormatSelect';
 //TODO control fields and form state
 //TODO add step icons
 export default function CreateGame() {
+    const { push } = useRouter();
     const [active, setActive] = useState(0);
     const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
+
     const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
     const form = useForm({
@@ -55,9 +60,49 @@ export default function CreateGame() {
     });
 
     async function onSubmit() {
-        form.validate();
-        const res = await axios.post('../api/game', form.getTransformedValues());
-        console.log(res);
+        try {
+            form.validate();
+            nextStep();
+            notifications.show({
+                id: 'creating-game',
+                title: 'Creating Game',
+                message: 'Please wait while your game is added. It will only' +
+                    ' take a few seconds!',
+                color: 'orange',
+                loading: true,
+                withBorder: true,
+                radius: 'md',
+            });
+            const res = await axios.post('../api/game', form.getTransformedValues());
+            notifications.update({
+                id: 'creating-game',
+                title: 'Game Created',
+                message: 'Game successfully created, navigating to new game' +
+                    ' page',
+                color: 'green',
+                loading: false,
+                withBorder: true,
+                icon: <IconCheck />,
+                radius: 'md',
+                autoClose: 5000,
+            });
+            push('/game');
+            console.log(res);
+        } catch (e: any) {
+            prevStep();
+            notifications.update({
+                id: 'creating-game',
+                title: 'Error',
+                message: e.response.message,
+                color: 'green',
+                loading: false,
+                withBorder: true,
+                icon: <IconCheck />,
+                radius: 'md',
+                autoClose: 5000,
+            });
+            console.log(e);
+        }
     }
 
     return (

@@ -71,6 +71,8 @@ export type PlayerSummaryDto = {
     firstName: string;
     lastName: string;
     number: number;
+    teams: TeamSummaryDTO[],
+    playerStatlines: string[],
 };
 
 export type TeamSummaryDTO = {
