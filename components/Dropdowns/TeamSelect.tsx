@@ -29,7 +29,7 @@ interface FormInputProps {
 //TODO MAKE SEARCHABLE
 //TODO ADD TYPES
 
-export default function TeamSelect(props: ComboboxProps & TeamSelectProps) {
+export default function TeamSelect(props: ComboboxProps & FormInputProps) {
     const {
         value,
         onChange: setValue,

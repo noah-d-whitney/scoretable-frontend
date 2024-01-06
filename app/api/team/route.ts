@@ -8,6 +8,11 @@ export async function POST(request: NextRequest) {
         const res = await scoreTableApiV1.post('../api/Team', {
             name: body.name,
             playerIds: body.playerIds,
+        }, {
+            headers: {
+                Authorization: `Bearer ${cookies()
+                    .get('AuthToken')?.value}`,
+            },
         });
 
         return new NextResponse(res.data, { status: 201 });

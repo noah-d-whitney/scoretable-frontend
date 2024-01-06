@@ -16,17 +16,28 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import axios from 'axios';
+import { IconCheck, IconX } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
+import PlayerMultiSelect from '@/components/Dropdowns/PlayerMultiSelect';
 
 //TODO control fields and form state
 //TODO add step icons
+interface FormValues {
+    name: string,
+    players: string[]
+}
+
 export default function CreateTeam() {
+    const { push } = useRouter();
     const [active, setActive] = useState(0);
     const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
-    const form = useForm({
+    const form = useForm<FormValues>({
         initialValues: {
             name: '',
+            players: [],
         },
-
         validate: (values) => {
             if (active === 0) {
                 return {
@@ -48,6 +59,52 @@ export default function CreateTeam() {
             return current < 3 ? current + 1 : current;
         });
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
+
+    async function onSubmit() {
+        try {
+            notifications.show({
+                id: 'creating-team',
+                title: 'Creating Team',
+                message: 'Please wait while your team is added. It will' +
+                    ' only take a few seconds!',
+                color: 'orange',
+                loading: true,
+                withBorder: true,
+                radius: 'md',
+            });
+            const res = await axios.post('../api/team', form.values);
+            notifications.update({
+                id: 'creating-team',
+                title: 'Team Created',
+                message: 'Team successfully created, navigating to new' +
+                    ' player page',
+                color: 'green',
+                loading: false,
+                withBorder: true,
+                icon: <IconCheck />,
+                radius: 'md',
+                autoClose: 5000,
+            });
+            push('/team');
+            console.log(res);
+        } catch (e: any) {
+            notifications.update({
+                id: 'creating-team',
+                title: 'Error',
+                message: e.message,
+                color: 'red',
+                loading: false,
+                withBorder: true,
+                icon: <IconX />,
+                radius: 'md',
+                autoClose: 5000,
+            });
+            console.log(e);
+        }
+    }
+
+    console.log(form.values);
+
     return (
         <>
             <Title order={1} mb="xl">Create Team</Title>
@@ -81,12 +138,16 @@ export default function CreateTeam() {
                     <Grid pt={30} gutter={30}>
                         <Grid.Col span={12}>
                             {/*TODO extract and make custom pills*/}
-                            <MultiSelect
-                              required
+
+                            <PlayerMultiSelect
                               radius="md"
+                              inputProps={{
+                                    form,
+                                    value: form.getInputProps('players').value,
+                                    error: form.getInputProps('players').value,
+                                }}
                               label="Players"
                               description="Optionally assign players to this team"
-                              data={['1V1', '2V2', '3V3', '4V4', '5V5']}
                               size="lg"
                               style={{
                                     width: '100%',
@@ -135,11 +196,17 @@ export default function CreateTeam() {
                           onClick={prevStep}
                         >Back
                         </Button>
-                        <Button
-                          color="orange"
-                          onClick={nextStep}
-                        >{active === 2 ? 'Create Team' : 'Next Step'}
-                        </Button>
+                        {active === 2
+                            ? <Button
+                                color="orange"
+                                onClick={onSubmit}
+                            >Create Team
+                              </Button>
+                            : <Button
+                                color="orange"
+                                onClick={nextStep}
+                            >Next Step
+                              </Button>}
                     </Group>
             }
         </>

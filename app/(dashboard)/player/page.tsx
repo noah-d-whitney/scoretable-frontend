@@ -110,7 +110,17 @@ export default function PlayerPage() {
                 >{p.firstName.slice(0, 1) + p.lastName.slice(0, 1)}
                 </Avatar>
             </Table.Td>
-            <Table.Td width="100%">{`${p.firstName} ${p.lastName}`}</Table.Td>
+            <Table.Td width="100%">
+                <Link
+                  href={`/player/${p.id}`}
+                  style={{
+                        color: 'inherit',
+                        textDecoration: 'inherit',
+                    }}
+                >
+                    {`${p.firstName} ${p.lastName}`}
+                </Link>
+            </Table.Td>
             <Table.Td>
                 <Flex gap={10}>
                     <ActionIcon variant="default">

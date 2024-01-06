@@ -19,10 +19,10 @@ export default function PlayerDetailView({ params }: { params: { id: string } })
             const fetchedPlayer = await axios.get(`../api/player/${id}`);
             setPlayer(fetchedPlayer.data);
             setLoading(false);
-        } catch (e) {
+        } catch (e: any) {
             notifications.show({
                 title: 'Error',
-                message: e.response.data,
+                message: `Player with ID ${id} could not be found`,
                 autoClose: 5000,
                 color: 'red',
                 radius: 'md',
