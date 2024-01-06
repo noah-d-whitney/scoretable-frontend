@@ -17,6 +17,7 @@ import {
 import axios from 'axios';
 import Link from 'next/link';
 import { UseFormReturnType } from '@mantine/form/lib/types';
+import { useRouter } from 'next/navigation';
 import { PlayerSummaryDto } from '@/app/api/types';
 
 interface FormInputProps {
@@ -38,16 +39,16 @@ export default function PlayerMultiSelect(props: {
     const [players, setPlayers] = useState<PlayerSummaryDto[]>([]);
     const [search, setSearch] = useState('');
     const [error, setError] = useState<boolean>(false);
+    const { push } = useRouter();
 
     async function getPlayers() {
         try {
-            const teams = await axios.get<PlayerSummaryDto[]>('../api/player');
-            setPlayers(teams.data);
-            return teams;
+            const players = await axios.get<PlayerSummaryDto[]>('../api/player');
+            setPlayers(players.data);
         } catch (e: any) {
             console.log(e);
+            if (e.response.status === 401) push('/');
             setError(true);
-            return [];
         }
     }
 

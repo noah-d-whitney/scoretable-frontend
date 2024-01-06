@@ -94,72 +94,73 @@ export default function CreatePlayer() {
         }
     }
 
-    return <LoadingSuspense
-      loading={creating}
-      loadingText="Creating player, please wait..."
-    >
-        <Title order={1} mb="xl">Create Player</Title>
-        <form onSubmit={form.onSubmit(onSubmit)}>
-            <Grid my={30} gutter={30}>
-                <Grid.Col span={{
-                    base: 12,
-                    sm: 6,
-                }}
-                >
-                    <TextInput
-                      size="lg"
-                      radius="md"
-                      label="First Name"
-                      placeholder="Michael"
-                      withAsterisk
-                      {...form.getInputProps('firstName')}
-                    />
-                </Grid.Col>
-                <Grid.Col span={{
-                    base: 12,
-                    sm: 6,
-                }}
-                >
-                    <TextInput
-                      size="lg"
-                      radius="md"
-                      label="Last Name"
-                      placeholder="Jordan"
-                      withAsterisk
-                      {...form.getInputProps('lastName')}
-                    />
-                </Grid.Col>
-                <Grid.Col span={{
-                    base: 12,
-                    sm: 6,
-                }}
-                >
-                    <NumberInput
-                      size="lg"
-                      radius="md"
-                      label="Default Player Number"
-                      placeholder="23"
-                      min={0}
-                      max={99}
-                      withAsterisk
-                      {...form.getInputProps('number')}
-                    />
-                </Grid.Col>
-            </Grid>
-            <Group justify="center" mt="xl">
-                <Button
-                  variant="light"
-                  color="red"
-                  component={Link}
-                  href="../player"
-                >Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  color="orange"
-                >Create Player
-                </Button>
-            </Group>
-        </form>
-           </LoadingSuspense>;
+    return (
+        <LoadingSuspense
+          loading={creating}
+          loadingText="Creating player, please wait..."
+        >
+            <Title order={1} mb="xl">Create Player</Title>
+            <form onSubmit={form.onSubmit(onSubmit)}>
+                <Grid my={30} gutter={30}>
+                    <Grid.Col span={{
+                        base: 12,
+                        sm: 6,
+                    }}
+                    >
+                        <TextInput
+                          size="lg"
+                          radius="md"
+                          label="First Name"
+                          placeholder="Michael"
+                          withAsterisk
+                          {...form.getInputProps('firstName')}
+                        />
+                    </Grid.Col>
+                    <Grid.Col span={{
+                        base: 12,
+                        sm: 6,
+                    }}
+                    >
+                        <TextInput
+                          size="lg"
+                          radius="md"
+                          label="Last Name"
+                          placeholder="Jordan"
+                          withAsterisk
+                          {...form.getInputProps('lastName')}
+                        />
+                    </Grid.Col>
+                    <Grid.Col span={{
+                        base: 12,
+                        sm: 6,
+                    }}
+                    >
+                        <NumberInput
+                          size="lg"
+                          radius="md"
+                          label="Default Player Number"
+                          placeholder="23"
+                          min={0}
+                          max={99}
+                          withAsterisk
+                          {...form.getInputProps('number')}
+                        />
+                    </Grid.Col>
+                </Grid>
+                <Group justify="center" mt="xl">
+                    <Button
+                      variant="light"
+                      color="red"
+                      component={Link}
+                      href="../player"
+                    >Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      color="orange"
+                    >Create Player
+                    </Button>
+                </Group>
+            </form>
+        </LoadingSuspense>);
 }

@@ -26,6 +26,10 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
     try {
+        if (!cookies()
+            .has('AuthToken')) {
+            return new NextResponse(null, { status: 401 });
+        }
         const res = await scoreTableApiV1.get('/api/Player', {
             headers: {
                 Authorization: `Bearer ${cookies()

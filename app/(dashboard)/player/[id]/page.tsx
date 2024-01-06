@@ -1,11 +1,12 @@
 'use client';
 
-import { Avatar, Badge, Center, Flex, Loader, Title } from '@mantine/core';
+import { Avatar, Badge, Flex, Title } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { notifications } from '@mantine/notifications';
 import { PlayerSummaryDto } from '@/app/api/types';
+import LoadingSuspense from '@/components/Utility/LoadingSuspense';
 
 export default function PlayerDetailView({ params }: { params: { id: string } }) {
     const { id } = params;
@@ -36,24 +37,27 @@ export default function PlayerDetailView({ params }: { params: { id: string } })
         fetchPlayer();
     }, []);
 
-    return loading
-        ? <Center my="xl"><Loader color="orange" size="lg" /></Center>
-        : player
-            ? <Flex gap="md">
-                <Avatar size={100}>
-                    {player.firstName.slice(0, 1) + player.lastName.slice(0, 1)}
-                </Avatar>
-                <Flex direction="column" mt="sm">
-                    <Badge
-                      size="lg"
-                      variant="light"
-                      color="orange"
-                    >#{player.number}
-                    </Badge>
-                    <Title order={1}>
-                        {player.firstName} {player.lastName}
-                    </Title>
-                </Flex>
-              </Flex>
-            : null;
+    return (
+        <LoadingSuspense
+          loading={loading}
+          loadingText="Loading player, please wait..."
+        >
+            {player
+                ? <Flex gap="md">
+                    <Avatar size={100}>
+                        {player.firstName.slice(0, 1) + player.lastName.slice(0, 1)}
+                    </Avatar>
+                    <Flex direction="column" mt="sm">
+                        <Badge
+                          size="lg"
+                          variant="light"
+                          color="orange"
+                        >#{player.number}
+                        </Badge>
+                        <Title order={1}>
+                            {player.firstName} {player.lastName}
+                        </Title>
+                    </Flex>
+                  </Flex> : null}
+        </LoadingSuspense>);
 }
