@@ -2,10 +2,8 @@ import {
     Icon,
     IconBallBasketball,
     IconHome,
-    IconTournament,
     IconUser,
     IconUsers,
-    IconUsersGroup,
 } from '@tabler/icons-react';
 
 type Route = {
@@ -28,18 +26,18 @@ const Routes: Route[] = [
         icon: IconBallBasketball,
         isAction: false,
     },
-    {
-        path: '/tournament',
-        label: 'Tournaments',
-        icon: IconTournament,
-        isAction: false,
-    },
-    {
-        path: '/league',
-        label: 'Leagues',
-        icon: IconUsersGroup,
-        isAction: false,
-    },
+    // {
+    //     path: '/tournament',
+    //     label: 'Tournaments',
+    //     icon: IconTournament,
+    //     isAction: false,
+    // },
+    // {
+    //     path: '/league',
+    //     label: 'Leagues',
+    //     icon: IconUsersGroup,
+    //     isAction: false,
+    // },
     {
         path: '/player',
         label: 'Players',

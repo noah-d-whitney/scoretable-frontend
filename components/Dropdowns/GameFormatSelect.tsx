@@ -24,15 +24,15 @@ const GameFormatOptions = [
 ];
 
 interface FormInputProps {
-    value: number | undefined,
+    value?: number | undefined,
 
-    onChange(event: React.ChangeEvent<HTMLInputElement>): void;
+    onChange?(event: React.ChangeEvent<HTMLInputElement>): void;
 
-    onFocus(event: React.FocusEvent<HTMLInputElement>): void;
+    onFocus?(event: React.FocusEvent<HTMLInputElement>): void;
 
-    onBlur(event: React.FocusEvent<HTMLInputElement>): void;
+    onBlur?(event: React.FocusEvent<HTMLInputElement>): void;
 
-    error: string;
+    error?: string;
 }
 
 export default function GameFormatSelect(props: FormInputProps & SelectProps) {

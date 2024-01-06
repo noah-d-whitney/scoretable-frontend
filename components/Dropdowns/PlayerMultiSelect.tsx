@@ -8,6 +8,7 @@ import {
     CheckIcon,
     Combobox,
     Flex,
+    Loader,
     Pill,
     PillsInput,
     PillsInputProps,
@@ -43,10 +44,9 @@ export default function PlayerMultiSelect(props: {
 
     async function getPlayers() {
         try {
-            const players = await axios.get<PlayerSummaryDto[]>('../api/player');
-            setPlayers(players.data);
+            const fetchedPlayers = await axios.get<PlayerSummaryDto[]>('../api/player');
+            setPlayers(fetchedPlayers.data);
         } catch (e: any) {
-            console.log(e);
             if (e.response.status === 401) push('/');
             setError(true);
         }
@@ -144,6 +144,9 @@ export default function PlayerMultiSelect(props: {
                       onClick={() => combobox.openDropdown()}
                       error={formError}
                       label="Players"
+                      rightSection={loading ?
+                            <Loader size={18} color="orange" /> :
+                            <Combobox.Chevron />}
                       {...props}
                     >
                         <Pill.Group>

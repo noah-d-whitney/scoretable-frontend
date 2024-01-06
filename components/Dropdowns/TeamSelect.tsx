@@ -101,7 +101,6 @@ export default function TeamSelect(props: ComboboxProps & FormInputProps) {
                   size={props.size}
                   radius={props.radius}
                   error={error}
-
                 >
                     {data.find(t => t.id === value)?.name ||
                         <Input.Placeholder>Pick team</Input.Placeholder>}
