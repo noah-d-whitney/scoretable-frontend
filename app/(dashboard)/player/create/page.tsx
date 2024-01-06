@@ -2,10 +2,8 @@
 
 import {
     Button,
-    Divider,
     Grid,
     Group,
-    MultiSelect,
     NumberInput,
     TextInput,
     Title,
@@ -15,19 +13,43 @@ import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import TeamPlayersCard from '@/components/Cards/TeamPlayersCard';
+import Link from 'next/link';
+import { useState } from 'react';
+import LoadingSuspense from '@/components/Utility/LoadingSuspense';
+
+interface FormValues {
+    firstName: string,
+    lastName: string,
+    number: number | null
+}
 
 export default function CreatePlayer() {
     const { push } = useRouter();
-    const form = useForm({
+    const [creating, setCreating] = useState(false);
+    const form = useForm<FormValues>({
         initialValues: {
             firstName: '',
             lastName: '',
             number: null,
         },
+        validate: {
+            firstName: (value) => value.trim().length < 3
+                ? 'First name must be at least 3 characters'
+                : null,
+            lastName: (value) => value.trim().length < 3
+                ? 'Last name must be at least 3 characters'
+                : null,
+            number: (value) => {
+                if (value === null) {
+                    return 'Default number is required';
+                }
+                if (value < 0 || value > 99) {
+                    return 'Number must be between 0-99';
+                }
+                return null;
+            },
+        },
     });
-
-    //TODO validate form before operation
 
     async function onSubmit() {
         try {
@@ -41,7 +63,8 @@ export default function CreatePlayer() {
                 withBorder: true,
                 radius: 'md',
             });
-            const res = await axios.post('../api/player', form.values);
+            setCreating(true);
+            const createdPlayer = await axios.post('../api/player', form.values);
             notifications.update({
                 id: 'creating-player',
                 title: 'Player Created',
@@ -54,8 +77,7 @@ export default function CreatePlayer() {
                 radius: 'md',
                 autoClose: 5000,
             });
-            push('/player');
-            console.log(res);
+            push(`../player/${createdPlayer.data.id}`);
         } catch (e: any) {
             notifications.update({
                 id: 'creating-game',
@@ -68,100 +90,76 @@ export default function CreatePlayer() {
                 radius: 'md',
                 autoClose: 5000,
             });
-            console.log(e);
+            setCreating(false);
         }
     }
 
-    return <>
+    return <LoadingSuspense
+      loading={creating}
+      loadingText="Creating player, please wait..."
+    >
         <Title order={1} mb="xl">Create Player</Title>
-        <Grid my={30} gutter={30}>
-            <Grid.Col span={{
-                base: 12,
-                sm: 6,
-            }}
-            >
-                <TextInput
-                  size="lg"
-                  radius="md"
-                  label="First Name"
-                  placeholder="Michael Jordan"
-                  required
-                  {...form.getInputProps('firstName')}
-                />
-            </Grid.Col>
-            <Grid.Col span={{
-                base: 12,
-                sm: 6,
-            }}
-            >
-                <TextInput
-                  size="lg"
-                  radius="md"
-                  label="Last Name"
-                  placeholder="Michael Jordan"
-                  required
-                  {...form.getInputProps('lastName')}
-                />
-            </Grid.Col>
-            <Grid.Col span={{
-                base: 12,
-                sm: 6,
-            }}
-            >
-                <NumberInput
-                  size="lg"
-                  radius="md"
-                  label="Default Player Number"
-                  placeholder="23"
-                  min={0}
-                  max={99}
-                  required
-                  {...form.getInputProps('number')}
-                />
-            </Grid.Col>
-        </Grid>
-        <Divider />
-        <Grid my={30} gutter={30} align="center">
-            <Grid.Col
-              span={{
+        <form onSubmit={form.onSubmit(onSubmit)}>
+            <Grid my={30} gutter={30}>
+                <Grid.Col span={{
                     base: 12,
                     sm: 6,
                 }}
-            >
-                <MultiSelect
-                  required
-                  radius="md"
-                  label="Assign to Teams"
-                  description="Optionally assign players to one or more teams"
-                  placeholder="Los Angeles Lakers"
-                  data={['1V1', '2V2', '3V3', '4V4', '5V5']}
-                  size="lg"
-                  searchable
-                  style={{
-                        width: '100%',
-                    }}
-                />
-            </Grid.Col>
-            <Grid.Col span={{
-                base: 12,
-                sm: 6,
-            }}
-            >
-                <TeamPlayersCard />
-            </Grid.Col>
-        </Grid>
-        <Group justify="center" mt="xl">
-            <Button
-              variant="light"
-              color="red"
-            >Cancel
-            </Button>
-            <Button
-              type="submit"
-              onClick={onSubmit}
-              color="orange"
-            >Create Player
-            </Button>
-        </Group>
-           </>;
+                >
+                    <TextInput
+                      size="lg"
+                      radius="md"
+                      label="First Name"
+                      placeholder="Michael"
+                      withAsterisk
+                      {...form.getInputProps('firstName')}
+                    />
+                </Grid.Col>
+                <Grid.Col span={{
+                    base: 12,
+                    sm: 6,
+                }}
+                >
+                    <TextInput
+                      size="lg"
+                      radius="md"
+                      label="Last Name"
+                      placeholder="Jordan"
+                      withAsterisk
+                      {...form.getInputProps('lastName')}
+                    />
+                </Grid.Col>
+                <Grid.Col span={{
+                    base: 12,
+                    sm: 6,
+                }}
+                >
+                    <NumberInput
+                      size="lg"
+                      radius="md"
+                      label="Default Player Number"
+                      placeholder="23"
+                      min={0}
+                      max={99}
+                      withAsterisk
+                      {...form.getInputProps('number')}
+                    />
+                </Grid.Col>
+            </Grid>
+            <Group justify="center" mt="xl">
+                <Button
+                  variant="light"
+                  color="red"
+                  component={Link}
+                  href="../player"
+                >Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  color="orange"
+                >Create Player
+                </Button>
+            </Group>
+        </form>
+           </LoadingSuspense>;
 }

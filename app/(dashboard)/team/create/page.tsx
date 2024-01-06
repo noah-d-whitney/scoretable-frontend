@@ -1,17 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-    Button,
-    Flex,
-    Grid,
-    Group,
-    Loader,
-    MultiSelect,
-    Text,
-    TextInput,
-    Title,
-} from '@mantine/core';
+import { Button, Grid, Group, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import axios from 'axios';
@@ -19,6 +9,7 @@ import { IconCheck, IconX } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import PlayerMultiSelect from '@/components/Dropdowns/PlayerMultiSelect';
+import LoadingSuspense from '@/components/Utility/LoadingSuspense';
 
 interface FormValues {
     name: string,
@@ -63,7 +54,7 @@ export default function CreateTeam() {
                 radius: 'md',
             });
             setCreating(true);
-            await axios.post('../api/team', form.getTransformedValues());
+            const createdTeam = await axios.post('../api/team', form.getTransformedValues());
             notifications.update({
                 id: 'creating-team',
                 title: 'Team Created',
@@ -76,7 +67,7 @@ export default function CreateTeam() {
                 radius: 'md',
                 autoClose: 5000,
             });
-            push('/team');
+            push(`../team/${createdTeam.data.id}`);
         } catch (e: any) {
             notifications.update({
                 id: 'creating-team',
@@ -93,82 +84,56 @@ export default function CreateTeam() {
         }
     }
 
-    return creating
-        ? (
-            <Flex
-              py="xl"
-              direction="column"
-              gap="md"
-              align="center"
-              justify="space-between"
-            >
-                <Loader color="orange" size="lg" />
-                <Text span>Creating Team, Please Wait...</Text>
-            </Flex>
-        )
-        : (<><Title order={1} mb="xl">Create Team</Title>
-                <form onSubmit={form.onSubmit(onSubmit)}>
-                    <Grid pt={30} gutter={30}>
-                        <Grid.Col span={{
-                            base: 12,
-                            sm: 6,
+    return <LoadingSuspense
+      loading={creating}
+      loadingText="Creating Team, Please Wait..."
+    >
+        <Title order={1} mb="xl">
+            Create Team
+        </Title>
+        <form onSubmit={form.onSubmit(onSubmit)}>
+            <Grid pt={30} gutter={30}>
+                <Grid.Col span={12}>
+                    <TextInput
+                      radius="md"
+                      label="Team Name"
+                      placeholder="Golden State Warriors"
+                      size="lg"
+                      withAsterisk
+                      {...form.getInputProps('name')}
+                    />
+                </Grid.Col>
+                <Grid.Col span={12}>
+                    <PlayerMultiSelect
+                      radius="md"
+                      description="Optionally assign players to this team"
+                      inputProps={{
+                            form,
+                            formFieldName: 'playerObjs',
+                            value: form.getInputProps('playerObjs').value,
                         }}
-                        >
-                            <TextInput
-                              radius="md"
-                              label="Team Name"
-                              placeholder="Golden State Warriors"
-                              size="lg"
-                              width="full"
-                              {...form.getInputProps('name')}
-                            />
-                        </Grid.Col>
-                        <Grid.Col span={12}>
-                            <PlayerMultiSelect
-                              radius="md"
-                              description="Optionally assign players to this team"
-                              inputProps={{
-                                    form,
-                                    formFieldName: 'playerObjs',
-                                    value: form.getInputProps('playerObjs').value,
-                                }}
-                              size="lg"
-                              style={{
-                                    width: '100%',
-                                }}
-                            />
-                        </Grid.Col>
+                      size="lg"
+                      withAsterisk
+                      style={{
+                            width: '100%',
+                        }}
+                    />
+                </Grid.Col>
+            </Grid>
 
-                        <Grid.Col span={12}>
-                            {/*TODO extract and make custom pills*/}
-                            <MultiSelect
-                              required
-                              radius="md"
-                              label="Players"
-                              description="Optionally assign this team to game(s)"
-                              data={['1V1', '2V2', '3V3', '4V4', '5V5']}
-                              size="lg"
-                              style={{
-                                    width: '100%',
-                                }}
-                            />
-                        </Grid.Col>
-                    </Grid>
-
-                    <Group justify="center" mt="xl">
-                        <Button
-                          variant="default"
-                          component={Link}
-                          href="/team"
-                        >Back
-                        </Button>
-                        <Button
-                          color="orange"
-                          type="submit"
-                        >Create Team
-                        </Button>
-                    </Group>
-                </form>
-           </>
-        );
+            <Group justify="center" mt="xl">
+                <Button
+                  variant="default"
+                  component={Link}
+                  href="/team"
+                >Back
+                </Button>
+                <Button
+                  color="orange"
+                  type="submit"
+                >Create Team
+                </Button>
+            </Group>
+        </form>
+           </LoadingSuspense>;
 }

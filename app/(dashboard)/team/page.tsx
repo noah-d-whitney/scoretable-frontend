@@ -50,7 +50,7 @@ export default function TeamPage() {
     async function deleteTeam(id: string) {
         try {
             notifications.show({
-                id: 'deleting-team',
+                id: `deleting-team-${id}`,
                 title: 'Deleting Team',
                 message: 'Please wait while your team is deleted. It will' +
                     ' only take a few seconds!',
@@ -61,10 +61,8 @@ export default function TeamPage() {
             });
             const res = await axios.delete(`api/team?id=${id}`);
             notifications.update({
-                id: 'deleting-team',
-                title: 'Deleted Team',
-                message: 'Team successfully deleted, navigating to new' +
-                    ' player page',
+                id: `deleting-team-${id}`,
+                message: 'Team Successfully Deleted',
                 color: 'green',
                 loading: false,
                 withBorder: true,
@@ -76,7 +74,7 @@ export default function TeamPage() {
             console.log(res);
         } catch (e: any) {
             notifications.update({
-                id: 'deleting-team',
+                id: `deleting-team-${id}`,
                 title: 'Error',
                 message: e.response.message,
                 color: 'green',

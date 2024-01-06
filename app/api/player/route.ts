@@ -16,7 +16,9 @@ export async function POST(request: NextRequest) {
             },
         });
 
-        return new NextResponse(res.data, { status: 201 });
+        const created = JSON.stringify(res.data);
+
+        return new NextResponse(created, { status: 201 });
     } catch (e: any) {
         return new NextResponse(e.response.data, { status: e.response.status });
     }
