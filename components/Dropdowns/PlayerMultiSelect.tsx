@@ -7,10 +7,10 @@ import {
     Button,
     CheckIcon,
     Combobox,
-    ComboboxProps,
     Flex,
     Pill,
     PillsInput,
+    PillsInputProps,
     Text,
     useCombobox,
 } from '@mantine/core';
@@ -22,17 +22,18 @@ import { PlayerSummaryDto } from '@/app/api/types';
 interface FormInputProps {
     value: { name: string, id: string }[],
     form: UseFormReturnType<any>,
-    error: string,
+    formFieldName: string,
 }
 
 export default function PlayerMultiSelect(props: {
     inputProps: FormInputProps
-} & ComboboxProps) {
+} & PillsInputProps) {
     const {
         form,
         value: formValues,
-        error: formError,
+        formFieldName,
     } = props.inputProps;
+    const formError = form.errors?.[formFieldName];
     const [loading, setLoading] = useState(false);
     const [players, setPlayers] = useState<PlayerSummaryDto[]>([]);
     const [search, setSearch] = useState('');
@@ -57,6 +58,7 @@ export default function PlayerMultiSelect(props: {
             setSearch('');
         },
         onDropdownOpen: async () => {
+            form.clearFieldError(formFieldName);
             if (players.length === 0 && !loading) {
                 setLoading(true);
                 await getPlayers();
@@ -71,12 +73,12 @@ export default function PlayerMultiSelect(props: {
         const player = formValues.find(p => p.id === val);
 
         if (player) {
-            form.removeListItem('players', formValues.indexOf(player));
+            form.removeListItem(formFieldName, formValues.indexOf(player));
             return;
         }
 
         const playerToAdd = players.find(p => p.id === val);
-        form.insertListItem('players', {
+        form.insertListItem(formFieldName, {
             name: `${playerToAdd?.firstName} ${playerToAdd?.lastName}`,
             id: val,
         });
@@ -86,7 +88,7 @@ export default function PlayerMultiSelect(props: {
 
     const handleValueRemove = (val: string) => {
         const player = formValues.find(p => p.id === val);
-        if (player) form.removeListItem('players', formValues.indexOf(player));
+        if (player) form.removeListItem(formFieldName, formValues.indexOf(player));
     };
 
     const selectedValues = formValues?.map((val) => (
@@ -113,7 +115,7 @@ export default function PlayerMultiSelect(props: {
                         {formValues?.find(p => p.id === player.id)
                             ? <CheckIcon size={12} />
                             : null}
-                        <Badge variant="light" color="orange">
+                        <Badge variant="white" color="orange" size="lg">
                             {player.number}
                         </Badge>
                         {player.firstName} {player.lastName}
@@ -125,59 +127,66 @@ export default function PlayerMultiSelect(props: {
                 Create one now
             </Button>
           </Flex>;
-
     return (
-        <Combobox
-          store={combobox}
-          withinPortal={false}
-          {...props}
-          onOptionSubmit={handleValueSelect}
-        >
-            <Combobox.Target>
-                <PillsInput
-                  pointer
-                  onClick={() => combobox.openDropdown()}
-                  size={props.size}
-                  radius={props.radius}
-                  error={error}
-                >
-                    <Pill.Group>
-                        {selectedValues}
+        <>
+            <Combobox
+              store={combobox}
+              withinPortal={false}
+              onOptionSubmit={handleValueSelect}
+              shadow="md"
+              size={props.size}
+              radius={props.radius}
+            >
+                <Combobox.Target>
+                    <PillsInput
+                      pointer
+                      onClick={() => combobox.openDropdown()}
+                      error={formError}
+                      label="Players"
+                      {...props}
+                    >
+                        <Pill.Group>
+                            {selectedValues}
 
-                        <Combobox.EventsTarget withKeyboardNavigation={false}>
-                            <PillsInput.Field
-                              value={search}
-                              placeholder="Search values"
-                              onChange={(event) => {
-                                    combobox.updateSelectedOptionIndex();
-                                    setSearch(event.currentTarget.value);
-                                }}
-                              onFocus={() => combobox.openDropdown()}
-                              onBlur={() => combobox.closeDropdown()}
-                              onKeyDown={(event) => {
-                                    if (event.key === 'Backspace' && search.length === 0) {
-                                        event.preventDefault();
-                                        form.removeListItem('players', formValues.length - 1);
-                                    }
-                                }}
-                            />
-                        </Combobox.EventsTarget>
-                    </Pill.Group>
-                </PillsInput>
-            </Combobox.Target>
+                            <Combobox.EventsTarget
+                              withKeyboardNavigation={false}
+                            >
+                                <PillsInput.Field
+                                  value={search}
+                                  placeholder="Search Players"
+                                  onChange={(event) => {
+                                        combobox.updateSelectedOptionIndex();
+                                        setSearch(event.currentTarget.value);
+                                    }}
+                                  onFocus={() => combobox.openDropdown()}
+                                  onBlur={() => combobox.closeDropdown()}
+                                  onKeyDown={(event) => {
+                                        if (event.key === 'Backspace' && search.length === 0) {
+                                            event.preventDefault();
+                                            form.removeListItem(
+                                                formFieldName, formValues.length - 1
+                                            );
+                                        }
+                                    }}
+                                />
+                            </Combobox.EventsTarget>
+                        </Pill.Group>
+                    </PillsInput>
+                </Combobox.Target>
 
-            <Combobox.Dropdown mah={300} style={{ overflowY: 'scroll' }}>
-                {error ?
-                    <Alert color="red" m="sm" title="Error" radius="md">
-                        Something went wrong while getting teams!
-                    </Alert> :
-                    <Combobox.Options>
-                        {loading
-                            ? <Combobox.Empty>Loading....</Combobox.Empty>
-                            : options}
-                    </Combobox.Options>
-                }
-            </Combobox.Dropdown>
-        </Combobox>
+                <Combobox.Dropdown mah={300} style={{ overflowY: 'scroll' }}>
+                    {error ?
+                        <Alert color="red" m="sm" title="Error" radius="md">
+                            Something went wrong while getting teams!
+                        </Alert> :
+                        <Combobox.Options>
+                            {loading
+                                ? <Combobox.Empty>Loading....</Combobox.Empty>
+                                : options}
+                        </Combobox.Options>
+                    }
+                </Combobox.Dropdown>
+            </Combobox>
+        </>
     );
 }

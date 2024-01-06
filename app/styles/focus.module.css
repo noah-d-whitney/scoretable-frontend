@@ -1,0 +1,7 @@
+.focus {
+    &:focus-visible {
+        outline: 0.2rem solid var(--mantine-color-orange-filled);
+        outline-offset: 0.5rem;
+        border-radius: 10px;
+    }
+}

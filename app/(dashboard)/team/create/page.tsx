@@ -3,62 +3,52 @@
 import { useState } from 'react';
 import {
     Button,
-    em,
     Flex,
     Grid,
     Group,
     Loader,
     MultiSelect,
-    Stepper,
     Text,
     TextInput,
     Title,
 } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import axios from 'axios';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import PlayerMultiSelect from '@/components/Dropdowns/PlayerMultiSelect';
 
-//TODO control fields and form state
-//TODO add step icons
 interface FormValues {
     name: string,
-    players: string[]
+    playerObjs?: { name: string, id: string }[],
+    playerIds: number[]
 }
 
 export default function CreateTeam() {
     const { push } = useRouter();
-    const [active, setActive] = useState(0);
-    const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
+    const [creating, setCreating] = useState(false);
+
     const form = useForm<FormValues>({
         initialValues: {
             name: '',
-            players: [],
+            playerObjs: [],
+            playerIds: [],
         },
-        validate: (values) => {
-            if (active === 0) {
-                return {
-                    name:
-                        values.name.trim().length < 6
-                            ? 'Team name must include at least 6 characters'
-                            : null,
-                };
-            }
-
-            return {};
+        validate: {
+            name: (value) => value.trim().length < 6
+                ? 'Team name must be at least 6 characters'
+                : null,
+            playerObjs: (value) => value?.length! < 1
+                ? 'You must assign at least one player to a team'
+                : null,
         },
+        transformValues: (values) => ({
+            name: values.name,
+            playerIds: values.playerObjs ? values.playerObjs.map(p => +p.id) : [],
+        }),
     });
-    const nextStep = () =>
-        setActive((current) => {
-            if (form.validate().hasErrors) {
-                return current;
-            }
-            return current < 3 ? current + 1 : current;
-        });
-    const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
     async function onSubmit() {
         try {
@@ -72,7 +62,8 @@ export default function CreateTeam() {
                 withBorder: true,
                 radius: 'md',
             });
-            const res = await axios.post('../api/team', form.values);
+            setCreating(true);
+            await axios.post('../api/team', form.getTransformedValues());
             notifications.update({
                 id: 'creating-team',
                 title: 'Team Created',
@@ -86,7 +77,6 @@ export default function CreateTeam() {
                 autoClose: 5000,
             });
             push('/team');
-            console.log(res);
         } catch (e: any) {
             notifications.update({
                 id: 'creating-team',
@@ -99,24 +89,25 @@ export default function CreateTeam() {
                 radius: 'md',
                 autoClose: 5000,
             });
-            console.log(e);
+            setCreating(false);
         }
     }
 
-    console.log(form.values);
-
-    return (
-        <>
-            <Title order={1} mb="xl">Create Team</Title>
-            <Stepper
-              active={active}
-              onStepClick={setActive}
-              color="orange"
-              size="lg"
-              radius="md"
-              orientation={isMobile ? 'vertical' : 'horizontal'}
+    return creating
+        ? (
+            <Flex
+              py="xl"
+              direction="column"
+              gap="md"
+              align="center"
+              justify="space-between"
             >
-                <Stepper.Step label="Step 1" description="Team Info">
+                <Loader color="orange" size="lg" />
+                <Text span>Creating Team, Please Wait...</Text>
+            </Flex>
+        )
+        : (<><Title order={1} mb="xl">Create Team</Title>
+                <form onSubmit={form.onSubmit(onSubmit)}>
                     <Grid pt={30} gutter={30}>
                         <Grid.Col span={{
                             base: 12,
@@ -132,33 +123,22 @@ export default function CreateTeam() {
                               {...form.getInputProps('name')}
                             />
                         </Grid.Col>
-                    </Grid>
-                </Stepper.Step>
-                <Stepper.Step label="Step 2" description="Assign Players">
-                    <Grid pt={30} gutter={30}>
                         <Grid.Col span={12}>
-                            {/*TODO extract and make custom pills*/}
-
                             <PlayerMultiSelect
                               radius="md"
+                              description="Optionally assign players to this team"
                               inputProps={{
                                     form,
-                                    value: form.getInputProps('players').value,
-                                    error: form.getInputProps('players').value,
+                                    formFieldName: 'playerObjs',
+                                    value: form.getInputProps('playerObjs').value,
                                 }}
-                              label="Players"
-                              description="Optionally assign players to this team"
                               size="lg"
                               style={{
                                     width: '100%',
                                 }}
                             />
                         </Grid.Col>
-                    </Grid>
-                </Stepper.Step>
-                <Stepper.Step label="Step 3" description="Assign Teams">
-                    {/*TODO create assignment fields*/}
-                    <Grid pt={30} gutter={30}>
+
                         <Grid.Col span={12}>
                             {/*TODO extract and make custom pills*/}
                             <MultiSelect
@@ -174,41 +154,21 @@ export default function CreateTeam() {
                             />
                         </Grid.Col>
                     </Grid>
-                </Stepper.Step>
-                <Stepper.Completed>
-                    <Flex
-                      py="xl"
-                      direction="column"
-                      gap={20}
-                      align="center"
-                      justify="space-between"
-                    >
-                        <Loader color="orange" size="lg" />
-                        <Text span>Creating Team, Please Wait...</Text>
-                    </Flex>
-                </Stepper.Completed>
-            </Stepper>
-            {
-                active === 3 ? null :
+
                     <Group justify="center" mt="xl">
                         <Button
                           variant="default"
-                          onClick={prevStep}
+                          component={Link}
+                          href="/team"
                         >Back
                         </Button>
-                        {active === 2
-                            ? <Button
-                                color="orange"
-                                onClick={onSubmit}
-                            >Create Team
-                              </Button>
-                            : <Button
-                                color="orange"
-                                onClick={nextStep}
-                            >Next Step
-                              </Button>}
+                        <Button
+                          color="orange"
+                          type="submit"
+                        >Create Team
+                        </Button>
                     </Group>
-            }
-        </>
-    );
+                </form>
+           </>
+        );
 }
