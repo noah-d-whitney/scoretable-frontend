@@ -7,16 +7,17 @@ import {
     em,
     Grid,
     Group,
+    List,
     NumberInput,
     Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { DateTimePicker } from '@mantine/dates';
-import { useForm } from '@mantine/form';
+import { FormErrors, useForm } from '@mantine/form';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
-import { IconCheck } from '@tabler/icons-react';
+import { IconCheck, IconX } from '@tabler/icons-react';
 import { UseFormReturnType } from '@mantine/form/lib/types';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -90,9 +91,6 @@ export default function CreateGame() {
                 if (!value) {
                     return 'Team is required';
                 }
-                if (value === form.values.team2Id) {
-                    return 'Teams cannot be the same';
-                }
                 return null;
             },
             team2Id: (value) => {
@@ -138,7 +136,7 @@ export default function CreateGame() {
                 withBorder: true,
                 icon: <IconCheck />,
                 radius: 'md',
-                autoClose: 5000,
+                autoClose: 4000,
             });
             push(`../game/${res.data.id}`);
         } catch (e: any) {
@@ -149,12 +147,41 @@ export default function CreateGame() {
                 color: 'green',
                 loading: false,
                 withBorder: true,
-                icon: <IconCheck />,
+                icon: <IconX />,
                 radius: 'md',
-                autoClose: 5000,
+                autoClose: 4000,
             });
             setCreating(false);
         }
+    }
+
+    // TODO abstract to hook
+    function notifyFormErrors(errors: FormErrors) {
+        const errorListItems = Object
+            .values(errors)
+            .map(e => (
+                <List.Item>{e}</List.Item>
+            ));
+
+        const errorList = (
+            <List
+              size="md"
+              center
+              my={5}
+              icon={<IconX color="red" size={18} />}
+            >
+                {errorListItems}
+            </List>
+        );
+
+        notifications.show({
+            id: 'form-errors',
+            color: 'red',
+            title: 'One or more fields have errors',
+            message: errorList,
+            withBorder: true,
+            autoClose: 4000,
+        });
     }
 
     return (
@@ -162,8 +189,10 @@ export default function CreateGame() {
           loading={creating}
           loadingText="Creating game, please wait..."
         >
-            <Title order={1} mb="xl">Create Game</Title>
-            <form onSubmit={form.onSubmit((values) => onSubmit(values))}>
+            <Title order={1} mb="lg">Create Game</Title>
+            <form
+              onSubmit={form.onSubmit((values) => onSubmit(values), notifyFormErrors)}
+            >
                 <Grid pt={30} gutter={30}>
                     <Grid.Col span={{
                         base: 12,

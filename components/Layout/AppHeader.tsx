@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Burger } from '@mantine/core';
+import { Burger, Flex } from '@mantine/core';
 import DarkModeSwitch from '../Buttons/DarkModeSwitch';
 
 export default function AppHeader({
@@ -9,14 +9,20 @@ export default function AppHeader({
                                   }: { opened: boolean; toggle: () => void }) {
     return (
         <>
-            <Box>
+            <Flex align="center" gap="sm">
                 <Burger
                   opened={opened}
                   onClick={toggle}
                   hiddenFrom="md"
                   size="sm"
                 />
-            </Box>
+                {/*<ActionIcon*/}
+                {/*  variant="default"*/}
+                {/*  size="xl"*/}
+                {/*>*/}
+                {/*    <IconArrowLeft stroke={1.5} />*/}
+                {/*</ActionIcon>*/}
+            </Flex>
             <DarkModeSwitch />
         </>
     );
