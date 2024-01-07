@@ -26,7 +26,7 @@ export type GameSummaryDTO = {
     GameFormat: GameFormat;
     GameStatus: GameStatus;
     dateTime: Date;
-    periods: number;
+    periodCount: number;
     periodLength: number;
 };
 
@@ -62,8 +62,6 @@ export type PlayerDTO = {
     lastName: string;
     number: number;
     teams: TeamSummaryDTO[];
-    tournaments: TournamentSummaryDTO[];
-    leagues: LeagueSummaryDTO[];
 };
 
 export type PlayerSummaryDto = {
