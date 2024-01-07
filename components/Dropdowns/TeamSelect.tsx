@@ -52,11 +52,11 @@ export default function TeamSelect(props: {
         onDropdownOpen: async () => {
             setValue(undefined);
             setSearch('');
-            setSelectedValue(null);
             if (teams.length === 0 && !loading) {
                 setLoading(true);
                 await getTeams()
                     .then((t) => setTeams(t));
+                setSelectedValue(null);
                 setLoading(false);
                 combobox.resetSelectedOption();
             }
