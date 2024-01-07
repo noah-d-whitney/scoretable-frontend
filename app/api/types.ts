@@ -80,8 +80,12 @@ export type TeamSummaryDTO = {
     name: string;
 };
 
-export type TournamentSummaryDTO = {};
-export type LeagueSummaryDTO = {};
+export type TeamDto = {
+    id: number,
+    name: string,
+    games: GameSummaryDTO[],
+    players: PlayerSummaryDto[]
+};
 
 export type GameFormat = '1v1' | '2v2' | '3v3' | '4v4' | '5v5';
 export type GameStatus =

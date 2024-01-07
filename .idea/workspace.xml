@@ -11,7 +11,8 @@
     <list default="true" id="e638726c-c628-465f-891f-293766789d00" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/(dashboard)/game/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/game/create/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Layout/AppHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Layout/AppHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Cards/TeamPlayersCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Cards/TeamPlayersCard.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +143,7 @@
       <workItem from="1704353261270" duration="6329000" />
       <workItem from="1704398693355" duration="41581000" />
       <workItem from="1704525143605" duration="17832000" />
-      <workItem from="1704578498490" duration="11059000" />
+      <workItem from="1704578498490" duration="15803000" />
     </task>
     <servers />
   </component>

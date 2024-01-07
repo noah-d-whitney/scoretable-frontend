@@ -294,7 +294,10 @@ export default function CreateGame() {
                         sm: 6,
                     }}
                     >
-                        <TeamPlayersCard />
+                        <TeamPlayersCard
+                          teamId={+form.values.team1Id!}
+                          label="Team 1"
+                        />
                     </Grid.Col>
                     <Grid.Col span={{
                         base: 12,
@@ -304,7 +307,7 @@ export default function CreateGame() {
                         <TeamSelect
                           size="lg"
                           radius="md"
-                          label="Team 1"
+                          label="Team 2"
                           {...form.getInputProps('team2Id')}
                         />
                     </Grid.Col>
