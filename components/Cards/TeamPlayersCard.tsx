@@ -68,7 +68,19 @@ export default function TeamPlayersCard(props: TeamPlayersCardProps) {
         }
 
         {cardState === 'inactive'
-            ? <Flex align="center" justify="center" h={150}>
+            ? <Flex
+                direction="column"
+                align="center"
+                justify="center"
+                h={150}
+                gap="sm"
+            >
+                <Badge
+                  color="orange"
+                  variant="light"
+                  size="lg"
+                >{label || 'Team'}
+                </Badge>
                 <Text size="lg" c="gray">No Team Selected</Text>
               </Flex>
             : null

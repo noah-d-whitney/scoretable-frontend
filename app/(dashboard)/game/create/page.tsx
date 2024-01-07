@@ -2,7 +2,6 @@
 
 import {
     Button,
-    Checkbox,
     Divider,
     em,
     Grid,
@@ -47,8 +46,8 @@ export default function CreateGame() {
             gameFormatId: undefined,
             periodCount: undefined,
             periodLength: undefined,
-            team1Id: '',
-            team2Id: '',
+            team1Id: undefined,
+            team2Id: undefined,
         },
         validate: {
             dateTime: (value) => {
@@ -190,10 +189,12 @@ export default function CreateGame() {
           loadingText="Creating game, please wait..."
         >
             <Title order={1} mb="lg">Create Game</Title>
-            <form
-              onSubmit={form.onSubmit((values) => onSubmit(values), notifyFormErrors)}
+            <form onSubmit={form.onSubmit(
+                (values) => onSubmit(values),
+                notifyFormErrors
+            )}
             >
-                <Grid pt={30} gutter={30}>
+                <Grid pt={30} gutter={30} align="center">
                     <Grid.Col span={{
                         base: 12,
                         sm: 6,
@@ -259,34 +260,25 @@ export default function CreateGame() {
                           {...form.getInputProps('periodLength')}
                         />
                     </Grid.Col>
-                    <Grid.Col span={{
-                        base: 12,
-                        sm: 6,
-                    }}
-                    />
                     <Grid.Col span={12}>
-                        {/*TODO Add create team view*/}
-                        <Checkbox
-                          defaultChecked
-                          label="Use Existing Teams"
-                          description="Uncheck to create team"
-                          color="orange"
-                          radius="md"
-                          size="lg"
-                          disabled
-                        />
-                        <Divider mt="lg" />
+                        <Divider />
                     </Grid.Col>
-                    <Grid.Col span={{
-                        base: 12,
-                        sm: 6,
-                    }}
+                    <Grid.Col
+                      span={{
+                            base: 12,
+                            sm: 6,
+                        }}
                     >
                         <TeamSelect
                           size="lg"
                           radius="md"
                           label="Team 1"
-                          {...form.getInputProps('team1Id')}
+                          inputProps={{
+                                error: form.getInputProps('team1Id').error,
+                                setValue: (val) => {
+                                    form.setFieldValue('team1Id', val);
+                                },
+                            }}
                         />
                     </Grid.Col>
                     <Grid.Col span={{
@@ -308,7 +300,12 @@ export default function CreateGame() {
                           size="lg"
                           radius="md"
                           label="Team 2"
-                          {...form.getInputProps('team2Id')}
+                          inputProps={{
+                                error: form.getInputProps('team2Id').error,
+                                setValue: (val) => {
+                                    form.setFieldValue('team2Id', val);
+                                },
+                            }}
                         />
                     </Grid.Col>
                     <Grid.Col span={{
@@ -316,7 +313,10 @@ export default function CreateGame() {
                         sm: 6,
                     }}
                     >
-                        <TeamPlayersCard />
+                        <TeamPlayersCard
+                          teamId={+form.values.team2Id!}
+                          label="Team 2"
+                        />
                     </Grid.Col>
                 </Grid>
 

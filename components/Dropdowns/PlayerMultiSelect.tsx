@@ -181,7 +181,7 @@ export default function PlayerMultiSelect(props: {
                 <Combobox.Dropdown mah={300} style={{ overflowY: 'scroll' }}>
                     {error ?
                         <Alert color="red" m="sm" title="Error" radius="md">
-                            Something went wrong while getting teams!
+                            Something went wrong while getting players!
                         </Alert> :
                         <Combobox.Options>
                             {loading
