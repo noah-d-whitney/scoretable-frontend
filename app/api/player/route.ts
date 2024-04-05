@@ -30,7 +30,7 @@ export async function GET() {
             .has('AuthToken')) {
             return new NextResponse(null, { status: 401 });
         }
-        const res = await scoreTableApiV1.get('/api/Player', {
+        const res = await scoreTableApiV1.get('/player', {
             headers: {
                 Authorization: `Bearer ${cookies()
                     .get('AuthToken')?.value}`,

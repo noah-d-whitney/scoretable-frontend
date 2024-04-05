@@ -10,16 +10,16 @@ export async function POST(request: Request) {
             password,
         } = body;
 
-        const serverResponse = await scoreTableApiV1.post('/login', {
+        const serverResponse = await scoreTableApiV1.post('/user/login', {
             email,
             password,
         });
 
-        const serialized = serialize('AuthToken', serverResponse.data.accessToken, {
+        const serialized = serialize('AuthToken', serverResponse.data.authentication_token.token, {
             httpOnly: true,
             secure: true,
             sameSite: 'strict',
-            maxAge: serverResponse.data.expiresIn,
+            expires: new Date(serverResponse.data.authentication_token.expiry),
             path: '/',
         });
 
@@ -28,6 +28,6 @@ export async function POST(request: Request) {
             headers: { 'Set-Cookie': serialized },
         });
     } catch (e: any) {
-        return new NextResponse(e.response.data, { status: e.response.status });
+        return new NextResponse(e.response, { status: e.response.status });
     }
 }

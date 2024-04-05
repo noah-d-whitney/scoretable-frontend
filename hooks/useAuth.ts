@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { UserLoginDto } from '@/app/api/types';
+import { scoreTableApiV1 } from '@/app/api/scoreTableApiV1';
 
 export default function useAuth() {
     const [error, setError] = useState<string | null>();
@@ -16,7 +17,7 @@ export default function useAuth() {
         try {
             setError(null);
             setLoading(true);
-            await axios.post('/api/auth/login', user);
+            await scoreTableApiV1.post('/user/login', user);
             setLoading(false);
             push('/home');
         } catch (e: any) {
@@ -30,7 +31,7 @@ export default function useAuth() {
         try {
             setLoading(true);
             //TODO Replace with non-user-data endpoint
-            const userData = await axios.get('../api/auth/isauth');
+            const userData = await scoreTableApiV1.get('/healthcheck');
             return userData.data;
         } catch (e) {
             push('/');
