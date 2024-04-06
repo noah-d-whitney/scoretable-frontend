@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { UserLoginDto } from '@/app/api/types';
@@ -41,7 +40,7 @@ export default function useAuth() {
 
     async function logout() {
         try {
-            await axios.post('/api/auth/logout');
+            await scoreTableApiV1.post('/user/logout');
             push('/');
         } catch (e) {
             console.log(e);
