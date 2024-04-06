@@ -8,117 +8,107 @@ import {
     Card,
     Flex,
     Loader,
+    Pagination,
     Select,
     Table,
+    TableTfoot,
     TableThead,
     Text,
     Title,
 } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import {
-    IconCheck,
-    IconEye,
-    IconPencil,
-    IconPlus,
-    IconRefresh,
-    IconTrash,
-} from '@tabler/icons-react';
+import { IconEye, IconPencil, IconPlus, IconRefresh } from '@tabler/icons-react';
 import Link from 'next/link';
-import { notifications } from '@mantine/notifications';
-import axios from 'axios';
-import { PlayerSummaryDto } from '@/app/api/types';
+import usePlayers, { metadata, playerDto } from '@/hooks/usePlayers';
 
 export default function PlayerPage() {
-    const [players, setPlayers] = useState<PlayerSummaryDto[]>([]);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [players, setPlayers] = useState<playerDto[]>([]);
+    const [mdata, setMdata] = useState<metadata>({
+        current_page: 1,
+        last_page: 1,
+        first_page: 1,
+        page_size: 1,
+        total_records: 1,
+    });
+    const {
+        getPlayers,
+        error,
+        loading,
+    } = usePlayers();
 
-    async function fetchPlayers() {
-        try {
-            setLoading(true);
-            const res = await fetch('../api/player', {
-                method: 'GET',
-            });
-            const fetchedPlayers = await res.json();
-            console.log(players);
-            setPlayers(fetchedPlayers);
-        } catch (e: any) {
-            console.log(e);
-            setError(e.message);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    async function deletePlayer(id: string) {
-        try {
-            notifications.show({
-                id: 'deleting-player',
-                title: 'Deleting Player',
-                message: 'Please wait while your player is deleted. It will' +
-                    ' only take a few seconds!',
-                color: 'orange',
-                loading: true,
-                withBorder: true,
-                radius: 'md',
-            });
-            const res = await axios.delete(`api/player?id=${id}`);
-            notifications.update({
-                id: 'deleting-player',
-                title: 'Deleted Player',
-                message: 'Player successfully deleted, navigating to new' +
-                    ' player page',
-                color: 'green',
-                loading: false,
-                withBorder: true,
-                icon: <IconCheck />,
-                radius: 'md',
-                autoClose: 5000,
-            });
-            setPlayers((p) => p.filter(p => p.id !== id));
-            console.log(res);
-        } catch (e: any) {
-            notifications.update({
-                id: 'deleting-game',
-                title: 'Error',
-                message: e.response.message,
-                color: 'green',
-                loading: false,
-                withBorder: true,
-                icon: <IconCheck />,
-                radius: 'md',
-                autoClose: 5000,
-            });
-            console.log(e);
-        }
-    }
+    // async function deletePlayer(id: string) {
+    //     try {
+    //         notifications.show({
+    //             id: 'deleting-player',
+    //             title: 'Deleting Player',
+    //             message: 'Please wait while your player is deleted. It will' +
+    //                 ' only take a few seconds!',
+    //             color: 'orange',
+    //             loading: true,
+    //             withBorder: true,
+    //             radius: 'md',
+    //         });
+    //         const res = await axios.delete(`api/player?id=${id}`);
+    //         notifications.update({
+    //             id: 'deleting-player',
+    //             title: 'Deleted Player',
+    //             message: 'Player successfully deleted, navigating to new' +
+    //                 ' player page',
+    //             color: 'green',
+    //             loading: false,
+    //             withBorder: true,
+    //             icon: <IconCheck />,
+    //             radius: 'md',
+    //             autoClose: 5000,
+    //         });
+    //         setPlayers((p) => p.filter(p => p.id !== id));
+    //         console.log(res);
+    //     } catch (e: any) {
+    //         notifications.update({
+    //             id: 'deleting-game',
+    //             title: 'Error',
+    //             message: e.response.message,
+    //             color: 'green',
+    //             loading: false,
+    //             withBorder: true,
+    //             icon: <IconCheck />,
+    //             radius: 'md',
+    //             autoClose: 5000,
+    //         });
+    //         console.log(e);
+    //     }
+    // }
 
     useEffect(() => {
-        fetchPlayers();
+        getPlayers({})
+            .then(res => {
+                setPlayers(res.players);
+                setMdata(res.metadata);
+            });
     }, []);
 
     const playerRows = players.map(p => (
-        <Table.Tr key={p.id}>
+        <Table.Tr key={p.pin}>
             <Table.Td width={45}>
                 <Badge variant="light" color="orange">
-                    {p.number}
+                    {p.pref_number}
                 </Badge>
             </Table.Td>
             <Table.Td width={20}>
                 <Avatar
                   size="md"
-                >{p.firstName.slice(0, 1) + p.lastName.slice(0, 1)}
+                >{p.first_name.slice(0, 1) + p.last_name.slice(0, 1)}
                 </Avatar>
             </Table.Td>
             <Table.Td width="100%">
                 <Link
-                  href={`/player/${p.id}`}
+                  href={`/player/${p.pin}`}
                   style={{
                         color: 'inherit',
                         textDecoration: 'inherit',
                     }}
                 >
-                    {`${p.firstName} ${p.lastName}`}
+                    {`${p.first_name} ${p.last_name}`}
                 </Link>
             </Table.Td>
             <Table.Td>
@@ -129,13 +119,13 @@ export default function PlayerPage() {
                     <ActionIcon variant="default">
                         <IconEye size={14} />
                     </ActionIcon>
-                    <ActionIcon
-                      onClick={() => deletePlayer(p.id)}
-                      variant="light"
-                      color="red"
-                    >
-                        <IconTrash size={14} />
-                    </ActionIcon>
+                    {/*<ActionIcon*/}
+                    {/*  onClick={() => deletePlayer(p.pin)}*/}
+                    {/*  variant="light"*/}
+                    {/*  color="red"*/}
+                    {/*>*/}
+                    {/*    <IconTrash size={14} />*/}
+                    {/*</ActionIcon>*/}
                 </Flex>
             </Table.Td>
         </Table.Tr>
@@ -167,10 +157,9 @@ export default function PlayerPage() {
         ? (
             <Flex direction="column" gap="md" align="center" my="lg">
                 <Text>Error getting players</Text>
-                <Text>{error}</Text>
                 <Button
                   variant="default"
-                  onClick={fetchPlayers}
+                    // onClick={fetchPlayers}
                   leftSection={<IconRefresh size={14} />}
                 >Try Again
                 </Button>
@@ -205,19 +194,45 @@ export default function PlayerPage() {
                     justify="center"
                     my="lg"
                     align="center"
-                    h={300}
+                    h={250}
                 >
                     <Loader size="lg" color="orange" />
                   </Flex>
-                : <Table>
-                    <TableThead pt="lg">
-                        {playerTableHeaders}
-                    </TableThead>
-                    <Table.Tbody>
-                        {tableBody}
-                    </Table.Tbody>
-                  </Table>
+                : <>
+                    <Table>
+                        <TableThead pt="lg">
+                            {playerTableHeaders}
+                        </TableThead>
+                        <Table.Tbody>
+                            {tableBody}
+                        </Table.Tbody>
+                        <TableTfoot />
+                    </Table>
+                  </>
             }
         </Card>
+        <Flex
+          mt="md"
+          justify="center"
+          align="center"
+          direction="row"
+        >
+            <Pagination
+              hidden={loading}
+              total={mdata.last_page}
+              value={mdata.current_page}
+              onChange={(v) => {
+                    if (v === mdata.current_page) return;
+                    getPlayers({ page: v })
+                        .then(res => {
+                            setPlayers(res.players);
+                            setMdata(res.metadata);
+                        });
+                }}
+              color="orange"
+              size="sm"
+              radius="md"
+            />
+        </Flex>
            </>;
 }

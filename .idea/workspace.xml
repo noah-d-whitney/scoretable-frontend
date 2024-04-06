@@ -9,12 +9,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e638726c-c628-465f-891f-293766789d00" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/middleware.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/auth/isauth/route.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/auth/login/route.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/auth/logout/route.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/useAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useAuth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(dashboard)/game/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/game/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(dashboard)/player/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/player/[pin]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(dashboard)/player/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/player/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(dashboard)/player/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/player/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/usePlayers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/usePlayers.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,14 +40,12 @@
     &quot;assignee&quot;: &quot;noah-d-whitney&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">
-    <option name="selectedUrlAndAccountId">
-      <UrlAndAccount>
-        <option name="accountId" value="a4ee1a5f-175c-4e71-b35f-a69306e39c6e" />
-        <option name="url" value="https://github.com/noah-d-whitney/scoretable-frontend.git" />
-      </UrlAndAccount>
-    </option>
-  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/noah-d-whitney/scoretable-frontend.git&quot;,
+    &quot;accountId&quot;: &quot;a4ee1a5f-175c-4e71-b35f-a69306e39c6e&quot;
+  }
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -71,40 +69,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Notification.DisplayName-DoNotAsk-Plugins Suggestion&quot;: &quot;Plugin suggestions available&quot;,
-    &quot;Notification.DoNotAsk-Plugins Suggestion&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.stylelint&quot;: &quot;/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend/node_modules/stylelint&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend/node_modules/typescript/lib&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Notification.DisplayName-DoNotAsk-Plugins Suggestion": "Plugin suggestions available",
+    "Notification.DoNotAsk-Plugins Suggestion": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "code.cleanup.on.save": "true",
+    "full.screen.before.presentation.mode": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend/app/(dashboard)/player",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.stylelint": "/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend/node_modules/stylelint",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.dev.executor": "Run",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "advanced.settings",
+    "ts.external.directory.path": "/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend/node_modules/typescript/lib"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;TypeScript JSX&quot;,
-      &quot;PLAIN_TEXT&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "TypeScript JSX",
+      "PLAIN_TEXT"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/(dashboard)/player" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/(dashboard)/player" />
+      <recent name="$PROJECT_DIR$/app/(dashboard)/player/[pin]" />
       <recent name="$PROJECT_DIR$/components/cards/TeamPlayersCard.tsx" />
     </key>
   </component>
@@ -136,6 +139,13 @@
       </method>
     </configuration>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-WS-241.14494.235" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -165,7 +175,9 @@
       <workItem from="1712294066837" duration="1282000" />
       <workItem from="1712295358430" duration="4559000" />
       <workItem from="1712299932600" duration="246000" />
-      <workItem from="1712369589979" duration="3788000" />
+      <workItem from="1712369589979" duration="3966000" />
+      <workItem from="1712374817639" duration="39000" />
+      <workItem from="1712421652230" duration="15629000" />
     </task>
     <servers />
   </component>

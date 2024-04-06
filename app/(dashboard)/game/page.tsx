@@ -25,6 +25,7 @@ import Link from 'next/link';
 import { notifications } from '@mantine/notifications';
 import axios from 'axios';
 import { GameSummaryDTO } from '@/app/api/types';
+import { scoreTableApiV1 } from '@/app/api/scoreTableApiV1';
 
 export default function TeamPage() {
     const [games, setGames] = useState<GameSummaryDTO[]>([]);
@@ -34,7 +35,7 @@ export default function TeamPage() {
     async function fetchGames() {
         try {
             setLoading(true);
-            const res = await fetch('../api/game', {
+            const res = await scoreTableApiV1.get('../api/game', {
                 method: 'GET',
             });
             const fetchedGames = await res.json();

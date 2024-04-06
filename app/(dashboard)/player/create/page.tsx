@@ -9,37 +9,30 @@ import {
     Title,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { notifications } from '@mantine/notifications';
-import { IconCheck } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
 import Link from 'next/link';
-import { useState } from 'react';
 import LoadingSuspense from '@/components/Utility/LoadingSuspense';
-
-interface FormValues {
-    firstName: string,
-    lastName: string,
-    number: number | null
-}
+import usePlayers, { createPlayerDto } from '@/hooks/usePlayers';
 
 export default function CreatePlayer() {
-    const { push } = useRouter();
-    const [creating, setCreating] = useState(false);
-    const form = useForm<FormValues>({
+    const {
+        createPlayer,
+        loading,
+        error,
+    } = usePlayers();
+    const form = useForm<createPlayerDto>({
         initialValues: {
-            firstName: '',
-            lastName: '',
-            number: null,
+            first_name: '',
+            last_name: '',
+            pref_number: 0,
         },
         validate: {
-            firstName: (value) => value.trim().length < 3
+            first_name: (value) => value.trim().length < 3
                 ? 'First name must be at least 3 characters'
                 : null,
-            lastName: (value) => value.trim().length < 3
+            last_name: (value) => value.trim().length < 3
                 ? 'Last name must be at least 3 characters'
                 : null,
-            number: (value) => {
+            pref_number: (value) => {
                 if (value === null) {
                     return 'Default number is required';
                 }
@@ -51,56 +44,63 @@ export default function CreatePlayer() {
         },
     });
 
+    // async function onSubmit() {
+    //     try {
+    //         notifications.show({
+    //             id: 'creating-player',
+    //             title: 'Creating Player',
+    //             message: 'Please wait while your player is added. It will' +
+    //                 ' only take a few seconds!',
+    //             color: 'orange',
+    //             loading: true,
+    //             withBorder: true,
+    //             radius: 'md',
+    //         });
+    //         const createdPlayer = await axios.post('../api/player', form.values);
+    //         notifications.update({
+    //             id: 'creating-player',
+    //             title: 'Player Created',
+    //             message: 'Player successfully created, navigating to new' +
+    //                 ' player page',
+    //             color: 'green',
+    //             loading: false,
+    //             withBorder: true,
+    //             icon: <IconCheck />,
+    //             radius: 'md',
+    //             autoClose: 5000,
+    //         });
+    //         push(`../player/${createdPlayer.data.id}`);
+    //     } catch (e: any) {
+    //         notifications.update({
+    //             id: 'creating-game',
+    //             title: 'Error',
+    //             message: e.response.message,
+    //             color: 'green',
+    //             loading: false,
+    //             withBorder: true,
+    //             icon: <IconCheck />,
+    //             radius: 'md',
+    //             autoClose: 5000,
+    //         });
+    //         setCreating(false);
+    //     }
+    // }
+
     async function onSubmit() {
-        try {
-            notifications.show({
-                id: 'creating-player',
-                title: 'Creating Player',
-                message: 'Please wait while your player is added. It will' +
-                    ' only take a few seconds!',
-                color: 'orange',
-                loading: true,
-                withBorder: true,
-                radius: 'md',
+        console.log(form.values);
+        await createPlayer(form.values)
+            .catch(() => {
+                form.setErrors(error);
             });
-            setCreating(true);
-            const createdPlayer = await axios.post('../api/player', form.values);
-            notifications.update({
-                id: 'creating-player',
-                title: 'Player Created',
-                message: 'Player successfully created, navigating to new' +
-                    ' player page',
-                color: 'green',
-                loading: false,
-                withBorder: true,
-                icon: <IconCheck />,
-                radius: 'md',
-                autoClose: 5000,
-            });
-            push(`../player/${createdPlayer.data.id}`);
-        } catch (e: any) {
-            notifications.update({
-                id: 'creating-game',
-                title: 'Error',
-                message: e.response.message,
-                color: 'green',
-                loading: false,
-                withBorder: true,
-                icon: <IconCheck />,
-                radius: 'md',
-                autoClose: 5000,
-            });
-            setCreating(false);
-        }
     }
 
     return (
         <LoadingSuspense
-          loading={creating}
+          loading={loading}
           loadingText="Creating player, please wait..."
         >
             <Title order={1} mb="xl">Create Player</Title>
-            <form onSubmit={form.onSubmit(onSubmit)}>
+            <form onSubmit={onSubmit}>
                 <Grid my={30} gutter={30}>
                     <Grid.Col span={{
                         base: 12,
