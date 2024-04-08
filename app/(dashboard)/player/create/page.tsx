@@ -16,8 +16,7 @@ import usePlayers, { createPlayerDto } from '@/hooks/usePlayers';
 export default function CreatePlayer() {
     const {
         createPlayer,
-        loading,
-        error,
+        creating,
     } = usePlayers();
     const form = useForm<createPlayerDto>({
         initialValues: {
@@ -25,82 +24,38 @@ export default function CreatePlayer() {
             last_name: '',
             pref_number: 0,
         },
-        validate: {
-            first_name: (value) => value.trim().length < 3
-                ? 'First name must be at least 3 characters'
-                : null,
-            last_name: (value) => value.trim().length < 3
-                ? 'Last name must be at least 3 characters'
-                : null,
-            pref_number: (value) => {
-                if (value === null) {
-                    return 'Default number is required';
-                }
-                if (value < 0 || value > 99) {
-                    return 'Number must be between 0-99';
-                }
-                return null;
-            },
-        },
+        // validate: {
+        //     first_name: (value) => value.trim().length < 3
+        //         ? 'First name must be at least 3 characters'
+        //         : null,
+        //     last_name: (value) => value.trim().length < 3
+        //         ? 'Last name must be at least 3 characters'
+        //         : null,
+        //     pref_number: (value) => {
+        //         if (value === null) {
+        //             return 'Default number is required';
+        //         }
+        //         if (value < 0 || value > 99) {
+        //             return 'Number must be between 0-99';
+        //         }
+        //         return null;
+        //     },
+        // },
     });
-
-    // async function onSubmit() {
-    //     try {
-    //         notifications.show({
-    //             id: 'creating-player',
-    //             title: 'Creating Player',
-    //             message: 'Please wait while your player is added. It will' +
-    //                 ' only take a few seconds!',
-    //             color: 'orange',
-    //             loading: true,
-    //             withBorder: true,
-    //             radius: 'md',
-    //         });
-    //         const createdPlayer = await axios.post('../api/player', form.values);
-    //         notifications.update({
-    //             id: 'creating-player',
-    //             title: 'Player Created',
-    //             message: 'Player successfully created, navigating to new' +
-    //                 ' player page',
-    //             color: 'green',
-    //             loading: false,
-    //             withBorder: true,
-    //             icon: <IconCheck />,
-    //             radius: 'md',
-    //             autoClose: 5000,
-    //         });
-    //         push(`../player/${createdPlayer.data.id}`);
-    //     } catch (e: any) {
-    //         notifications.update({
-    //             id: 'creating-game',
-    //             title: 'Error',
-    //             message: e.response.message,
-    //             color: 'green',
-    //             loading: false,
-    //             withBorder: true,
-    //             icon: <IconCheck />,
-    //             radius: 'md',
-    //             autoClose: 5000,
-    //         });
-    //         setCreating(false);
-    //     }
-    // }
 
     async function onSubmit() {
         console.log(form.values);
         await createPlayer(form.values)
-            .catch(() => {
-                form.setErrors(error);
-            });
+            .catch((e) => form.setErrors(e));
     }
 
     return (
         <LoadingSuspense
-          loading={loading}
+          loading={creating}
           loadingText="Creating player, please wait..."
         >
             <Title order={1} mb="xl">Create Player</Title>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={form.onSubmit(onSubmit)}>
                 <Grid my={30} gutter={30}>
                     <Grid.Col span={{
                         base: 12,
@@ -113,7 +68,7 @@ export default function CreatePlayer() {
                           label="First Name"
                           placeholder="Michael"
                           withAsterisk
-                          {...form.getInputProps('firstName')}
+                          {...form.getInputProps('first_name')}
                         />
                     </Grid.Col>
                     <Grid.Col span={{
@@ -127,7 +82,7 @@ export default function CreatePlayer() {
                           label="Last Name"
                           placeholder="Jordan"
                           withAsterisk
-                          {...form.getInputProps('lastName')}
+                          {...form.getInputProps('last_name')}
                         />
                     </Grid.Col>
                     <Grid.Col span={{
@@ -143,7 +98,7 @@ export default function CreatePlayer() {
                           min={0}
                           max={99}
                           withAsterisk
-                          {...form.getInputProps('number')}
+                          {...form.getInputProps('pref_number')}
                         />
                     </Grid.Col>
                 </Grid>

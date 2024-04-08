@@ -33,12 +33,9 @@ export type metadata = {
 };
 
 export default function usePlayers() {
-    const [error, setError] = useState<createPlayerErrors>({
-        first_name: undefined,
-        last_name: undefined,
-        pref_number: undefined,
-    });
-    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string>('');
+    const [loading, setLoading] = useState(true);
+    const [creating, setCreating] = useState(false);
     const router = useRouter();
 
     async function getPlayer(pin: string): Promise<playerDto> {
@@ -74,7 +71,7 @@ export default function usePlayers() {
             const response = await scoreTableApiV1.get<{
                 players: playerDto[],
                 metadata: metadata,
-            }>(`/player?page=${page || 1}&pageSize=${pageSize || 5}${name ? `&name=${name}` : ''}${sort ? `&sort=${sort}` : ''}`);
+            }>(`/player?page=${page || 1}&page_size=${pageSize || 10}${name ? `&name=${name}` : ''}${sort ? `&sort=${sort}` : ''}`);
             return response.data;
         } catch (e: any) {
             setError(e.message);
@@ -86,12 +83,28 @@ export default function usePlayers() {
 
     async function createPlayer(p: createPlayerDto): Promise<void> {
         try {
-            setLoading(true);
-            const res = await scoreTableApiV1.post<playerDto>('/player', p);
-            router.push(res.headers.Location);
+            setCreating(true);
+            const res = await scoreTableApiV1.post<{
+                player: playerDto
+            }>('/player', p);
+            const { pin } = res.data.player;
+            router.push(`/player/${pin}`);
         } catch (e: any) {
-            const { errors } = e.response.data;
-            setError(errors);
+            if (e.response.status === 422) {
+                throw e.response.data.error;
+            }
+        } finally {
+            setCreating(false);
+        }
+    }
+
+    async function deletePlayer(pin: string): Promise<void> {
+        try {
+            setLoading(true);
+            await scoreTableApiV1.delete(`/player/${pin}`);
+            router.push('/player');
+        } catch (e: any) {
+            setError(e.message);
         } finally {
             setLoading(false);
         }
@@ -101,7 +114,9 @@ export default function usePlayers() {
         getPlayer,
         getPlayers,
         createPlayer,
+        deletePlayer,
         error,
         loading,
+        creating,
     };
 }

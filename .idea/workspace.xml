@@ -10,8 +10,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e638726c-c628-465f-891f-293766789d00" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(dashboard)/game/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/game/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(dashboard)/player/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/player/[pin]/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/(dashboard)/player/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/player/create/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/(dashboard)/player/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/player/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hooks/usePlayers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/usePlayers.ts" afterDir="false" />
@@ -91,7 +89,7 @@
     "nodejs_package_manager_path": "npm",
     "npm.dev.executor": "Run",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "advanced.settings",
+    "settings.editor.selected.configurable": "editor.preferences.completion",
     "ts.external.directory.path": "/Users/noahwhitney/WebstormProjects/ScoreTable-Frontend/node_modules/typescript/lib"
   },
   "keyToStringList": {
@@ -177,7 +175,8 @@
       <workItem from="1712299932600" duration="246000" />
       <workItem from="1712369589979" duration="3966000" />
       <workItem from="1712374817639" duration="39000" />
-      <workItem from="1712421652230" duration="15629000" />
+      <workItem from="1712421652230" duration="15897000" />
+      <workItem from="1712489039258" duration="6662000" />
     </task>
     <servers />
   </component>

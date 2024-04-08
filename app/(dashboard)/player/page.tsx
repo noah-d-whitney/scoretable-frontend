@@ -9,19 +9,28 @@ import {
     Flex,
     Loader,
     Pagination,
-    Select,
     Table,
     TableTfoot,
     TableThead,
     Text,
+    TextInput,
     Title,
 } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import { IconEye, IconPencil, IconPlus, IconRefresh } from '@tabler/icons-react';
+import {
+    IconEye,
+    IconPencil,
+    IconPlus,
+    IconRefresh,
+    IconSearch,
+    IconTrash,
+} from '@tabler/icons-react';
 import Link from 'next/link';
 import usePlayers, { metadata, playerDto } from '@/hooks/usePlayers';
 
 export default function PlayerPage() {
+    const [playerNameQuery, setPlayerNameQuery] = useState('');
+    const [querying, setQuerying] = useState(false);
     const [players, setPlayers] = useState<playerDto[]>([]);
     const [mdata, setMdata] = useState<metadata>({
         current_page: 1,
@@ -32,52 +41,25 @@ export default function PlayerPage() {
     });
     const {
         getPlayers,
+        deletePlayer,
         error,
         loading,
     } = usePlayers();
 
-    // async function deletePlayer(id: string) {
-    //     try {
-    //         notifications.show({
-    //             id: 'deleting-player',
-    //             title: 'Deleting Player',
-    //             message: 'Please wait while your player is deleted. It will' +
-    //                 ' only take a few seconds!',
-    //             color: 'orange',
-    //             loading: true,
-    //             withBorder: true,
-    //             radius: 'md',
-    //         });
-    //         const res = await axios.delete(`api/player?id=${id}`);
-    //         notifications.update({
-    //             id: 'deleting-player',
-    //             title: 'Deleted Player',
-    //             message: 'Player successfully deleted, navigating to new' +
-    //                 ' player page',
-    //             color: 'green',
-    //             loading: false,
-    //             withBorder: true,
-    //             icon: <IconCheck />,
-    //             radius: 'md',
-    //             autoClose: 5000,
-    //         });
-    //         setPlayers((p) => p.filter(p => p.id !== id));
-    //         console.log(res);
-    //     } catch (e: any) {
-    //         notifications.update({
-    //             id: 'deleting-game',
-    //             title: 'Error',
-    //             message: e.response.message,
-    //             color: 'green',
-    //             loading: false,
-    //             withBorder: true,
-    //             icon: <IconCheck />,
-    //             radius: 'md',
-    //             autoClose: 5000,
-    //         });
-    //         console.log(e);
-    //     }
-    // }
+    useEffect(() => {
+        // setPlayers([]);
+        const timeout = setTimeout(() => {
+            getPlayers({ name: playerNameQuery })
+                .then(res => {
+                    setPlayers(res.players);
+                    setMdata(res.metadata);
+                });
+            setQuerying(false);
+        }, 1000);
+        return () => {
+            clearTimeout(timeout);
+        };
+    }, [playerNameQuery]);
 
     useEffect(() => {
         getPlayers({})
@@ -86,6 +68,21 @@ export default function PlayerPage() {
                 setMdata(res.metadata);
             });
     }, []);
+
+    function handleDelete(pin: string) {
+        deletePlayer(pin)
+            .then(() => {
+                getPlayers({
+                    name: playerNameQuery,
+                    page: mdata.current_page,
+                    pageSize: mdata.page_size,
+                })
+                    .then((res) => {
+                        setPlayers(res.players);
+                        setMdata(res.metadata);
+                    });
+            });
+    }
 
     const playerRows = players.map(p => (
         <Table.Tr key={p.pin}>
@@ -119,52 +116,28 @@ export default function PlayerPage() {
                     <ActionIcon variant="default">
                         <IconEye size={14} />
                     </ActionIcon>
-                    {/*<ActionIcon*/}
-                    {/*  onClick={() => deletePlayer(p.pin)}*/}
-                    {/*  variant="light"*/}
-                    {/*  color="red"*/}
-                    {/*>*/}
-                    {/*    <IconTrash size={14} />*/}
-                    {/*</ActionIcon>*/}
+                    <ActionIcon
+                      onClick={() => handleDelete(p.pin)}
+                      variant="light"
+                      color="red"
+                    >
+                        <IconTrash size={14} />
+                    </ActionIcon>
                 </Flex>
             </Table.Td>
         </Table.Tr>
     ));
 
-    const noPlayers = (
-        <Flex direction="column" gap="md" align="center" my="lg">
-            <Text>You havent created any players yet</Text>
-            <Button
-              variant="default"
-              component={Link}
-              href="/create"
-              leftSection={<IconPlus size={14} />}
-            >Create Player
-            </Button>
-        </Flex>
-    );
-
     const playerTableHeaders = (
         <Table.Tr h={40}>
             <Table.Th />
             <Table.Th />
-            <Table.Th>Name</Table.Th>
+            <Table.Th>
+                Name
+            </Table.Th>
             <Table.Th>Actions</Table.Th>
         </Table.Tr>
     );
-
-    const tableBody = error
-        ? (
-            <Flex direction="column" gap="md" align="center" my="lg">
-                <Text>Error getting players</Text>
-                <Button
-                  variant="default"
-                    // onClick={fetchPlayers}
-                  leftSection={<IconRefresh size={14} />}
-                >Try Again
-                </Button>
-            </Flex>)
-        : playerRows;
 
     return <>
         <Title order={1} my="lg">Players</Title>
@@ -187,7 +160,18 @@ export default function PlayerPage() {
           mih={300}
         >
             <Flex gap="sm" mb="md">
-                <Select />
+                <TextInput
+                  size="sm"
+                  radius="md"
+                  placeholder="Player Name"
+                  leftSection={<IconSearch size={12} />}
+                  rightSection={querying ? <Loader size={18} /> : null}
+                  w={250}
+                  onChange={(e) => {
+                        setPlayerNameQuery(e.target.value);
+                        setQuerying(true);
+                    }}
+                />
             </Flex>
             {loading
                 ? <Flex
@@ -204,12 +188,47 @@ export default function PlayerPage() {
                             {playerTableHeaders}
                         </TableThead>
                         <Table.Tbody>
-                            {tableBody}
+                            {playerRows || null}
                         </Table.Tbody>
                         <TableTfoot />
                     </Table>
                   </>
             }
+            {error !== '' ?
+                <Flex
+                  hidden
+                  direction="column"
+                  gap="md"
+                  align="center"
+                  my="lg"
+                >
+                    <Text>Error getting players</Text>
+                    <Button
+                      variant="default"
+                        // onClick={fetchPlayers}
+                      leftSection={<IconRefresh size={14} />}
+                    >Try Again
+                    </Button>
+                </Flex> : null}
+            {players.length === 0 && !loading ?
+                <Flex
+                  hidden={players.length > 0}
+                  direction="column"
+                  gap="md"
+                  align="center"
+                  my="lg"
+                >
+                    <Text>
+                        No players found
+                    </Text>
+                    <Button
+                      variant="default"
+                      component={Link}
+                      href="/create"
+                      leftSection={<IconPlus size={14} />}
+                    >Create Player
+                    </Button>
+                </Flex> : null}
         </Card>
         <Flex
           mt="md"
@@ -218,12 +237,14 @@ export default function PlayerPage() {
           direction="row"
         >
             <Pagination
-              hidden={loading}
+              hidden={loading || players.length === 0}
               total={mdata.last_page}
               value={mdata.current_page}
               onChange={(v) => {
                     if (v === mdata.current_page) return;
-                    getPlayers({ page: v })
+                    getPlayers({
+                        page: v,
+                    })
                         .then(res => {
                             setPlayers(res.players);
                             setMdata(res.metadata);
