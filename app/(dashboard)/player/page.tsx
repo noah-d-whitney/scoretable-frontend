@@ -16,7 +16,7 @@ import {
     TextInput,
     Title,
 } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import {
     IconEye,
     IconPencil,
@@ -27,6 +27,8 @@ import {
 } from '@tabler/icons-react';
 import Link from 'next/link';
 import usePlayers, { metadata, playerDto } from '@/hooks/usePlayers';
+
+// TODO implement sort button on name
 
 export default function PlayerPage() {
     const [playerNameQuery, setPlayerNameQuery] = useState('');
@@ -47,7 +49,6 @@ export default function PlayerPage() {
     } = usePlayers();
 
     useEffect(() => {
-        // setPlayers([]);
         const timeout = setTimeout(() => {
             getPlayers({ name: playerNameQuery })
                 .then(res => {
@@ -139,6 +140,67 @@ export default function PlayerPage() {
         </Table.Tr>
     );
 
+    function render(): ReactElement {
+        if (loading) {
+            return (<Flex
+              justify="center"
+              my="lg"
+              align="center"
+              h={250}
+            >
+                <Loader size="lg" color="orange" />
+                    </Flex>);
+        }
+        if (error) {
+            return (<Flex
+              hidden
+              direction="column"
+              gap="md"
+              align="center"
+              my="lg"
+            >
+                <Text>Error getting players</Text>
+                <Button
+                  variant="default"
+                    // onClick={fetchPlayers}
+                  leftSection={<IconRefresh size={14} />}
+                >Try Again
+                </Button>
+                    </Flex>);
+        }
+        if (players.length === 0) {
+            return (<Flex
+              hidden={players.length > 0}
+              direction="column"
+              gap="md"
+              align="center"
+              my="lg"
+              h={200}
+            >
+                <Text>
+                    No players found
+                </Text>
+                <Button
+                  variant="default"
+                  component={Link}
+                  href="/create"
+                  leftSection={<IconPlus size={14} />}
+                >Create Player
+                </Button>
+                    </Flex>);
+        }
+
+        return (<Table>
+            <TableThead pt="lg">
+                {playerTableHeaders}
+            </TableThead>
+            <Table.Tbody>
+                {playerRows || null}
+            </Table.Tbody>
+            <TableTfoot />
+                </Table>);
+    }
+
     return <>
         <Title order={1} my="lg">Players</Title>
         <Flex gap="sm" justify="space-between" mb="sm">
@@ -173,62 +235,7 @@ export default function PlayerPage() {
                     }}
                 />
             </Flex>
-            {loading
-                ? <Flex
-                    justify="center"
-                    my="lg"
-                    align="center"
-                    h={250}
-                >
-                    <Loader size="lg" color="orange" />
-                  </Flex>
-                : <>
-                    <Table>
-                        <TableThead pt="lg">
-                            {playerTableHeaders}
-                        </TableThead>
-                        <Table.Tbody>
-                            {playerRows || null}
-                        </Table.Tbody>
-                        <TableTfoot />
-                    </Table>
-                  </>
-            }
-            {error !== '' ?
-                <Flex
-                  hidden
-                  direction="column"
-                  gap="md"
-                  align="center"
-                  my="lg"
-                >
-                    <Text>Error getting players</Text>
-                    <Button
-                      variant="default"
-                        // onClick={fetchPlayers}
-                      leftSection={<IconRefresh size={14} />}
-                    >Try Again
-                    </Button>
-                </Flex> : null}
-            {players.length === 0 && !loading ?
-                <Flex
-                  hidden={players.length > 0}
-                  direction="column"
-                  gap="md"
-                  align="center"
-                  my="lg"
-                >
-                    <Text>
-                        No players found
-                    </Text>
-                    <Button
-                      variant="default"
-                      component={Link}
-                      href="/create"
-                      leftSection={<IconPlus size={14} />}
-                    >Create Player
-                    </Button>
-                </Flex> : null}
+            {render()}
         </Card>
         <Flex
           mt="md"
