@@ -29,6 +29,12 @@ export default function useTeams() {
         }
     }
 
+    // async function assignPlayers(pins: string[]): Promise<void> {
+    //     try {
+    //         setLoading(true)
+    //     }
+    // }
+
     return {
         getTeam,
         error,

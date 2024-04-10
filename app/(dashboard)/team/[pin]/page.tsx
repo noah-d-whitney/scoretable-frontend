@@ -1,10 +1,21 @@
 'use client';
 
-import { Badge, Card, Flex, Table, Title } from '@mantine/core';
+import {
+    Avatar,
+    Badge,
+    Button,
+    Card,
+    Flex,
+    Table,
+    Text,
+    Title,
+} from '@mantine/core';
 import { ReactElement, useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
+import { IconCaretUpDown, IconPlus } from '@tabler/icons-react';
 import LoadingSuspense from '@/components/Utility/LoadingSuspense';
 import useTeams, { teamDto } from '@/hooks/useTeams';
+import MultiSelectWidget from '@/app/(dashboard)/team/[pin]/MultiSelectWidget';
 
 export default function TeamDetailView({ params }: { params: { pin: string } }) {
     const { pin } = params;
@@ -13,6 +24,7 @@ export default function TeamDetailView({ params }: { params: { pin: string } }) 
         loading,
     } = useTeams();
     const [team, setTeam] = useState<teamDto | null>(null);
+    const [assignPlayer, setAssignPlayer] = useState(false);
 
     useEffect(() => {
         getTeam(pin)
@@ -33,6 +45,31 @@ export default function TeamDetailView({ params }: { params: { pin: string } }) 
               my="xl"
             >
                 <Title order={3} fw="normal">Players</Title>
+                <Button.Group>
+                    <Button
+                      variant="default"
+                      size="sm"
+                      leftSection={<IconPlus size={14} />}
+                      onClick={() => setAssignPlayer(true)}
+                      loading={assignPlayer}
+                    >Assign Player
+                    </Button>
+                    <Button
+                      variant="default"
+                      size="sm"
+                      leftSection={<IconCaretUpDown size={14} />}
+                    >Reorder Lineup
+                    </Button>
+                </Button.Group>
+                <MultiSelectWidget
+                  callbackFn={(pins) => {
+                        pins.forEach(p => console.log(`${p}\n`));
+                        setAssignPlayer(false);
+                    }}
+                  cancelFn={() => setAssignPlayer(false)}
+                  show={assignPlayer}
+                  loading={false}
+                />
                 <Card
                   withBorder
                   shadow="md"
@@ -42,18 +79,35 @@ export default function TeamDetailView({ params }: { params: { pin: string } }) 
                     <Table
                       verticalSpacing="md"
                     >
-                        <Table.Thead>
-                            <Table.Tr>
-                                <Table.Td />
-                                <Table.Td>Name</Table.Td>
-                                <Table.Td>#</Table.Td>
-                            </Table.Tr>
-                        </Table.Thead>
                         <Table.Tbody>
                             {t.players.map(p =>
                                 <Table.Tr>
-                                    <Table.Td>{p.lineup_pos}</Table.Td>
-                                    <Table.Td>{p.first_name}</Table.Td>
+                                    <Table.Td width={30}>
+                                        <Text
+                                          size="lg"
+                                          fw={700}
+                                        >{p.lineup_pos}
+                                        </Text>
+                                    </Table.Td>
+                                    <Table.Td width={50}>
+                                        <Avatar
+                                          size="md"
+                                        >{p.first_name.slice(0, 1) + p.last_name.slice(0, 1)}
+                                        </Avatar>
+                                    </Table.Td>
+                                    <Table.Td width={45}>
+                                        <Badge
+                                          variant="light"
+                                          color="orange"
+                                        >
+                                            {p.number}
+                                        </Badge>
+                                    </Table.Td>
+                                    <Table.Td>
+                                        <Text size="md">
+                                            {`${p.first_name} ${p.last_name}`}
+                                        </Text>
+                                    </Table.Td>
                                 </Table.Tr>
                             )}
                         </Table.Tbody>
