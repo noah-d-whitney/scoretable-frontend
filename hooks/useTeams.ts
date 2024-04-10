@@ -29,14 +29,25 @@ export default function useTeams() {
         }
     }
 
-    // async function assignPlayers(pins: string[]): Promise<void> {
-    //     try {
-    //         setLoading(true)
-    //     }
-    // }
+    // TODO create handler in backend to get all players not on game
+    async function assignPlayers(teamPin: string, playerPins: string[]): Promise<teamDto> {
+        try {
+            setLoading(true);
+            const response = await scoreTableApiV1.patch<{
+                team: teamDto
+            }>(`/team/${teamPin}`, { player_ids: playerPins });
+            return response.data.team;
+        } catch (e: any) {
+            setError(e.message);
+            return await Promise.reject<teamDto>(e);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return {
         getTeam,
+        assignPlayers,
         error,
         loading,
     };

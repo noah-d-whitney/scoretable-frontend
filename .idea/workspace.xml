@@ -9,8 +9,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e638726c-c628-465f-891f-293766789d00" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/(dashboard)/team/[pin]/MultiSelectWidget.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(dashboard)/team/[pin]/MultiSelectWidget.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/(dashboard)/team/[pin]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(dashboard)/team/[pin]/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hooks/useTeams.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useTeams.ts" afterDir="false" />
@@ -177,7 +175,7 @@
       <workItem from="1712369589979" duration="3966000" />
       <workItem from="1712374817639" duration="39000" />
       <workItem from="1712421652230" duration="15897000" />
-      <workItem from="1712489039258" duration="31158000" />
+      <workItem from="1712489039258" duration="32720000" />
     </task>
     <servers />
   </component>

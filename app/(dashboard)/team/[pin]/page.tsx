@@ -21,7 +21,9 @@ export default function TeamDetailView({ params }: { params: { pin: string } }) 
     const { pin } = params;
     const {
         getTeam,
+        assignPlayers,
         loading,
+        error,
     } = useTeams();
     const [team, setTeam] = useState<teamDto | null>(null);
     const [assignPlayer, setAssignPlayer] = useState(false);
@@ -63,12 +65,13 @@ export default function TeamDetailView({ params }: { params: { pin: string } }) 
                 </Button.Group>
                 <MultiSelectWidget
                   callbackFn={(pins) => {
-                        pins.forEach(p => console.log(`${p}\n`));
-                        setAssignPlayer(false);
+                        assignPlayers(t.pin, pins)
+                            .then(r => setTeam(r))
+                            .catch(() => console.log(error));
                     }}
                   cancelFn={() => setAssignPlayer(false)}
                   show={assignPlayer}
-                  loading={false}
+                  loading={loading}
                 />
                 <Card
                   withBorder
