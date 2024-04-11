@@ -8,6 +8,7 @@ import {
     Combobox,
     Flex,
     Loader,
+    NumberInput,
     Paper,
     Text,
     TextInput,
@@ -16,20 +17,24 @@ import {
 import { ReactElement, useEffect, useState } from 'react';
 import { useFocusTrap } from '@mantine/hooks';
 import usePlayers, { playerDto } from '@/hooks/usePlayers';
+import { teamDto } from '@/hooks/useTeams';
 
 type SelectPlayerWidgetProps = {
     callbackFn: (pins: string[]) => any,
     loading: boolean,
     cancelFn: () => void,
     show: boolean,
+    team?: teamDto,
 };
 
+// todo allowing assignment of numbers and lineup during selection
 export default function MultiSelectWidget(props: SelectPlayerWidgetProps) {
     const {
         callbackFn,
         cancelFn,
         loading,
         show,
+        team,
     } = props;
 
     const combobox = useCombobox();
@@ -91,6 +96,7 @@ export default function MultiSelectWidget(props: SelectPlayerWidgetProps) {
                   key={p.pin}
                   active={selected.includes(p.pin)}
                   onMouseOver={() => combobox.resetSelectedOption()}
+                  disabled={team?.players.findIndex(pl => pl.pin === p.pin) !== -1}
                 >
                     <Flex justify="space-between" align="center">
                         <Flex gap="sm" align="center">
@@ -108,6 +114,14 @@ export default function MultiSelectWidget(props: SelectPlayerWidgetProps) {
                             <Text>{p.first_name} {p.last_name}</Text>
                         </Flex>
                         <Flex align="center" gap="sm">
+                            {team?.players
+                                .map(pl => pl.number)
+                                .includes(p.pref_number) && team?.players
+                                .findIndex(pl => pl.pin === p.pin) === -1 ?
+                                <Text c="dimmed" size="xs">This player&apos;s
+                                    preferred
+                                    number is in use.
+                                </Text> : null}
                             <Badge variant="default">#{p.pref_number}</Badge>
                             <Badge variant="light">{p.pin}</Badge>
                         </Flex>
@@ -155,6 +169,11 @@ export default function MultiSelectWidget(props: SelectPlayerWidgetProps) {
                     >{p.first_name.slice(0, 1) + p.last_name.slice(0, 1)}
                     </Avatar>
                     <span>{p.first_name} {p.last_name}</span>
+                    {team?.players
+                        .map(pl => pl.number)
+                        .includes(p.pref_number) && team?.players
+                        .findIndex(pl => pl.pin === p.pin) === -1 ?
+                        <NumberInput size="xs" /> : null}
                     <CloseButton
                       size="xs"
                       radius="xl"
