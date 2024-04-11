@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { playerDto } from '@/hooks/usePlayers';
 import { scoreTableApiV1 } from '@/app/api/scoreTableApiV1';
+import useNotify from '@/hooks/useNotify';
 
 export type teamDto = {
     pin: string
@@ -13,6 +14,8 @@ export type teamDto = {
 export default function useTeams() {
     const [error, setError] = useState<string>('');
     const [loading, setLoading] = useState(true);
+    const [updating, setUpdating] = useState(false);
+    const { notify } = useNotify();
 
     async function getTeam(pin: string): Promise<teamDto> {
         try {
@@ -36,6 +39,8 @@ export default function useTeams() {
             const response = await scoreTableApiV1.patch<{
                 team: teamDto
             }>(`/team/${teamPin}`, { player_ids: playerPins });
+            notify('assign_players', 'Player(s) assigned', 'Provided players' +
+                ' were successfully added to team');
             return response.data.team;
         } catch (e: any) {
             setError(e.message);
@@ -45,10 +50,27 @@ export default function useTeams() {
         }
     }
 
+    async function assignLineup(teamPin: string, lineup: string[]): Promise<teamDto> {
+        try {
+            setUpdating(true);
+            const response = await scoreTableApiV1.patch<{
+                team: teamDto
+            }>(`/team/${teamPin}`, { player_lineup: lineup });
+            return response.data.team;
+        } catch (e: any) {
+            setError(e.response.data.error);
+            return await Promise.reject<teamDto>(e);
+        } finally {
+            setUpdating(false);
+        }
+    }
+
     return {
         getTeam,
         assignPlayers,
+        assignLineup,
         error,
         loading,
+        updating,
     };
 }
