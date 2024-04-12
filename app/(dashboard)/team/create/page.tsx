@@ -9,18 +9,23 @@ import Link from 'next/link';
 import LoadingSuspense from '@/components/Utility/LoadingSuspense';
 import useTeams, { createTeamDto } from '@/hooks/useTeams';
 import TeamPlayersMultiSelect from './TeamPlayerMultiSelect';
+import TeamPlayersLineupInput from './TeamPlayersLineupInput';
+import { useState } from 'react';
 
 export default function CreateTeam() {
     const { push } = useRouter();
     const { createTeam, creating } = useTeams();
+    const [selectedPlPins, setSelectedPlPins] = useState<string[]>([]);
     const form = useForm<createTeamDto>({
-
         initialValues: {
             name: '',
             player_ids: [],
             player_lineup: [],
             player_nums: [],
         },
+        onValuesChange: (values) => {
+            setSelectedPlPins(values.player_ids);
+        }
     });
 
     async function onSubmit(team: createTeamDto) {
@@ -90,6 +95,9 @@ export default function CreateTeam() {
                 <Grid.Col span={12}>
                     <TeamPlayersMultiSelect {...form.getInputProps('player_ids', { withFocus: false, withError: false })} />
                 </Grid.Col>
+                <Grid.Col span={12}>
+                    <TeamPlayersLineupInput playerPins={selectedPlPins} {...form.getInputProps('player_lineup')} />
+                </Grid.Col>
             </Grid>
 
             <Group justify="center" mt="xl">
@@ -102,7 +110,7 @@ export default function CreateTeam() {
                 <Button
                     color="orange"
                     //type="submit"
-                    onClick={() => console.log(JSON.stringify(formVals.player_ids))}
+                    onClick={() => console.log(JSON.stringify(formVals.player_lineup))}
                 >Create Team
                 </Button>
             </Group>
