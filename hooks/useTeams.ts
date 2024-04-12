@@ -10,10 +10,30 @@ export type teamDto = {
     players: playerDto[]
 };
 
+export type createTeamDto = {
+    name: string
+    player_ids: string[]
+    player_lineup: string[]
+    player_nums: {}
+}
+
 export default function useTeams() {
     const [error, setError] = useState<string>('');
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
+    const [creating, setCreating] = useState(false);
+
+    async function createTeam(t: createTeamDto): Promise<teamDto> {
+        try {
+            setCreating(true);
+            const response = await scoreTableApiV1.post<{ team: teamDto }>('/team', t);
+            return response.data.team;
+        } catch (e: any) {
+            throw e.response.data.error;
+        } finally {
+            setCreating(false);
+        }
+    }
 
     async function getTeam(pin: string): Promise<teamDto> {
         try {
@@ -91,6 +111,7 @@ export default function useTeams() {
     }
 
     return {
+        createTeam,
         getTeam,
         assignPlayers,
         unassignPlayer,
@@ -99,5 +120,6 @@ export default function useTeams() {
         error,
         loading,
         updating,
+        creating,
     };
 }
