@@ -53,6 +53,19 @@ export default function usePlayers() {
         }
     }
 
+    async function getPlayersList(pins: string[]): Promise<playerDto[]> {
+        try {
+            setLoading(true);
+            const res = await scoreTableApiV1.post<{
+                players: playerDto[]
+            }>("/player/getlist", { player_pins: pins });
+            return res.data.players;
+        } catch (e: any) {
+            setError(e.response.data.error);
+            return await Promise.reject<playerDto[]>(e);
+        }
+    }
+
     async function getPlayers(args: {
         name?: string | null,
         sort?: string | null,
@@ -113,6 +126,7 @@ export default function usePlayers() {
     return {
         getPlayer,
         getPlayers,
+        getPlayersList,
         createPlayer,
         deletePlayer,
         error,

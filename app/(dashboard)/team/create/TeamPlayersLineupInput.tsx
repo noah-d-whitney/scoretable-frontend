@@ -1,5 +1,5 @@
 import usePlayers, { playerDto } from "@/hooks/usePlayers";
-import { ActionIcon, Avatar, Badge, Card, Checkbox, InputWrapper, LoadingOverlay, Table, Text, Tooltip } from "@mantine/core";
+import { ActionIcon, Avatar, Badge, Card, Checkbox, Flex, InputWrapper, LoadingOverlay, Table, Text, Tooltip } from "@mantine/core";
 import { IconPlus, IconSwitch, IconX } from "@tabler/icons-react";
 import { ReactElement, useEffect, useState } from "react";
 
@@ -10,21 +10,33 @@ type TeamPlayersLineupInputProps = {
 }
 
 export default function TeamPlayersLineupInput({ value, playerPins, onChange }: TeamPlayersLineupInputProps) {
-    const { getPlayer, loading } = usePlayers();
+    const { getPlayersList } = usePlayers();
 
+    const [visible, setVisible] = useState(false);
     const [plInactive, setPlInactive] = useState<playerDto[]>([]);
     const [plActive, setPlActive] = useState<playerDto[]>([]);
     const [swapEls, setSwapEls] = useState<playerDto[]>([]);
 
     useEffect(() => {
-        const plList: playerDto[] = []
-        playerPins.forEach(p => {
-            if (!plActive.some(e => e.pin === p)) {
-                getPlayer(p)
-                    .then(res => plList.push(res))
-            }
-        })
-        setPlInactive(plList);
+        const pins: string[] = [];
+        const activePins: string[] = [];
+        if (playerPins.length > 0) {
+            playerPins.forEach(p => {
+                if (!plActive.map(pl => pl.pin).includes(p)) {
+                    pins.push(p);
+                } else {
+                    activePins.push(p);
+                }
+            })
+            getPlayersList(pins).then(res => {
+                setPlInactive(res);
+            })
+            setPlActive(cur => cur.filter(pl => activePins.includes(pl.pin)))
+        } else {
+            setPlActive([]);
+            setPlInactive([]);
+        }
+
     }, [playerPins])
 
     useEffect(() => {
@@ -57,13 +69,16 @@ export default function TeamPlayersLineupInput({ value, playerPins, onChange }: 
 
     function handleRemoveFromLineup(pl: playerDto) {
         setPlActive((cur) => cur.filter(p => p.pin !== pl.pin));
-        setPlInactive((cur) => [...cur, pl])
+        setPlInactive((cur) => {
+            if (cur) return [...cur, pl]
+            else return [pl];
+        })
 
         onChange!(value!.filter(p => p !== pl.pin));
     }
 
     function generateTable(active: playerDto[], inactive: playerDto[]): ReactElement {
-        const activePlayerRows = active.map((p, i) =>
+        const activePlayerRows = active?.map((p, i) =>
             <Table.Tr key={p.pin}>
                 <Table.Td width={30}>
                     <Text
@@ -96,23 +111,25 @@ export default function TeamPlayersLineupInput({ value, playerPins, onChange }: 
                     </Text>
                 </Table.Td>
                 <Table.Td width={50}>
-                    <Checkbox
-                        size="md"
-                        checked={swapEls.includes(p)}
-                        onChange={() => toggleSwapEl(p)}
-                        icon={IconSwitch}
-                        variant="outline"
-                    />
-                    <Tooltip label="Don't add to lineup">
-                        <ActionIcon size="sm" variant="transparent" onClick={() => handleRemoveFromLineup(p)}>
-                            <IconX size={16} />
-                        </ActionIcon>
-                    </Tooltip>
+                    <Flex align="center" gap="xs">
+                        <Checkbox
+                            size="md"
+                            checked={swapEls.includes(p)}
+                            onChange={() => toggleSwapEl(p)}
+                            icon={IconSwitch}
+                            variant="outline"
+                        />
+                        <Tooltip label="Don't add to lineup">
+                            <ActionIcon size="sm" variant="transparent" onClick={() => handleRemoveFromLineup(p)}>
+                                <IconX size={16} />
+                            </ActionIcon>
+                        </Tooltip>
+                    </Flex>
                 </Table.Td>
             </Table.Tr>
         )
 
-        const inactivePlayerRows = inactive.map(p =>
+        const inactivePlayerRows = inactive?.map(p =>
             <Table.Tr key={p.pin}>
                 <Table.Td width={30}>
                 </Table.Td>
@@ -151,7 +168,7 @@ export default function TeamPlayersLineupInput({ value, playerPins, onChange }: 
             </Table.Tr>
         );
 
-        if (activePlayerRows.length + inactivePlayerRows.length === 0) {
+        if (activePlayerRows.length === 0 && inactivePlayerRows.length === 0) {
             return <Card>
                 No Players
             </Card>;
@@ -159,7 +176,7 @@ export default function TeamPlayersLineupInput({ value, playerPins, onChange }: 
 
         return (
             <Table
-                verticalSpacing="sm"
+                verticalSpacing="xs"
             >
                 <Table.Tbody>
                     {activePlayerRows}
@@ -168,25 +185,45 @@ export default function TeamPlayersLineupInput({ value, playerPins, onChange }: 
             </Table>);
     }
 
-    return (
-        <Card
-            withBorder
-            radius="md"
-            px="lg"
-            py="xs"
-        >
-            <LoadingOverlay
-                visible={false}
-                zIndex={1000}
-                overlayProps={{
-                    radius: 'sm',
-                    blur: 2,
-                }}
-            />
-            <InputWrapper label="Player Lineup" size="lg">
-                {generateTable(plActive, plInactive)}
+    function show(v: boolean): ReactElement {
+        if (!v) {
+            return <></>
+        }
+
+        return (
+            <InputWrapper size="lg" mt="sm">
+                <Card
+                    withBorder
+                    radius="md"
+                    px="lg"
+                    py="xs"
+                >
+                    <LoadingOverlay
+                        visible={false}
+                        zIndex={1000}
+                        overlayProps={{
+                            radius: 'sm',
+                            blur: 2,
+                        }}
+                    />
+                    {generateTable(plActive, plInactive)}
+                </Card>
             </InputWrapper>
-        </Card>
+        );
+    }
+
+    return (
+        <>
+            <Checkbox
+                label="Assign Player Lineup?"
+                description="Optionally assign active lineup to team on creation. This action can be performed later."
+                size="lg"
+                checked={visible}
+                disabled={playerPins.length === 0}
+                onChange={() => setVisible(!visible)}
+            />
+            {show(visible)}
+        </>
     );
 
 }

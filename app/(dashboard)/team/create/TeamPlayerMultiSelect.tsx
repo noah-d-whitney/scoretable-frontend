@@ -1,4 +1,5 @@
 import {
+    ActionIcon,
     Avatar,
     Badge,
     Card,
@@ -15,6 +16,7 @@ import {
 } from '@mantine/core';
 import { ReactElement, useEffect, useState } from 'react';
 import usePlayers, { playerDto } from '@/hooks/usePlayers';
+import { IconX } from '@tabler/icons-react';
 
 type SelectPlayerWidgetProps = {
     value?: string[]
@@ -163,8 +165,8 @@ export default function TeamPlayersMultiSelect(props: SelectPlayerWidgetProps) {
 
     function render(): ReactElement {
         const card = (
-            <InputWrapper size='lg' label='Players'>
-                <Card withBorder mb={0}>
+            <InputWrapper size='lg' label='Players' description='Optionally assign players to team. Can be done at a later time.'>
+                <Card withBorder mb={0} mt="sm">
                     <Combobox
                         store={combobox}
                         onOptionSubmit={handleValueSelect}
@@ -179,8 +181,11 @@ export default function TeamPlayersMultiSelect(props: SelectPlayerWidgetProps) {
                                     setQuerying(true);
                                     combobox.updateSelectedOptionIndex();
                                 }}
-                                rightSection={querying ?
-                                    <Loader size="sm" /> : null}
+                                rightSection={querying
+                                    ? <Loader size="sm" />
+                                    : <ActionIcon variant='transparent' onClick={() => setSearch('')} size='sm'>
+                                        <IconX size={16} />
+                                    </ActionIcon>}
                             />
                         </Combobox.EventsTarget>
 
