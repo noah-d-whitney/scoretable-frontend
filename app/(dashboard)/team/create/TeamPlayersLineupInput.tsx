@@ -198,14 +198,6 @@ export default function TeamPlayersLineupInput({ value, playerPins, onChange }: 
                     px="lg"
                     py="xs"
                 >
-                    <LoadingOverlay
-                        visible={false}
-                        zIndex={1000}
-                        overlayProps={{
-                            radius: 'sm',
-                            blur: 2,
-                        }}
-                    />
                     {generateTable(plActive, plInactive)}
                 </Card>
             </InputWrapper>
@@ -218,11 +210,11 @@ export default function TeamPlayersLineupInput({ value, playerPins, onChange }: 
                 label="Assign Player Lineup?"
                 description="Optionally assign active lineup to team on creation. This action can be performed later."
                 size="lg"
-                checked={visible}
+                checked={visible && playerPins.length > 0}
                 disabled={playerPins.length === 0}
                 onChange={() => setVisible(!visible)}
             />
-            {show(visible)}
+            {show(visible && playerPins.length > 0)}
         </>
     );
 

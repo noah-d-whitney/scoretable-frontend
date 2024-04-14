@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Grid, Group, TextInput, Title } from '@mantine/core';
+import { Button, Grid, GridCol, Group, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
@@ -11,6 +11,7 @@ import useTeams, { createTeamDto } from '@/hooks/useTeams';
 import TeamPlayersMultiSelect from './TeamPlayerMultiSelect';
 import TeamPlayersLineupInput from './TeamPlayersLineupInput';
 import { ReactElement, useState } from 'react';
+import TeamPlayersNumbersInput from './TeamPlayersNumbersInput';
 
 export default function CreateTeam() {
     const { push } = useRouter();
@@ -97,6 +98,9 @@ export default function CreateTeam() {
                 </Grid.Col>
                 <Grid.Col span={12}>
                     <TeamPlayersLineupInput playerPins={selectedPlPins} {...form.getInputProps('player_lineup')} />
+                </Grid.Col>
+                <Grid.Col span={12}>
+                    <TeamPlayersNumbersInput playerPins={selectedPlPins} />
                 </Grid.Col>
             </Grid>
 
