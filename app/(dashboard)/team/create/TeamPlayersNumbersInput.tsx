@@ -1,10 +1,10 @@
 import usePlayers, { playerDto } from "@/hooks/usePlayers"
 import { Avatar, Card, Checkbox, InputWrapper, NumberInput, Table, Text } from "@mantine/core"
-import { ReactElement, useEffect, useState } from "react"
+import { ReactElement, useEffect, useRef, useState } from "react"
 
 type TeamPlayersNumbersInputProps = {
-    value?: string[]
-    onChange?: (val: string[]) => void
+    value?: Map<string, number>
+    onChange?: (val: Map<string, number>) => void
     playerPins: string[]
 }
 
@@ -12,13 +12,24 @@ export default function TeamPlayersNumbersInput({ value, onChange, playerPins }:
     const { getPlayersList } = usePlayers();
     const [players, setPlayers] = useState<playerDto[]>([]);
     const [visible, setVisible] = useState(false);
+    const numbers = useRef(new Map<string, number>);
 
     useEffect(() => {
-        getPlayersList(playerPins)
-            .then(res => setPlayers(res))
-    }, [playerPins])
+        if (playerPins.length > 0) {
+            getPlayersList(playerPins)
+                .then(res => {
+                    setPlayers(res);
+                    res.forEach(p => {
+                        numbers.current.set(p.pin, p.pref_number!);
+                    })
+                });
+        }
+    }, [playerPins]);
 
-    //TODO: implement form value with component
+    function handleChange(pin: string, value: number): void {
+        numbers.current = numbers.current.set(pin, value);
+        onChange!(numbers.current);
+    }
 
     function getTable(pls: playerDto[]): ReactElement {
         const rows = pls?.map(p =>
@@ -38,7 +49,10 @@ export default function TeamPlayersNumbersInput({ value, onChange, playerPins }:
                     <NumberInput
                         radius="md"
                         size="md"
+                        onChange={(v) => handleChange(p.pin, Number(v))}
                         defaultValue={p.pref_number!}
+                        max={99}
+                        min={0}
                     />
                 </Table.Td>
             </Table.Tr>);

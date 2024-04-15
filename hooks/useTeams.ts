@@ -14,7 +14,7 @@ export type createTeamDto = {
     name: string
     player_ids: string[]
     player_lineup: string[]
-    player_nums: {}
+    player_nums: Map<string, number>
 }
 
 export default function useTeams() {

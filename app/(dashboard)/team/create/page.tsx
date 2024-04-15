@@ -22,7 +22,7 @@ export default function CreateTeam() {
             name: '',
             player_ids: [],
             player_lineup: [],
-            player_nums: [],
+            player_nums: new Map<string, number>,
         },
         onValuesChange: (values) => {
             setSelectedPlPins(values.player_ids);
@@ -72,8 +72,6 @@ export default function CreateTeam() {
             });
     }
 
-    const formVals = form.getValues()
-
     return <LoadingSuspense
         loading={creating}
         loadingText="Creating Team, Please Wait..."
@@ -100,7 +98,7 @@ export default function CreateTeam() {
                     <TeamPlayersLineupInput playerPins={selectedPlPins} {...form.getInputProps('player_lineup')} />
                 </Grid.Col>
                 <Grid.Col span={12}>
-                    <TeamPlayersNumbersInput playerPins={selectedPlPins} />
+                    <TeamPlayersNumbersInput playerPins={selectedPlPins} {...form.getInputProps('player_nums')} />
                 </Grid.Col>
             </Grid>
 
@@ -114,7 +112,7 @@ export default function CreateTeam() {
                 <Button
                     color="orange"
                     //type="submit"
-                    onClick={() => console.log(JSON.stringify(formVals.player_lineup))}
+                    onClick={() => console.log(JSON.stringify(form.getValues().player_nums.get("m5y8lm")))}
                 >Create Team
                 </Button>
             </Group>
