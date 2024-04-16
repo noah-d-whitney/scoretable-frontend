@@ -29,6 +29,9 @@ export default function CreateTeam() {
         }
     });
 
+    //TODO: add player fetch to page component and pass players as props
+    //TODO: highlight number if matches with other player on selected list
+
     async function onSubmit(team: createTeamDto) {
         notifications.show({
             id: 'creating-team',
