@@ -13,11 +13,10 @@ export default function App() {
                 justify="space-between"
             >
                 <Flex align="center" gap="md" >
-                    <Text component={Link} href="/" size='lg' fw={700} c="dimmed">Home</Text>
-                    <Text component={Link} href="/" size='lg' fw={700} c="dimmed">About</Text>
+                    <Text component={Link} href="/" size="xl" fw={700}>ScoreTable</Text>
                 </Flex>
                 <Flex gap="md">
-                    <Button variant="light">Login</Button>
+                    <Button variant="light" component={Link} href='/login'>Login</Button>
                     <Button>Sign up</Button>
                 </Flex>
             </Flex>

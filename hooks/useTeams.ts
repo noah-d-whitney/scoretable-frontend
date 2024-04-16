@@ -22,6 +22,7 @@ export default function useTeams() {
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
     const [creating, setCreating] = useState(false);
+    const [fetching, setFetching] = useState(false);
 
     async function createTeam(t: createTeamDto): Promise<teamDto> {
         try {
@@ -32,6 +33,26 @@ export default function useTeams() {
             throw e.response.data.error;
         } finally {
             setCreating(false);
+        }
+    }
+
+    async function getTeams(
+        name?: string | null,
+        sort?: string | null,
+        page?: number | null,
+        pageSize?: number | null
+    ): Promise<teamDto[]> {
+        try {
+            setFetching(true);
+            const response = await scoreTableApiV1.get<{
+                teams: teamDto[]
+            }>(`/team?page=${page || 1}&page_size=${pageSize || 10}${name ? `&name=${name}` : ''}${sort ? `&sort=${sort}` : ''}`);
+            return response.data.teams;
+        } catch (e: any) {
+            setError(e.response.data.error);
+            return Promise.reject<teamDto[]>(e);
+        } finally {
+            setFetching(false);
         }
     }
 
@@ -113,11 +134,13 @@ export default function useTeams() {
     return {
         createTeam,
         getTeam,
+        getTeams,
         assignPlayers,
         unassignPlayer,
         assignLineup,
         toggleTeamActive,
         error,
+        fetching,
         loading,
         updating,
         creating,
