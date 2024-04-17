@@ -16,6 +16,7 @@ import {
 } from '@mantine/core';
 import React, { ReactElement, useEffect, useState } from 'react';
 import {
+    IconCheck,
     IconEye,
     IconPencil,
     IconPlus,
@@ -26,6 +27,7 @@ import {
 import Link from 'next/link';
 import useTeams, { teamDto } from '@/hooks/useTeams';
 import { metadata } from '@/hooks/usePlayers';
+import { notifications } from '@mantine/notifications';
 
 export default function TeamPage() {
     const [teams, setTeams] = useState<teamDto[]>([]);
@@ -39,9 +41,8 @@ export default function TeamPage() {
     });
     const [nameQuery, setNameQuery] = useState('');
     const [querying, setQuerying] = useState(false);
-    const { getTeams, loading, error } = useTeams();
+    const { getTeams, deleteTeam, loading, error } = useTeams();
 
-    // Load teams on mount
     useEffect(() => {
         getTeams({})
             .then(res => {
@@ -64,46 +65,52 @@ export default function TeamPage() {
         };
     }, [nameQuery])
 
-    /* async function deleteTeam(id: string) {
-        try {
-            notifications.show({
-                id: `deleting-team-${id}`,
-                title: 'Deleting Team',
-                message: 'Please wait while your team is deleted. It will' +
-                    ' only take a few seconds!',
-                color: 'orange',
-                loading: true,
-                withBorder: true,
-                radius: 'md',
-            });
-            const res = await axios.delete(`api/team?id=${id}`);
-            notifications.update({
-                id: `deleting-team-${id}`,
-                message: 'Team Successfully Deleted',
-                color: 'green',
-                loading: false,
-                withBorder: true,
-                icon: <IconCheck />,
-                radius: 'md',
-                autoClose: 5000,
-            });
-            setTeams((t) => t.filter(t => t.id !== id));
-            console.log(res);
-        } catch (e: any) {
-            notifications.update({
-                id: `deleting-team-${id}`,
-                title: 'Error',
-                message: e.response.message,
-                color: 'green',
-                loading: false,
-                withBorder: true,
-                icon: <IconCheck />,
-                radius: 'md',
-                autoClose: 5000,
-            });
-            console.log(e);
-        }
-    } */
+    function handleDeleteTeam(pin: string) {
+        notifications.show({
+            id: `deleting-team-${pin}`,
+            title: 'Deleting Team',
+            message: 'Please wait while your team is deleted. It will' +
+                ' only take a few seconds!',
+            color: 'orange',
+            loading: true,
+            withBorder: true,
+            radius: 'md',
+        });
+        deleteTeam(pin)
+            .then(() => {
+                notifications.update({
+                    id: `deleting-team-${pin}`,
+                    message: 'Team Successfully Deleted',
+                    color: 'green',
+                    loading: false,
+                    withBorder: true,
+                    icon: <IconCheck />,
+                    radius: 'md',
+                    autoClose: 5000,
+                });
+                getTeams({
+                    name: nameQuery,
+                    page: mdata.current_page,
+                    pageSize: mdata.page_size,
+                })
+                    .then((res) => {
+                        setTeams(res.teams);
+                        setMdata(res.metadata);
+                    });
+            }).catch(() => {
+                notifications.update({
+                    id: `deleting-team-${pin}`,
+                    title: 'Error',
+                    message: error,
+                    color: 'green',
+                    loading: false,
+                    withBorder: true,
+                    icon: <IconCheck />,
+                    radius: 'md',
+                    autoClose: 5000,
+                });
+            })
+    }
 
     const teamTableHeaders = (
         <Table.Tr h={40}>

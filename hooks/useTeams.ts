@@ -132,6 +132,19 @@ export default function useTeams() {
         }
     }
 
+    async function deleteTeam(pin: string): Promise<void> {
+        try {
+            setUpdating(true);
+            await scoreTableApiV1.delete(`team/${pin}`);
+            return;
+        } catch (e: any) {
+            setError(e.response.data.error)
+            return;
+        } finally {
+            setUpdating(false);
+        }
+    }
+
     return {
         createTeam,
         getTeam,
@@ -140,6 +153,7 @@ export default function useTeams() {
         unassignPlayer,
         assignLineup,
         toggleTeamActive,
+        deleteTeam,
         error,
         fetching,
         loading,
