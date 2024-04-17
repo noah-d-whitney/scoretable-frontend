@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { playerDto } from '@/hooks/usePlayers';
+import { metadata, playerDto } from '@/hooks/usePlayers';
 import { scoreTableApiV1 } from '@/app/api/scoreTableApiV1';
 
 export type teamDto = {
@@ -36,23 +36,24 @@ export default function useTeams() {
         }
     }
 
-    async function getTeams(
+    async function getTeams(args: {
         name?: string | null,
         sort?: string | null,
         page?: number | null,
         pageSize?: number | null
-    ): Promise<teamDto[]> {
+    }): Promise<{ teams: teamDto[], metadata: metadata }> {
+        const { name, sort, page, pageSize } = args;
         try {
-            setFetching(true);
             const response = await scoreTableApiV1.get<{
                 teams: teamDto[]
+                metadata: metadata
             }>(`/team?page=${page || 1}&page_size=${pageSize || 10}${name ? `&name=${name}` : ''}${sort ? `&sort=${sort}` : ''}`);
-            return response.data.teams;
+            return response.data;
         } catch (e: any) {
             setError(e.response.data.error);
-            return Promise.reject<teamDto[]>(e);
+            return Promise.reject<{ teams: teamDto[], metadata: metadata }>(e);
         } finally {
-            setFetching(false);
+            setLoading(false);
         }
     }
 
