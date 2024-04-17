@@ -27,7 +27,13 @@ export default function useTeams() {
     async function createTeam(t: createTeamDto): Promise<teamDto> {
         try {
             setCreating(true);
-            const response = await scoreTableApiV1.post<{ team: teamDto }>('/team', t);
+            const team = {
+                name: t.name,
+                player_ids: t.player_ids,
+                player_lineup: t.player_lineup,
+                player_nums: t.player_nums,
+            }
+            const response = await scoreTableApiV1.post<{ team: teamDto }>('/team', team);
             return response.data.team;
         } catch (e: any) {
             throw e.response.data.error;

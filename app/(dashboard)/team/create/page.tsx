@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Grid, GridCol, Group, TextInput, Title } from '@mantine/core';
+import { Button, Grid, Group, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
@@ -10,7 +10,7 @@ import LoadingSuspense from '@/components/Utility/LoadingSuspense';
 import useTeams, { createTeamDto } from '@/hooks/useTeams';
 import TeamPlayersMultiSelect from './TeamPlayerMultiSelect';
 import TeamPlayersLineupInput from './TeamPlayersLineupInput';
-import { ReactElement, useState } from 'react';
+import { useState } from 'react';
 import TeamPlayersNumbersInput from './TeamPlayersNumbersInput';
 
 export default function CreateTeam() {
@@ -26,7 +26,7 @@ export default function CreateTeam() {
         },
         onValuesChange: (values) => {
             setSelectedPlPins(values.player_ids);
-        }
+        },
     });
 
     //TODO: add player fetch to page component and pass players as props
@@ -114,7 +114,7 @@ export default function CreateTeam() {
                 </Button>
                 <Button
                     color="orange"
-                    //type="submit"
+                    type="submit"
                     onClick={() => console.log(JSON.stringify(form.getValues().player_nums.get("m5y8lm")))}
                 >Create Team
                 </Button>

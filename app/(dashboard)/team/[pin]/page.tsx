@@ -267,7 +267,7 @@ export default function TeamDetailView({ params }: { params: { pin: string } }) 
     }
 
     function generatePlayerCard(t: teamDto, reorder: boolean): ReactElement {
-        const playerRows = t.players.map(p =>
+        const playerRows = t?.players?.map(p =>
             <Table.Tr>
                 <Table.Td width={30}>
                     {p.lineup_pos ?
@@ -346,7 +346,7 @@ export default function TeamDetailView({ params }: { params: { pin: string } }) 
             </Table.Tr>
         );
 
-        const playerRowsReorder = t.players.map(p =>
+        const playerRowsReorder = t?.players?.map(p =>
             <Table.Tr>
                 <Table.Td width={30}>
                     {p.lineup_pos ?
@@ -404,7 +404,7 @@ export default function TeamDetailView({ params }: { params: { pin: string } }) 
             </Table.Tr>
         );
 
-        if (t.players.length > 0) {
+        if (t?.players?.length > 0) {
             return <Flex
                 direction="column"
                 gap="xs"

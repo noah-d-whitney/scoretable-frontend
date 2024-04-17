@@ -142,7 +142,7 @@ export default function TeamPage() {
                         <IconEye size={14} />
                     </ActionIcon>
                     <ActionIcon
-                        // onClick={() => deleteTeam(t.pin)}
+                        onClick={() => handleDeleteTeam(t.pin)}
                         variant="light"
                         color="red"
                     >
@@ -172,7 +172,7 @@ export default function TeamPage() {
             return (
                 <Flex direction="column" gap="md" align="center" my="lg">
                     <Text>Error getting teams</Text>
-                    <Text>{err}</Text>
+                    <Text>{error}</Text>
                     <Button
                         variant="default"
                         // onClick={fetchTeams}
@@ -190,7 +190,7 @@ export default function TeamPage() {
                     <Button
                         variant="default"
                         component={Link}
-                        href="/create"
+                        href="team/create"
                         leftSection={<IconPlus size={14} />}
                     >Create Team
                     </Button>
@@ -214,7 +214,7 @@ export default function TeamPage() {
         <Title order={1} my="lg">Teams</Title>
         <Flex gap="sm" justify="space-between" mb="sm">
             <Button
-                variant="filled"
+                variant="light"
                 radius="md"
                 color="orange"
                 leftSection={<IconPlus size={14} />}
@@ -234,7 +234,7 @@ export default function TeamPage() {
                 <TextInput
                     size="sm"
                     radius="md"
-                    placeholder="Player Name"
+                    placeholder="Team Name"
                     leftSection={<IconSearch size={12} />}
                     rightSection={querying ? <Loader size={18} /> : null}
                     w={250}
