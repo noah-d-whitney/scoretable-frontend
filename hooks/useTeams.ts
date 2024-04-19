@@ -5,6 +5,7 @@ import { scoreTableApiV1 } from '@/app/api/scoreTableApiV1';
 export type teamDto = {
     pin: string
     name: string
+    location: string
     size: number
     is_active: boolean
     players: playerDto[]
@@ -12,6 +13,7 @@ export type teamDto = {
 
 export type createTeamDto = {
     name: string
+    location: string
     player_ids: string[]
     player_lineup: string[]
     player_nums: Map<string, number>
@@ -29,6 +31,7 @@ export default function useTeams() {
             setCreating(true);
             const team = {
                 name: t.name,
+                location: t.location,
                 player_ids: t.player_ids,
                 player_lineup: t.player_lineup,
                 player_nums: t.player_nums,

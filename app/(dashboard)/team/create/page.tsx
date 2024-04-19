@@ -20,6 +20,7 @@ export default function CreateTeam() {
     const form = useForm<createTeamDto>({
         initialValues: {
             name: '',
+            location: '',
             player_ids: [],
             player_lineup: [],
             player_nums: new Map<string, number>,
@@ -79,7 +80,7 @@ export default function CreateTeam() {
         loading={creating}
         loadingText="Creating Team, Please Wait..."
     >
-        <Title order={1} mb="xl">
+        <Title order={1} mb="lg">
             Create Team
         </Title>
         <form onSubmit={form.onSubmit(onSubmit)}>
@@ -87,9 +88,18 @@ export default function CreateTeam() {
                 <Grid.Col span={12}>
                     <TextInput
                         radius="md"
-                        label="Team Name"
-                        placeholder="Golden State Warriors"
-                        size="lg"
+                        label="Location"
+                        placeholder="Los Angeles"
+                        size="md"
+                        {...form.getInputProps('location')}
+                    />
+                </Grid.Col>
+                <Grid.Col span={12}>
+                    <TextInput
+                        radius="md"
+                        label="Name"
+                        placeholder="Lakers"
+                        size="md"
                         withAsterisk
                         {...form.getInputProps('name')}
                     />

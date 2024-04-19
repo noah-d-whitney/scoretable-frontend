@@ -1,6 +1,5 @@
 'use client';
 
-import { LoginCard } from '@/components/Auth/LoginCard';
 import { Button, Container, Flex, Text } from '@mantine/core';
 import Link from 'next/link';
 

@@ -87,7 +87,7 @@ export default function TeamPlayersNumbersInput({ value, onChange, playerPins }:
             <Checkbox
                 label="Assign Player Numbers?"
                 description="Optionally assign team player numbers on creation. This action can be performed later."
-                size="lg"
+                size="md"
                 checked={visible && playerPins.length > 0}
                 disabled={playerPins.length === 0}
                 onChange={() => setVisible(!visible)}
