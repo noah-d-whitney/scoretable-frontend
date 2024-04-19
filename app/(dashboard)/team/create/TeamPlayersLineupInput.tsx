@@ -209,7 +209,7 @@ export default function TeamPlayersLineupInput({ value, playerPins, onChange }: 
             <Checkbox
                 label="Assign Player Lineup?"
                 description="Optionally assign active lineup to team on creation. This action can be performed later."
-                size="lg"
+                size="md"
                 checked={visible && playerPins.length > 0}
                 disabled={playerPins.length === 0}
                 onChange={() => setVisible(!visible)}

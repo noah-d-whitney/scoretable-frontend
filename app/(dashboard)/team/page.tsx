@@ -7,7 +7,6 @@ import {
     Flex,
     Loader,
     Pagination,
-    Select,
     Table,
     TableThead,
     Text,
@@ -28,6 +27,7 @@ import Link from 'next/link';
 import useTeams, { teamDto } from '@/hooks/useTeams';
 import { metadata } from '@/hooks/usePlayers';
 import { notifications } from '@mantine/notifications';
+import Badge_Active from '@/components/Badges/Badge_Active';
 
 export default function TeamPage() {
     const [teams, setTeams] = useState<teamDto[]>([]);
@@ -115,6 +115,8 @@ export default function TeamPage() {
     const teamTableHeaders = (
         <Table.Tr h={40}>
             <Table.Th>Name</Table.Th>
+            <Table.Th>Size</Table.Th>
+            <Table.Th>Active</Table.Th>
             <Table.Th>Actions</Table.Th>
         </Table.Tr>
     );
@@ -130,15 +132,25 @@ export default function TeamPage() {
                         textDecoration: 'inherit',
                     }}
                 >
-                    {t.name}
+               <Text>{t.location + ' ' + t.name}</Text>
                 </Link>
             </Table.Td>
             <Table.Td>
+                <Text>{t.size}</Text>
+            </Table.Td>
+            <Table.Td>
+                <Badge_Active active={t.is_active} badgeProps={{
+                    size: "md",
+                    radius: "md"
+                }} />
+            </Table.Td>
+            <Table.Td>
                 <Flex gap={10}>
-                    <ActionIcon variant="default">
-                        <IconPencil size={14} />
-                    </ActionIcon>
-                    <ActionIcon variant="default">
+                    <ActionIcon 
+                        variant="default"
+                        component={Link}
+                        href={`/team/${t.pin}`}
+                    >
                         <IconEye size={14} />
                     </ActionIcon>
                     <ActionIcon
@@ -182,6 +194,14 @@ export default function TeamPage() {
                 </Flex>
             );
         }
+        
+        if (teams.length === 0 && nameQuery.length > 0 || querying) {
+            return (
+                <Flex direction="column" gap="md" align="center" my="lg">
+                    <Text>No teams found for search!</Text>
+                </Flex>
+            );
+        }
 
         if (teams.length === 0) {
             return (
@@ -199,7 +219,7 @@ export default function TeamPage() {
         }
 
         return (
-            <Table>
+            <Table horizontalSpacing="md" verticalSpacing="md">
                 <TableThead pt="lg">
                     {teamTableHeaders}
                 </TableThead>
