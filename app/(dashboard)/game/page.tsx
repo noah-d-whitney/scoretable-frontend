@@ -12,7 +12,7 @@ import {
     Text,
     Title,
 } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
     IconCheck,
     IconEye,
@@ -25,12 +25,16 @@ import Link from 'next/link';
 import { notifications } from '@mantine/notifications';
 import axios from 'axios';
 import { GameSummaryDTO } from '@/app/api/types';
-import { scoreTableApiV1 } from '@/app/api/scoreTableApiV1';
 
 export default function TeamPage() {
     const [games, setGames] = useState<GameSummaryDTO[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+
+    // TODO: load games on mount
+    // load games on query changes
+    // filters: date-range, status, players, teams, type, team-size
+    // render table with updated fields
 
     async function deleteGame(id: string) {
         try {
@@ -99,9 +103,9 @@ export default function TeamPage() {
                         <IconEye size={14} />
                     </ActionIcon>
                     <ActionIcon
-                      onClick={() => deleteGame(g.id)}
-                      variant="light"
-                      color="red"
+                        onClick={() => deleteGame(g.id)}
+                        variant="light"
+                        color="red"
                     >
                         <IconTrash size={14} />
                     </ActionIcon>
@@ -115,10 +119,10 @@ export default function TeamPage() {
         <Flex direction="column" gap="md" align="center" my="lg">
             <Text>You havent created any games yet</Text>
             <Button
-              variant="default"
-              component={Link}
-              href="/create"
-              leftSection={<IconPlus size={14} />}
+                variant="default"
+                component={Link}
+                href="/create"
+                leftSection={<IconPlus size={14} />}
             >Create Game
             </Button>
         </Flex>
@@ -141,9 +145,9 @@ export default function TeamPage() {
                 <Text>Error getting games</Text>
                 <Text>{error}</Text>
                 <Button
-                  variant="default"
-                  onClick={fetchGames}
-                  leftSection={<IconRefresh size={14} />}
+                    variant="default"
+                    onClick={fetchGames}
+                    leftSection={<IconRefresh size={14} />}
                 >Try Again
                 </Button>
             </Flex>)
@@ -153,21 +157,21 @@ export default function TeamPage() {
         <Title order={1} my="lg">Games</Title>
         <Flex gap="sm" justify="space-between" mb="sm">
             <Button
-              variant="filled"
-              radius="md"
-              color="orange"
-              leftSection={<IconPlus size={14} />}
-              component={Link}
-              href="/game/create"
+                variant="filled"
+                radius="md"
+                color="orange"
+                leftSection={<IconPlus size={14} />}
+                component={Link}
+                href="/game/create"
             >Create Game
             </Button>
         </Flex>
         <Card
-          withBorder
-          shadow="md"
-          radius="md"
-          px="md"
-          mih={300}
+            withBorder
+            shadow="md"
+            radius="md"
+            px="md"
+            mih={300}
         >
             <Flex gap="sm" mb="md">
                 <Select />
@@ -180,7 +184,7 @@ export default function TeamPage() {
                     h={300}
                 >
                     <Loader size="lg" color="orange" />
-                  </Flex>
+                </Flex>
                 : <Table>
                     <TableThead pt="lg">
                         {gameTableHeaders}
@@ -188,8 +192,8 @@ export default function TeamPage() {
                     <Table.Tbody>
                         {tableBody}
                     </Table.Tbody>
-                  </Table>
+                </Table>
             }
         </Card>
-           </>;
+    </>;
 }

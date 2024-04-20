@@ -20,6 +20,8 @@ import GameStatsDetail from '@/components/DetailViews/GameStatsDetail';
 import GamePlayersDetail from '@/components/DetailViews/GamePlayersDetail';
 import { game } from '@/app/dev-data/data';
 
+// TODO: fix styling, update data
+
 export default function GameDetailView() {
   return (
     <Container size="md">

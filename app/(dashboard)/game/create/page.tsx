@@ -35,6 +35,8 @@ interface FormValues {
     teamIds?: (string | undefined)[]
 }
 
+// TODO: update to new fields and endpoint
+
 export default function CreateGame() {
     const { push } = useRouter();
     const [creating, setCreating] = useState(false);
