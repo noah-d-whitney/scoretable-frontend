@@ -11,7 +11,7 @@ enum gameStatus {
     CANCELED,
 }
 
-type gamesFilter = {
+export type gamesFilter = {
     sort?: string | null,
     page?: number | null,
     pageSize?: number | null
@@ -24,8 +24,8 @@ type gamesFilter = {
     status?: gameStatus | null,
 }
 
-type gameDto = {
-    pin: string
+export type gameDto = {
+    pin_id: string
     status: gameStatus
     date_time: Date
     team_size: number
@@ -41,7 +41,7 @@ type gameDto = {
     } | null
 }
 
-type gamesMetadata = {
+export type gamesMetadata = {
     pag: metadata
     date_range: {
         after_date: Date | null

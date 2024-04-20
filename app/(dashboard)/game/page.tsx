@@ -12,98 +12,73 @@ import {
     Text,
     Title,
 } from '@mantine/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
-    IconCheck,
     IconEye,
-    IconPencil,
     IconPlus,
     IconRefresh,
     IconTrash,
 } from '@tabler/icons-react';
 import Link from 'next/link';
-import { notifications } from '@mantine/notifications';
-import axios from 'axios';
-import { GameSummaryDTO } from '@/app/api/types';
+import useGames, { gameDto, gamesMetadata } from '@/hooks/useGames';
 
 export default function TeamPage() {
-    const [games, setGames] = useState<GameSummaryDTO[]>([]);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
+    const { getAllGames, fetching, error } = useGames();
+
+    const [games, setGames] = useState<gameDto[]>([]);
+    const [metadata, setMetadata] = useState<gamesMetadata>({
+        pag: {
+            current_page: 1,
+            last_page: 1,
+            first_page: 1,
+            page_size: 1,
+            total_records: 1,
+        },
+        date_range: null,
+        type: null,
+        status: null,
+        team_pins: null,
+        team_size: null,
+        player_pins: null,
+        includes: null,
+    })
+
+    useEffect(() => {
+        getAllGames({})
+            .then(res => {
+                setGames(res.games);
+                setMetadata(res.metadata);
+            })
+    }, []);
 
     // TODO: load games on mount
     // load games on query changes
     // filters: date-range, status, players, teams, type, team-size
     // render table with updated fields
 
-    async function deleteGame(id: string) {
-        try {
-            notifications.show({
-                id: `deleting-game-${id}`,
-                title: 'Deleting Game',
-                message: 'Please wait while your game is deleted. It will' +
-                    ' only take a few seconds!',
-                color: 'orange',
-                loading: true,
-                withBorder: true,
-                radius: 'md',
-            });
-            const res = await axios.delete(`api/game?id=${id}`);
-            notifications.update({
-                id: `deleting-game-${id}`,
-                message: 'Game Successfully Deleted',
-                color: 'green',
-                loading: false,
-                withBorder: true,
-                icon: <IconCheck />,
-                radius: 'md',
-                autoClose: 5000,
-            });
-            setGames((g) => g.filter(g => g.id !== id));
-            console.log(res);
-        } catch (e: any) {
-            notifications.update({
-                id: `deleting-game-${id}`,
-                title: 'Error',
-                message: e.response.message,
-                color: 'green',
-                loading: false,
-                withBorder: true,
-                icon: <IconCheck />,
-                radius: 'md',
-                autoClose: 5000,
-            });
-            console.log(e);
-        }
-    }
-
     const gameRows = games.map(g => (
-        <Table.Tr key={g.id}>
+        <Table.Tr key={g.pin_id}>
             <Table.Td>
-                {g.id}
+                {g.pin_id}
             </Table.Td>
             <Table.Td>
-                Date
+                DATE
             </Table.Td>
             <Table.Td>
-                {g.GameFormat}
+                {g.type}
             </Table.Td>
             <Table.Td>
-                {g.periodCount}
+                {g.period_count}
             </Table.Td>
             <Table.Td>
-                {g.periodLength}
+                {g.period_length}
             </Table.Td>
             <Table.Td>
                 <Flex gap={10}>
                     <ActionIcon variant="default">
-                        <IconPencil size={14} />
-                    </ActionIcon>
-                    <ActionIcon variant="default">
                         <IconEye size={14} />
                     </ActionIcon>
                     <ActionIcon
-                        onClick={() => deleteGame(g.id)}
                         variant="light"
                         color="red"
                     >
@@ -146,7 +121,6 @@ export default function TeamPage() {
                 <Text>{error}</Text>
                 <Button
                     variant="default"
-                    onClick={fetchGames}
                     leftSection={<IconRefresh size={14} />}
                 >Try Again
                 </Button>
@@ -176,7 +150,7 @@ export default function TeamPage() {
             <Flex gap="sm" mb="md">
                 <Select />
             </Flex>
-            {loading
+            {fetching
                 ? <Flex
                     justify="center"
                     my="lg"

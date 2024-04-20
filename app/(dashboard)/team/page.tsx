@@ -17,7 +17,6 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import {
     IconCheck,
     IconEye,
-    IconPencil,
     IconPlus,
     IconRefresh,
     IconSearch,
