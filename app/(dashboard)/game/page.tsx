@@ -32,22 +32,6 @@ export default function TeamPage() {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
-    async function fetchGames() {
-        try {
-            setLoading(true);
-            const res = await scoreTableApiV1.get('../api/game', {
-                method: 'GET',
-            });
-            const fetchedGames = await res.json();
-            setGames(fetchedGames);
-        } catch (e: any) {
-            console.log(e);
-            setError(e.message);
-        } finally {
-            setLoading(false);
-        }
-    }
-
     async function deleteGame(id: string) {
         try {
             notifications.show({
@@ -88,10 +72,6 @@ export default function TeamPage() {
             console.log(e);
         }
     }
-
-    useEffect(() => {
-        fetchGames();
-    }, []);
 
     const gameRows = games.map(g => (
         <Table.Tr key={g.id}>
