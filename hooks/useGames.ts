@@ -4,7 +4,7 @@ import { metadata } from "./usePlayers";
 import { teamDto } from "./useTeams";
 import { DateValue } from "@mantine/dates";
 
-type gameType = "timed" | "target"
+export type gameType = "timed" | "target"
 enum gameStatus {
     NOTSTARTED = 0,
     INPROGRESS,

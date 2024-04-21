@@ -5,7 +5,6 @@ import {
     Badge,
     Button,
     Card,
-    CloseButton,
     ComboboxClearButton,
     Flex,
     Loader,
@@ -14,7 +13,6 @@ import {
     Table,
     TableThead,
     Text,
-    TextInput,
     Title,
 } from '@mantine/core';
 import { ReactElement, useEffect, useState } from 'react';
@@ -23,14 +21,11 @@ import {
     IconEye,
     IconPlus,
     IconRefresh,
-    IconSearch,
     IconTrash,
-    IconX,
 } from '@tabler/icons-react';
 import Link from 'next/link';
-import useGames, { gameDto, gamesMetadata } from '@/hooks/useGames';
+import useGames, { gameDto, gameType, gamesMetadata } from '@/hooks/useGames';
 import { DatePickerInput, DateValue } from '@mantine/dates';
-import { after } from 'node:test';
 
 export default function TeamPage() {
     function setGamesAndMetadata(res: {
@@ -70,6 +65,7 @@ export default function TeamPage() {
 
     const [afterDate, setAfterDate] = useState<DateValue>(null);
     const [beforeDate, setBeforeDate] = useState<DateValue>(null);
+    const [gameType, setGameType] = useState<gameType | null>(null);
 
     useEffect(() => {
         getAllGames({})
@@ -83,8 +79,9 @@ export default function TeamPage() {
         getAllGames({
             afterDate: afterDate ? `${toSimpleDateString(afterDate)}` : null,
             beforeDate: beforeDate ? `${toSimpleDateString(beforeDate)}` : null,
+            type: gameType,
         }).then(res => setGamesAndMetadata(res));
-    }, [afterDate, beforeDate])
+    }, [afterDate, beforeDate, gameType])
 
 
     // TODO: load games on mount
@@ -256,6 +253,14 @@ export default function TeamPage() {
                         />
                         : null
                     }
+                />
+                <Select
+                    w={"25%"}
+                    placeholder='Select game type'
+                    label="Type"
+                    data={["timed", "target"]}
+                    value={gameType}
+                    onChange={(v) => setGameType(v)}
                 />
             </Flex>
             {renderTable()}
