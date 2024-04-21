@@ -2,6 +2,7 @@ import { scoreTableApiV1 } from "@/app/api/scoreTableApiV1";
 import { useState } from "react";
 import { metadata } from "./usePlayers";
 import { teamDto } from "./useTeams";
+import { DateValue } from "@mantine/dates";
 
 type gameType = "timed" | "target"
 enum gameStatus {
@@ -44,8 +45,8 @@ export type gameDto = {
 export type gamesMetadata = {
     pag: metadata
     date_range: {
-        after_date: Date | null
-        before_date: Date | null
+        after_date: DateValue
+        before_date: DateValue
     } | null
     team_pins: string[] | null
     player_pins: string[] | null
@@ -64,6 +65,7 @@ export default function useGames() {
         metadata: gamesMetadata,
     }> {
         try {
+            setFetching(true);
             const res = await scoreTableApiV1.get<{
                 games: gameDto[],
                 metadata: gamesMetadata,
@@ -72,7 +74,7 @@ export default function useGames() {
                 + `&page_size=${filters.pageSize || 10}`
                 + (filters.sort ? `&sort=${filters.sort}` : "")
                 + (filters.afterDate ? `&after_date=${filters.afterDate}` : "")
-                + (filters.afterDate ? `&after_date=${filters.afterDate}` : "")
+                + (filters.beforeDate ? `&before_date=${filters.beforeDate}` : "")
                 + (filters.status ? `&status=${filters.status}` : "")
                 + (filters.type ? `&type=${filters.type}` : "")
                 + (filters.teamSize ? `&team_size=${filters.teamSize}` : "")
